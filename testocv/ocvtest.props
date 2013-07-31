@@ -5,7 +5,7 @@
   <PropertyGroup Label="UserMacros">
     <OCV_INCLUDE>D:\Develop\opencv\build\include;$(OCV_INCLUDE)</OCV_INCLUDE>
     <OCV_LIB>D:\Develop\opencv\build\x86\vc11\lib;$(OCV_LIB)</OCV_LIB>
-    <BOOST_LIB>C:\boost\boost_1_53_0\lib;$(BOOST_LIB)</BOOST_LIB>
+    <BOOST_LIB>C:\boost\boost_1_53_0\stage\lib;$(BOOST_LIB)</BOOST_LIB>
     <BOOST_INCLUDE>C:\boost\boost_1_53_0;$(BOOST_INCLUDE)</BOOST_INCLUDE>
     <WILD_MAGIC5_INCLUDE>C:\GeometricTools\WildMagic5\SDK\Include;$(WILD_MAGIC5_INCLUDE)</WILD_MAGIC5_INCLUDE>
     <WILD_MAGIC5_DEBUG_LIB>C:\GeometricTools\WildMagic5\SDK\Library\v110\Win32\Debug;$(WILD_MAGIC5_DEBUG_LIB)</WILD_MAGIC5_DEBUG_LIB>
