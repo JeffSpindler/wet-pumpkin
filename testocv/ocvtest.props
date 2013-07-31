@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <OCV_INCLUDE>D:\Develop\opencv\build\include;$(OCV_INCLUDE)</OCV_INCLUDE>
+    <OCV_LIB>D:\Develop\opencv\build\x86\vc11\lib;$(OCV_LIB)</OCV_LIB>
+    <BOOST_LIB>C:\boost\boost_1_53_0\lib;$(BOOST_LIB)</BOOST_LIB>
+    <BOOST_INCLUDE>C:\boost\boost_1_53_0;$(BOOST_INCLUDE)</BOOST_INCLUDE>
+    <WILD_MAGIC5_INCLUDE>C:\GeometricTools\WildMagic5\SDK\Include;$(WILD_MAGIC5_INCLUDE)</WILD_MAGIC5_INCLUDE>
+    <WILD_MAGIC5_DEBUG_LIB>C:\GeometricTools\WildMagic5\SDK\Library\v110\Win32\Debug;$(WILD_MAGIC5_DEBUG_LIB)</WILD_MAGIC5_DEBUG_LIB>
+    <WILD_MAGIC5_RELEASE_LIB>C:\GeometricTools\WildMagic5\SDK\Library\v110\Win32\Release;$(WILD_MAGIC5_RELEASE_LIB)</WILD_MAGIC5_RELEASE_LIB>
+    <QTDIR>C:\Qt\4.7.0;$(QTDIR)</QTDIR>
+    <WIN32_WINNT>0x0501;$(WIN32_WINNT)</WIN32_WINNT>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+    <_PropertySheetDisplayName>ocvtest_props</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(WILD_MAGIC5_INCLUDE);$(BOOST_INCLUDE);$(OCV_INCLUDE);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(OCV_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Link>
+      <AdditionalLibraryDirectories>$(OCV_LIB);$(BOOST_LIB);$(WILD_MAGIC5_DEBUG_LIB);$(WILD_MAGIC5_RELEASE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="OCV_INCLUDE">
+      <Value>$(OCV_INCLUDE)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="OCV_LIB">
+      <Value>$(OCV_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="BOOST_LIB">
+      <Value>$(BOOST_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="BOOST_INCLUDE">
+      <Value>$(BOOST_INCLUDE)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="WILD_MAGIC5_INCLUDE">
+      <Value>$(WILD_MAGIC5_INCLUDE)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="WILD_MAGIC5_DEBUG_LIB">
+      <Value>$(WILD_MAGIC5_DEBUG_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="WILD_MAGIC5_RELEASE_LIB">
+      <Value>$(WILD_MAGIC5_RELEASE_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="QTDIR">
+      <Value>$(QTDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="WIN32_WINNT">
+      <Value>$(WIN32_WINNT)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

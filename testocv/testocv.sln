@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testocv", "testocv.vcproj", "{3D8A357D-1C62-448E-A9AE-9FEB0443B832}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testwm5", "testwm5\testwm5.vcxproj", "{E297F18C-727B-48CC-94D8-D219E143CC2B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ocv_improc", "ocv_improc\ocv_improc.vcxproj", "{9BE19968-1877-4E8D-89A7-73C6CBDD9645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +11,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D8A357D-1C62-448E-A9AE-9FEB0443B832}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3D8A357D-1C62-448E-A9AE-9FEB0443B832}.Debug|Win32.Build.0 = Debug|Win32
-		{3D8A357D-1C62-448E-A9AE-9FEB0443B832}.Release|Win32.ActiveCfg = Release|Win32
-		{3D8A357D-1C62-448E-A9AE-9FEB0443B832}.Release|Win32.Build.0 = Release|Win32
+		{E297F18C-727B-48CC-94D8-D219E143CC2B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E297F18C-727B-48CC-94D8-D219E143CC2B}.Debug|Win32.Build.0 = Debug|Win32
+		{E297F18C-727B-48CC-94D8-D219E143CC2B}.Release|Win32.ActiveCfg = Release|Win32
+		{E297F18C-727B-48CC-94D8-D219E143CC2B}.Release|Win32.Build.0 = Release|Win32
+		{9BE19968-1877-4E8D-89A7-73C6CBDD9645}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9BE19968-1877-4E8D-89A7-73C6CBDD9645}.Debug|Win32.Build.0 = Debug|Win32
+		{9BE19968-1877-4E8D-89A7-73C6CBDD9645}.Release|Win32.ActiveCfg = Release|Win32
+		{9BE19968-1877-4E8D-89A7-73C6CBDD9645}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
