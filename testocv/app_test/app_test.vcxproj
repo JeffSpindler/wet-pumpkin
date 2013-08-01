@@ -84,9 +84,12 @@
   <ItemGroup>
     <ClInclude Include="AppDataOne.h" />
     <ClInclude Include="app_test.h" />
+    <ClInclude Include="DoABlock.h" />
     <ClInclude Include="GlobalAccess.h" />
+    <ClInclude Include="IBlock.h" />
     <ClInclude Include="IGlobal.h" />
     <ClInclude Include="IGlobalAccess.h" />
+    <ClInclude Include="ISeq.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

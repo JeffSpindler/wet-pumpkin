@@ -35,5 +35,14 @@
     <ClInclude Include="IGlobalAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DoABlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISeq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
