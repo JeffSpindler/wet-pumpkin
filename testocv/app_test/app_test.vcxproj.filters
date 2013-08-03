@@ -47,5 +47,8 @@
     <ClInclude Include="DoASeq.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DoBBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,8 @@
 class DoASeq : public ISeq
 {
 public:
-	DoASeq() {};
+	DoASeq() : m_sim_flag(false) {
+	};
 	virtual ~DoASeq() {
 		// must delete blocks
 		for(unsigned i=0;i<m_seq.size();i++) {
@@ -186,6 +187,7 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(ISeq);
 		ar & BOOST_SERIALIZATION_NVP(m_sim_flag);
+		ar & BOOST_SERIALIZATION_NVP(m_seq);
 	}
 };
 

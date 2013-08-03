@@ -11,6 +11,7 @@
 #include <boost/utility.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/vector.hpp>
 
 class IGlobalAccess;
 class IBlock;

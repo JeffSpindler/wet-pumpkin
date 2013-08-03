@@ -7,6 +7,7 @@
 
 #include "AppDataOne.h"
 #include "DoABlock.h"
+#include "DoBBlock.h"
 
 #include "GlobalAccess.h"
 
@@ -101,6 +102,12 @@ int main( void )
 	ReadBlockFile(IBlockFileStr, block5);
 	block5->print();
 
+	DoBBlock *block6 = new DoBBlock;
+	block6->Name() = "BB77";
+	block6->print();
+
+
+
 	std::string BlockFileSavStr = "testblock1_sav.xml";
 	std::string BlockFileStr = "testblock1.xml";
 
@@ -134,20 +141,6 @@ int main( void )
 
 	std::string SeqFileSavStr = "testseq1_sav.xml";
 	std::string SeqFileStr = "testseq1.xml";
-
-	AltSeq *wr_seq = new AltSeq;
-	wr_seq->Name() = "WriteSeq";
-	
-
-	AltSeq::Write(wr_seq, SeqFileSavStr);
-
-	AltSeq *rd_seq = new AltSeq;
-
-	if(AltSeq::Read(SeqFileStr, rd_seq)) {
-		rd_seq->print();
-	}
-
-	while(1);
 
 
 	// change the data
@@ -190,6 +183,9 @@ int main( void )
 	pix_seq.run();
 	pix_seq.print();
 
+	pix_seq.insertBlock(block6, "B3");	// add before block2
+
+
 	// remove a step and run
 	std::cout << "\n remove the added step\n";
 	pix_seq.removeBlock("B4");	// add before block2
@@ -201,7 +197,14 @@ int main( void )
 	pix_seq.step(block2);
 
 	pix_seq.step();
+	
+	DoASeq::Write(&pix_seq, SeqFileSavStr);
 
+	DoASeq *rd_seq = new DoASeq;
+
+	if(DoASeq::Read(SeqFileStr, rd_seq)) {
+		rd_seq->print();
+	}
 
 
 
