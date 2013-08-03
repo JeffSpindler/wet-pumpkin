@@ -85,6 +85,7 @@
     <ClInclude Include="AppDataOne.h" />
     <ClInclude Include="app_test.h" />
     <ClInclude Include="DoABlock.h" />
+    <ClInclude Include="DoASeq.h" />
     <ClInclude Include="GlobalAccess.h" />
     <ClInclude Include="IBlock.h" />
     <ClInclude Include="IGlobal.h" />

@@ -16,7 +16,7 @@ public:
 	IGlobalAccess() {};
 	virtual ~IGlobalAccess() {};
 
-	void init() { doInit(); };
+	void setup() { doSetup(); };
 
 	bool addGlobal(const std::string &name, IGlobal *data) {
 		return(doAddGlobal(name, data));
@@ -29,7 +29,7 @@ public:
 	}
 
 private:
-	virtual bool doInit() = 0;
+	virtual bool doSetup() = 0;
 	virtual bool doAddGlobal(const std::string &name, IGlobal *data) = 0;
 	virtual IGlobal *doRemoveGlobal(const std::string &name) = 0;
 	virtual IGlobal *doGetGlobal(const std::string &name) = 0;
@@ -43,6 +43,7 @@ private:
 };
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(IGlobalAccess);
+BOOST_CLASS_VERSION(IGlobalAccess, 0)
 
 #endif
 

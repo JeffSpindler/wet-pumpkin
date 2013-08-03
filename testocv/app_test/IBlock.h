@@ -5,6 +5,9 @@
 #include <vector>
 #include <map>
 
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
 #include <boost/utility.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
@@ -22,7 +25,7 @@ public:
 	IBlock() {};
 	virtual ~IBlock() {};
 
-	bool init(IGlobalAccess *data_access) { return(doInit(data_access)); };
+	bool setup(IGlobalAccess *data_access) { return(doSetup(data_access)); };
 
 	const std::string Name() const {
 		return const_cast<IBlock*>(this)->getName(); 
@@ -30,7 +33,7 @@ public:
 	std::string& Name() {
 		return(getName());
 	}
-	bool run(IGlobalAccess *data_access) { return(doRun(data_access)); };
+	bool run(IGlobalAccess *data_access = NULL) { return(doRun(data_access)); };
 	void print() { doPrint(); };
 
 protected:
@@ -39,8 +42,8 @@ protected:
 private:
 	virtual const std::string getName() const { return(m_name); };
 	virtual std::string &getName() { return(m_name); };
-	virtual bool doInit(IGlobalAccess *data_access) = 0;
-	virtual bool doRun(IGlobalAccess *data_access) = 0;
+	virtual bool doSetup(IGlobalAccess *data_access) = 0;
+	virtual bool doRun(IGlobalAccess *data_access = NULL) = 0;
 	virtual void doPrint() = 0;
 
 private:
@@ -53,6 +56,6 @@ private:
 };
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(IBlock);
-
+BOOST_CLASS_VERSION(IBlock, 0)
 #endif
 

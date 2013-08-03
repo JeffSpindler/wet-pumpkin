@@ -44,5 +44,8 @@
     <ClInclude Include="ISeq.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DoASeq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

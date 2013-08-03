@@ -24,10 +24,10 @@ protected:  // data storage
 
 private:
 	// only clears values, leaves names
-	virtual bool doInit() {
+	virtual bool doSetup() {
 		global_map_t::iterator i = m_global_m.begin();
 		while(i != m_global_m.end()) {
-			(*i).second->init();
+			(*i).second->setup();
 			i++;
 		}
 		return(true);

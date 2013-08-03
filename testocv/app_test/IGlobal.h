@@ -6,6 +6,7 @@
 
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/map.hpp>
 
 class IGlobal;
 typedef std::map<std::string,IGlobal*> global_map_t;
@@ -19,7 +20,7 @@ public:
 	IGlobal() {};
 	virtual ~IGlobal() {};
 
-	void init() { doInit(); };
+	void setup() { doSetup(); };
 
 	const std::string& Name() const {
 		return(getName());
@@ -30,7 +31,7 @@ protected:
 	std::string m_name;
 private:
 	virtual const std::string &getName() const { return(m_name); };
-	virtual void doInit() = 0;
+	virtual void doSetup() = 0;
 	virtual void doPrint() = 0;
 
 private:
@@ -43,6 +44,7 @@ private:
 };
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(IGlobal);
+BOOST_CLASS_VERSION(IGlobal, 0)
 
 #endif
 
