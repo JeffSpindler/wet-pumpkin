@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="10">
+<seq class_id="0" tracking_level="1" version="0" object_id="_0">
+	<ISeq class_id="1" tracking_level="0" version="0">
+		<m_name></m_name>
+	</ISeq>
+	<m_sim_flag>0</m_sim_flag>
+	<m_seq class_id="2" tracking_level="0" version="0">
+		<count>3</count>
+		<item_version>0</item_version>
+		<item class_id="3" class_name="DoABlock" tracking_level="1" version="0" object_id="_1">
+			<IBlock class_id="4" tracking_level="0" version="0">
+				<m_name>B5</m_name>
+			</IBlock>
+			<m_str_D1>data15</m_str_D1>
+			<m_str_D2>data25</m_str_D2>
+			<m_val1>0</m_val1>
+			<m_val2>0</m_val2>
+		</item>
+		<item class_id_reference="3" object_id="_2">
+			<IBlock>
+				<m_name>B2</m_name>
+			</IBlock>
+			<m_str_D1>data1</m_str_D1>
+			<m_str_D2>data2</m_str_D2>
+			<m_val1>0</m_val1>
+			<m_val2>0</m_val2>
+		</item>
+		<item class_id_reference="3" object_id="_3">
+			<IBlock>
+				<m_name>B3</m_name>
+			</IBlock>
+			<m_str_D1>data1</m_str_D1>
+			<m_str_D2>data2</m_str_D2>
+			<m_val1>0</m_val1>
+			<m_val2>0</m_val2>
+		</item>
+	</m_seq>
+</seq>
+</boost_serialization>
+
