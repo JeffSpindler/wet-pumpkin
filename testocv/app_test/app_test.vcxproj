@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="app_test.cpp" />
+    <ClCompile Include="app_threads.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppDataOne.h" />
@@ -92,6 +93,10 @@
     <ClInclude Include="IGlobal.h" />
     <ClInclude Include="IGlobalAccess.h" />
     <ClInclude Include="ISeq.h" />
+    <ClInclude Include="Pt3d.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pt3d.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

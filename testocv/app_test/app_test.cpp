@@ -45,10 +45,7 @@ bool WriteBlockFile(IBlock *block, std::string &file_name)
 }
 
 
-
-
-
-int main( void )
+int seq_test_main( void )
 {
 	std::string PixSeqFile = "PixSeq.xml";
 
