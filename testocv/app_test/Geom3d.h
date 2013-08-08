@@ -1,7 +1,9 @@
 // Perform3-D LLC
 // Copyright (c) 2013
 // File Version: 1.0.0 (2013/08/05)
-
+//
+// Geometric 3d Object
+//
 #ifndef GEOM3D_H
 #define GEOM3D_H
 
@@ -21,10 +23,40 @@ public:
 	//
 
     // Construction and destruction.
-    Geom3d ();  //
-    ~Geom3d ();
+    Geom3d () : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0) {
+		m_valid = false;
+		m_type = INVALID;
+		memset(m_pt, 0, sizeof(m_pt));
+		memset(m_vel, 0, sizeof(m_vel));
+		memset(m_dir, 0, sizeof(m_dir));
+	}
+    Geom3d (int tag) : m_tag(tag), m_idx(0), m_time_usec(0), m_conf(0) {
+		m_valid = true;
+		m_type = POINT;
+		memset(m_pt, 0, sizeof(m_pt));
+		memset(m_vel, 0, sizeof(m_vel));
+		memset(m_dir, 0, sizeof(m_dir));
+	}
+	Geom3d (int tag, double x, double y, double z) : m_tag(tag), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
+		m_type = POINT;
+		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
+		memset(m_vel, 0, sizeof(m_vel));
+		memset(m_dir, 0, sizeof(m_dir));
+	}
+	Geom3d (double x, double y, double z) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
+		m_type = POINT;
+		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
+		memset(m_vel, 0, sizeof(m_vel));
+		memset(m_dir, 0, sizeof(m_dir));
+	}
+	Geom3d (double pos[]) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
+		m_type = POINT;
+		memcpy(m_pt, pos, sizeof(m_pt));
+		memset(m_vel, 0, sizeof(m_vel));
+		memset(m_dir, 0, sizeof(m_dir));
+	}
 
-    Geom3d (double pos[3]);
+	virtual ~Geom3d () {};
 
 	bool m_valid;
 	int m_type;		// pt/line/frame/moving pt/plane/moving frame/cam_ray/
@@ -49,16 +81,15 @@ public:
 		return os;
 	}
 	enum {
-		POINT = 0,
-		LINE,
-		PLANE,
-		CAM_RAY,
-		FRAME,
-		SPIN,
+		INVALID = 0,
+		POINT = 1,
+		LINE = 2,
+		PLANE = 3,
+		CAM_RAY = 4,
+		FRAME = 10,
+		SPIN = 11,
 	};
 };
-
-#include "Geom3d.inl"
 
 typedef std::vector<Geom3d> Geom3d_v_t;
 typedef std::deque<Geom3d> Geom3d_dq_t;

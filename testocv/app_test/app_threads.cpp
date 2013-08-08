@@ -115,11 +115,17 @@ void fifo_test(Pt3d_qu_t* buffer) {
     // End of measurement
 }
 
+
+void app_startup();
+int seq_test_main( void );
+
 int main(int argc, char* argv[]) {
 
-	Pt3d_qu_t pt3d_bb(QUEUE_SIZE);
-	std::cout << "One Way Queue<Pt3d> ";
-	fifo_test(&pt3d_bb);
+    //seq_test_main();
+
+	app_startup();
+
+	std::cout << "\n\nBack from app -- STuff test values\n\n";
 
 	while(1);
 

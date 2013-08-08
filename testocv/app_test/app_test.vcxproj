@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="AppDataOne.h" />
     <ClInclude Include="app_test.h" />
+    <ClInclude Include="bounded_buffer.h" />
     <ClInclude Include="DoABlock.h" />
     <ClInclude Include="DoASeq.h" />
     <ClInclude Include="DoBBlock.h" />
@@ -94,10 +95,8 @@
     <ClInclude Include="IGlobal.h" />
     <ClInclude Include="IGlobalAccess.h" />
     <ClInclude Include="ISeq.h" />
+    <ClInclude Include="PixPt.h" />
     <ClInclude Include="Pt3d.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Pt3d.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

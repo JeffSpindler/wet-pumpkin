@@ -47,7 +47,7 @@ bool WriteBlockFile(IBlock *block, std::string &file_name)
 
 int seq_test_main( void )
 {
-	std::string PixSeqFile = "PixSeq.xml";
+	std::string PixSeqFile = "pix_seq.xml";
 
 	std::cout << "app_test\n\n" << std::endl;
 
@@ -208,4 +208,28 @@ int seq_test_main( void )
 	std::cout << std::endl << std::endl;
 	while(1);
 	
+}
+
+// create a test pix_seq
+void create_pix_seq()
+{
+	// data needed
+	// image
+	
+	// rle
+
+	// fts
+
+
+
+	// get an image
+
+	// thresh and rle
+
+	// cca
+
+	// select best
+
+	// make into camrays
+
 }

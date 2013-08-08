@@ -20,11 +20,11 @@ typedef std::vector<IBlock*> block_v_t;
 // Interface class for logic block
 // These names must be unique -- enfored by user
 
-class ISeq   // : boost::noncopyable
+class IApp   // : boost::noncopyable
 {
 public:
-	ISeq() {};
-	virtual ~ISeq() {};
+	IApp() {};
+	virtual ~IApp() {};
 
 	bool setup(IGlobalAccess *data_access) { return(doSetup(data_access)); };
 	bool run(IGlobalAccess *data_access = NULL) { return(doRun(data_access)); };

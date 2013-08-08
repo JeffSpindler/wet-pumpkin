@@ -1,15 +1,21 @@
+//
+// CamCal -- Camera Calibration Data
+//
+// Cam pose and intrinsic parms
+
 // Perform3-D LLC
 // Copyright (c) 2013
 // File Version: 1.0.0 (2013/08/04)
 
-#ifndef PT3D_H
-#define PT3D_H
+#ifndef CAMCAL_H
+#define CAMCAL_H
 
 #include <iostream>
 #include <iomanip>
 
 
 #include "Wm5Vector3.h"
+#incluce "Wm5Quaternion.h"
 
 namespace P3D
 {
@@ -30,9 +36,15 @@ public:
 											m_time_usec(0), m_conf(0) {};
 	
 	bool m_valid;
-	int m_tag;
-	int m_idx;
-	double m_time_usec;
+	int m_cam;
+    Wm5::Quaternion m_quat;
+    double m_lens_correct[4];
+    Wm5::vector3d u_vec;
+    Wm5::vector3d v_vec;
+    Wm5::vector3d a_vec;
+    double m_intrinsic[4];
+	double m_cam_pose_time_sec;
+	double m_intrinsic_time_sec;
 	double m_conf;
 
 	friend std::ostream& operator<<(std::ostream& os, const Pt3d &pt) {
