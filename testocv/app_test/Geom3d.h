@@ -6,6 +6,8 @@
 #define GEOM3D_H
 
 #include <vector>
+#include <deque>
+#include <map>
 #include <iostream>
 #include <iomanip>
 
@@ -32,7 +34,7 @@ public:
 	double m_conf;
 
 	double m_pt[3];
-	double m_unit[4];				// quaternion for rotation/frame slope for line normal for plane
+	double m_dir[4];				// quaternion for rotation/frame slope for line normal for plane/spin
 	double m_vel[3];				// 3 vector - speed is magnitude
 
 	friend std::ostream& operator<<(std::ostream& os, const Geom3d &g3d) {
@@ -52,8 +54,7 @@ public:
 		PLANE,
 		CAM_RAY,
 		FRAME,
-		POINT_VEL,
-		FRAME_VEL,
+		SPIN,
 	};
 };
 
@@ -61,6 +62,7 @@ public:
 
 typedef std::vector<Geom3d> Geom3d_v_t;
 typedef std::deque<Geom3d> Geom3d_dq_t;
+typedef std::map<int, Geom3d> Geom3d_m_t;
 }
 
 #endif

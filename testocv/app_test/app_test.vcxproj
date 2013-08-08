@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="app_startup.cpp" />
     <ClCompile Include="app_test.cpp" />
     <ClCompile Include="app_threads.cpp" />
   </ItemGroup>
