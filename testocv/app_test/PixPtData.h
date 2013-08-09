@@ -1,8 +1,8 @@
 #ifndef PixPtData_H
 #define PixPtData_H
 
-#include <vector>
 #include <string>
+#include <vector>
 #include <deque>
 
 #include <boost/serialization/base_object.hpp>
@@ -11,51 +11,53 @@
 #include <boost/serialization/deque.hpp>
 
 #include "IGlobal.h"
+#include "PixPt.h"
 
 
-// Interface class for global managed data
+// Global PixPt Vector
 
-class AppDataOne : public IGlobal
+namespace P3D
+{
+
+class PixPtData : public IGlobal
 {
 public:
-	AppDataOne() : m_read_only(false),
-					m_value_int(0),
-					m_value_float(0),
-					m_value_bool(false)
+	PixPtData() : m_read_only(false),
+					m_parm1(0),
+					m_parm2(0)
 	{ 
-			m_name = "AppDataOne"; 
+			m_name = "PixPtVec"; 
 	};
-	virtual ~AppDataOne() {};
+	virtual ~PixPtData() {};
 
 public:		// public data
-	bool m_valid;
-    int m_tag;
-    int m_idx;
-    float m_pt[2];
-    float m_conf;
+	PixPt_v_t& PixPts() { return(m_pix_pt_v); };
+	bool m_read_only;
+	int m_parm1;
+	float m_parm2;
 
 private:	// private data
-	std::deque<int> m_test_int_dq;
+	PixPt_v_t m_pix_pt_v;
 
 private:	// access
 
 	virtual void doSetup()  {
 		if(!m_read_only) {
-			m_test_int_dq.clear(); 
+			m_pix_pt_v.clear(); 
 		}
 	};
 	virtual void doPrint() {
-		std::cout << m_name << " " << m_str_stuff << "  " << m_value_int << std::endl;
+		std::cout << m_name << " " << m_parm1 << "  " << m_parm2 << std::endl;
 	};
 
 public:
-	static bool Read(std::string &file_name, AppDataOne *data_ptr)
+	static bool Read(std::string &file_name, PixPtData *data_ptr)
 	{
 		// 
 		try {
 			std::ifstream ifs(file_name);
 			if(!ifs.good()) {
-				std::cout << "AppDataOne Read " << "Bad File Open " << file_name << '\n';
+				std::cout << "PixPtData Read " << "Bad File Open " << file_name << '\n';
 				return(false);
 			}
 
@@ -64,18 +66,18 @@ public:
 			ia >> BOOST_SERIALIZATION_NVP(*data_ptr);
 		} 
 		catch(std::exception &e) {
-			std::cout << "AppDataOne Read " << e.what() << '\n';
+			std::cout << "PixPtData Read " << e.what() << '\n';
 			return(false);
 		}
 		return(true);
 	}
 
-	static bool Write(AppDataOne *data_ptr, std::string &file_name)
+	static bool Write(PixPtData *data_ptr, std::string &file_name)
 	{
 		try {
 			std::ofstream ofs(file_name);
 			if(!ofs.good()) {
-				std::cout << "AppDataOne Write " << "Bad File Open " << file_name << '\n';
+				std::cout << "PixPtData Write " << "Bad File Open " << file_name << '\n';
 				return(false);
 			}
 
@@ -84,7 +86,7 @@ public:
 			oa << BOOST_SERIALIZATION_NVP(data_ptr);
 		} 
 		catch(std::exception &e) {
-			std::cout << "AppDataOne Write " << e.what() << '\n';
+			std::cout << "PixPtData Write " << e.what() << '\n';
 			return(false);
 		}
 		return(true);
@@ -97,15 +99,16 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(IGlobal);
 		ar & BOOST_SERIALIZATION_NVP( m_read_only );
-		ar & BOOST_SERIALIZATION_NVP( m_str_stuff );
-		ar & BOOST_SERIALIZATION_NVP( m_value_int );
-		ar & BOOST_SERIALIZATION_NVP( m_value_float );
-		ar & BOOST_SERIALIZATION_NVP( m_value_bool );
-		ar & BOOST_SERIALIZATION_NVP(m_test_int_dq);
+		ar & BOOST_SERIALIZATION_NVP( m_parm1 );
+		ar & BOOST_SERIALIZATION_NVP( m_parm2 );
+		ar & BOOST_SERIALIZATION_NVP(m_pix_pt_v);
 	}
 };
 
-BOOST_CLASS_VERSION(AppDataOne, 0)
+}
+BOOST_CLASS_VERSION(P3D::PixPtData, 0)
+
+
 
 #endif
 

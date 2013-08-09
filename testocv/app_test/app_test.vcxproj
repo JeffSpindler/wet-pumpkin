@@ -82,6 +82,7 @@
     <ClCompile Include="app_startup.cpp" />
     <ClCompile Include="app_test.cpp" />
     <ClCompile Include="app_threads.cpp" />
+    <ClCompile Include="pix_seq_setup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppDataOne.h" />

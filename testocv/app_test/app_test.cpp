@@ -9,9 +9,13 @@
 #include "DoABlock.h"
 #include "DoBBlock.h"
 
+#include "PixPtData.h"
+
 #include "GlobalAccess.h"
 
 #include "app_test.h"
+
+using namespace P3D;
 
 bool ReadBlockFile(std::string &file_name, DoABlock *block)
 {
@@ -210,26 +214,3 @@ int seq_test_main( void )
 	
 }
 
-// create a test pix_seq
-void create_pix_seq()
-{
-	// data needed
-	// image
-	
-	// rle
-
-	// fts
-
-
-
-	// get an image
-
-	// thresh and rle
-
-	// cca
-
-	// select best
-
-	// make into camrays
-
-}

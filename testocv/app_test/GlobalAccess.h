@@ -62,6 +62,7 @@ private:
 	}
 };
 
+BOOST_CLASS_VERSION(GlobalAccess, 0)
 
 #endif
 

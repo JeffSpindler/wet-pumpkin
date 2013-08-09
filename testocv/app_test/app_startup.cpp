@@ -61,11 +61,19 @@ class G3d_Consumer {
     Geom3d m_item;
 	bool m_run_flag;
 	int m_count;
+	DoASeq *m_seq;
+	GlobalAccess *m_data_access;
 
 public:
-    G3d_Consumer(std::string filename, GlobalAccess *data_access, G3d_qu_t* in_qu) : m_in_qu(in_qu), m_run_flag(false), m_count(0) {}
-
+    G3d_Consumer(std::string filename, GlobalAccess *data_access, G3d_qu_t* in_qu) : 
+						m_in_qu(in_qu), m_run_flag(false), m_count(0) {
+		m_data_access = data_access;
+		m_seq = SeqCreate(filename);
+		};
     void operator()() {
+		// first setup the seq object
+		m_seq->print();
+		m_seq->setup(m_data_access);
 		//boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 		m_run_flag = true;
 		while(m_run_flag) {
@@ -123,14 +131,23 @@ class G3d_Transformer {
 	bool m_run_flag;
 	int m_in_count;
 	int m_out_count;
+	DoASeq *m_seq;
+	GlobalAccess *m_data_access;
 
 public:
     G3d_Transformer(std::string filename, GlobalAccess *data_access, G3d_qu_t* in_qu, G3d_qu_t* out_qu) : 
 									m_in_qu(in_qu), m_out_qu(out_qu), 
 									m_run_flag(false), m_in_count(0),
-									m_out_count(0) {};
+									m_out_count(0) {
+		m_data_access = data_access;
+		m_seq = SeqCreate(filename);
+		};
+
     void operator()() {
 		Geom3d pt;
+		// first setup the seq object
+		m_seq->print();
+		m_seq->setup(m_data_access);
 		m_run_flag = true;
 		while(m_run_flag) {
             m_in_qu->pop_back(&pt);
@@ -201,7 +218,7 @@ void app_startup()
 
     traj_g3d_consume.join();
 	*/
-	boost::this_thread::sleep(boost::posix_time::milliseconds(10000));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(6000));
 
 
 

@@ -20,19 +20,19 @@
 namespace P3D
 {
 
-class Pt3d : Wm5::Vector3d
+class CamCal : Wm5::Vector3d
 {
 public:
     // This is based on a WM Vector3d and a tag object with addl data required for use.
 	//
 
     // Construction and destruction.
-    Pt3d ()  : m_valid(false), Wm5::Vector3d(Wm5::Vector3d::ZERO), m_tag(0), m_idx(0), 
+    CamCal ()  : m_valid(false), Wm5::Vector3d(Wm5::Vector3d::ZERO), m_tag(0), m_idx(0), 
 					m_time_usec(0), m_conf(0) {};
 
-	virtual ~Pt3d () {};
+	virtual ~CamCal () {};
 
-    Pt3d (const Wm5::Vector3d& pos) : m_valid(true), Wm5::Vector3d(pos), m_tag(0), m_idx(0), 
+    CamCal (const Wm5::Vector3d& pos) : m_valid(true), Wm5::Vector3d(pos), m_tag(0), m_idx(0), 
 											m_time_usec(0), m_conf(0) {};
 	
 	bool m_valid;
@@ -58,10 +58,23 @@ public:
 				" (" << pt[0] << "," << pt[1] << "," << pt[2] << ")" << std::endl; 
 		return os;
 	}
+private:
+	// Serialization Support
+	friend class boost::serialization::access;
+	template<class Archive>	void serialize(Archive& ar, const unsigned int version)
+	{
+		ar & BOOST_SERIALIZATION_NVP( m_valid );
+		ar & BOOST_SERIALIZATION_NVP( m_cam );
+		//ar & BOOST_SERIALIZATION_NVP( m_idx );
+		//ar & BOOST_SERIALIZATION_NVP( m_time_usec );
+		ar & BOOST_SERIALIZATION_NVP( m_conf );
+	}
 };
 
-typedef std::vector<Pt3d> Pt3d_v_t;
-typedef std::deque<Pt3d> Pt3d_dq_t;
+BOOST_CLASS_VERSION(CamCal, 0)
+
+typedef std::vector<CamCal> camcal_v_t;
+typedef std::deque<CamCal> camcal_dq_t;
 
 }
 

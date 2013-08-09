@@ -24,6 +24,9 @@
     <ClCompile Include="app_startup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pix_seq_setup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_test.h">

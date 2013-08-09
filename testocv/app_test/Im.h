@@ -2,40 +2,42 @@
 // Copyright (c) 2013
 // File Version: 1.0.0 (2013/08/04)
 
-#ifndef PT3D_H
-#define PT3D_H
+#ifndef IM_H
+#define IM_H
 
 #include <iostream>
 #include <iomanip>
 
-
-#include "Wm5Vector3.h"
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
 
 namespace P3D
 {
 
-class Pt3d : Wm5::Vector3d
+class Im
 {
 public:
-    // This is based on a WM Vector3d and a tag object with addl data required for use.
+    // This is based on an image object and a tag object with addl data required for use.
 	//
 
     // Construction and destruction.
-    Pt3d ()  : m_valid(false), Wm5::Vector3d(Wm5::Vector3d::ZERO), m_tag(0), m_idx(0), 
+    Im ()  : m_valid(false), m_width(640), m_height(480), m_tag(0), m_idx(0), 
 					m_time_usec(0), m_conf(0) {};
+    Im (int width, int height) : m_valid(true), m_width(width), m_height(height), 
+									m_tag(0), m_idx(0), m_time_usec(0), m_conf(0) {};
 
-	virtual ~Pt3d () {};
+	virtual ~Im () {};
 
-    Pt3d (const Wm5::Vector3d& pos) : m_valid(true), Wm5::Vector3d(pos), m_tag(0), m_idx(0), 
-											m_time_usec(0), m_conf(0) {};
 	
 	bool m_valid;
 	int m_tag;
 	int m_idx;
 	double m_time_usec;
 	double m_conf;
+	int m_width;
+	int m_height;
 
-	friend std::ostream& operator<<(std::ostream& os, const Pt3d &pt) {
+	friend std::ostream& operator<<(std::ostream& os, const Im &pt) {
 		if(!pt.m_valid) {
 			os << " invalid\n";
 			return os;
@@ -43,28 +45,28 @@ public:
 		os.precision(1);
 		os.setf(std::ios::fixed);
 		os << std::setw(4) << pt.m_tag << std::setw(4) << pt.m_idx << 
-				" (" << pt[0] << "," << pt[1] << "," << pt[2] << ")" << std::endl; 
+				" [" << pt.m_width[0] << "x" << pt.m_height << "]" << std::endl; 
 		return os;
 	}
 private:
 	// Serialization Support
-/*	friend class boost::serialization::access;
+	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_NVP( m_valid );
 		ar & BOOST_SERIALIZATION_NVP( m_tag );
 		ar & BOOST_SERIALIZATION_NVP( m_idx );
 		ar & BOOST_SERIALIZATION_NVP( m_time_usec );
+		ar & BOOST_SERIALIZATION_NVP( m_width );
+		ar & BOOST_SERIALIZATION_NVP( m_height );
 		ar & BOOST_SERIALIZATION_NVP( m_conf );
 	}
-	*/
 };
 
-//BOOST_CLASS_VERSION(Pt3d, 0)
+BOOST_CLASS_VERSION(Im, 0)
 
-typedef std::vector<Pt3d> Pt3d_v_t;
-typedef std::deque<Pt3d> Pt3d_dq_t;
-
+typedef std::vector<Im> Im_v_t;
+typedef std::deque<Im> Im_dq_t;
 }
 
 #endif
