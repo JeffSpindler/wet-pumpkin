@@ -1,5 +1,5 @@
-#ifndef PixPtData_H
-#define PixPtData_H
+#ifndef PIXPTDATA_H
+#define PIXPTDATA_H
 
 #include <string>
 #include <vector>
@@ -26,7 +26,7 @@ public:
 					m_parm1(0),
 					m_parm2(0)
 	{ 
-			m_name = "PixPtVec"; 
+			m_name = "PixPtData"; 
 	};
 	virtual ~PixPtData() {};
 
@@ -47,7 +47,7 @@ private:	// access
 		}
 	};
 	virtual void doPrint() {
-		std::cout << m_name << " " << m_parm1 << "  " << m_parm2 << std::endl;
+		std::cout << m_name << " size " << m_pix_pt_v.size() << "  " << m_parm1 << "  " << m_parm2 << std::endl;
 	};
 
 public:

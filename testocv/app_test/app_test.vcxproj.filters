@@ -68,5 +68,23 @@
     <ClInclude Include="PixPt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Im.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PixPtData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CamCal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CamCalData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Geom3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

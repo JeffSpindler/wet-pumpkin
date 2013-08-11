@@ -7,6 +7,8 @@
 #include "IGlobalAccess.h"
 
 // Interface class for logic block
+namespace P3D
+{
 
 class DoASeq : public ISeq
 {
@@ -191,7 +193,9 @@ private:
 	}
 };
 
-BOOST_CLASS_VERSION(DoASeq, 0)
+};
+
+BOOST_CLASS_VERSION(P3D::DoASeq, 0)
 
 #endif
 

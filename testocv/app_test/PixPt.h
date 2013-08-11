@@ -32,6 +32,8 @@ public:
 					m_time_usec(0), m_conf(0) {};
     PixPt (const Wm5::Vector2f& pos) : m_valid(true), Wm5::Vector2f(pos), m_tag(0), m_idx(0), 
 											m_time_usec(0), m_conf(0) {};
+    PixPt (int tag)  : m_valid(true), Wm5::Vector2f(Wm5::Vector2f::ZERO), m_tag(tag), m_idx(0), 
+					m_time_usec(0), m_conf(0) {};
 
 	virtual ~PixPt () {};
 

@@ -8,8 +8,13 @@
 #include <iostream>
 #include <iomanip>
 
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
+#include <boost/utility.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/vector.hpp>
 
 namespace P3D
 {
@@ -45,7 +50,7 @@ public:
 		os.precision(1);
 		os.setf(std::ios::fixed);
 		os << std::setw(4) << pt.m_tag << std::setw(4) << pt.m_idx << 
-				" [" << pt.m_width[0] << "x" << pt.m_height << "]" << std::endl; 
+				" [" << pt.m_width << "x" << pt.m_height << "]" << std::endl; 
 		return os;
 	}
 private:
@@ -63,10 +68,10 @@ private:
 	}
 };
 
-BOOST_CLASS_VERSION(Im, 0)
-
 typedef std::vector<Im> Im_v_t;
 typedef std::deque<Im> Im_dq_t;
 }
+
+BOOST_CLASS_VERSION(P3D::Im, 0)
 
 #endif

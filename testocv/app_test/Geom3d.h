@@ -13,6 +13,14 @@
 #include <iostream>
 #include <iomanip>
 
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
+#include <boost/utility.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/vector.hpp>
+
 namespace P3D
 {
 
@@ -21,7 +29,6 @@ class Geom3d
 public:
     // This uses mulitple vectors to and a tag object with addl data required for use.
 	//
-
     // Construction and destruction.
     Geom3d () : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0) {
 		m_valid = false;
@@ -89,11 +96,30 @@ public:
 		FRAME = 10,
 		SPIN = 11,
 	};
+
+private:
+	// Serialization Support
+	friend class boost::serialization::access;
+	template<class Archive>	void serialize(Archive& ar, const unsigned int version)
+	{
+		ar & BOOST_SERIALIZATION_NVP( m_valid );
+		ar & BOOST_SERIALIZATION_NVP( m_type );
+		ar & BOOST_SERIALIZATION_NVP( m_tag );
+		ar & BOOST_SERIALIZATION_NVP( m_idx );
+		ar & BOOST_SERIALIZATION_NVP( m_time_usec );
+		ar & BOOST_SERIALIZATION_NVP( m_conf );
+
+		ar & BOOST_SERIALIZATION_NVP( m_pt );
+		ar & BOOST_SERIALIZATION_NVP( m_dir );
+		ar & BOOST_SERIALIZATION_NVP( m_vel );
+	}
 };
 
 typedef std::vector<Geom3d> Geom3d_v_t;
 typedef std::deque<Geom3d> Geom3d_dq_t;
 typedef std::map<int, Geom3d> Geom3d_m_t;
 }
+
+BOOST_CLASS_VERSION(P3D::Geom3d, 0)
 
 #endif

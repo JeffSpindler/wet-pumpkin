@@ -4,6 +4,11 @@
 
 #define BOOST_CB_DISABLE_DEBUG
 
+#include <string>
+#include <iostream>
+
+#include <boost/foreach.hpp>
+
 #include <boost/circular_buffer.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
@@ -13,13 +18,12 @@
 #include <boost/bind.hpp>
 //#include <boost/date_time/posix_time/posix_time.hpp>
 
-#include <string>
-#include <iostream>
-
-#include "bounded_buffer.h"
+//#include "bounded_buffer.h"
 
 #include "Pt3d.h"
 #include "Geom3d.h"
+#include "Geom3dData.h"
+#include "AppQueueData.h"
 
 #include "DoASeq.h"
 #include "GlobalAccess.h"
@@ -27,7 +31,7 @@
 using namespace P3D;
 
 //typedef one_way_queue<P3D::Pt3d> Pt3d_qu_t;
-typedef one_way_queue<P3D::Geom3d> G3d_qu_t;
+//typedef one_way_queue<P3D::Geom3d> G3d_qu_t;
 
 const unsigned QUEUE_SIZE     = 10;
 const unsigned NUM_INIT = QUEUE_SIZE*2 - 1;
@@ -100,23 +104,37 @@ public:
     G3d_Producer(std::string filename, GlobalAccess *data_access, G3d_qu_t* out_qu ) : m_out_qu(out_qu), 
 																			m_run_flag(false), m_count(0) {
 		m_data_access = data_access;
+		// add output queue to data acces
+
 		m_seq = SeqCreate(filename);
 		};
 
     void operator()() {
 		// first setup the seq object
+		if(m_seq == NULL) return;
 		m_seq->print();
 		m_seq->setup(m_data_access);
+		std::string Geom3dStr = "PixGeomsOut";
+		Geom3dData *geoms = reinterpret_cast<Geom3dData*>(m_data_access->getGlobal(Geom3dStr));
 
 		// now check for input and stuff objects
 		m_run_flag = true;
 		while(m_run_flag) {
 			// check for new input
 			if(m_count < max_count) {
-				Geom3d pt(m_count);
+				m_seq->run(m_data_access);
 				// create a pt from the seq
-				std::cout << m_count << " SEND " << pt << std::endl;
-				m_out_qu->push_front(pt);
+				int idx_count = 0;
+				BOOST_FOREACH(Geom3d pt, geoms->Geoms()) {
+					// put in geom3d out
+					//g3d.m_tag = pt.m_tag;
+					//m_geoms->Geoms().push_back(g3d);
+					pt.m_tag = m_count;
+					pt.m_idx = idx_count++;
+					std::cout << m_count << " SEND " << pt << std::endl;
+					m_out_qu->push_front(pt);
+				}
+				geoms->Geoms().clear();
 				m_count++;
 				boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
 			}
@@ -163,21 +181,32 @@ public:
     }
 };
 
+GlobalAccess *setup_pix_seq_data();
+void create_pix_seq();
+
+std::string PixAppQueue = "PixAppQueue";
+std::string RawAppQueue = "RawAppQueue";
+
 void app_startup() 
 {
-
 	std::cout << "app_startup " << std::endl << std::endl;
 
 	// get filenames for geom processing seqs
-
+	create_pix_seq(); // save out a valid pix seq
 
 	// create data managers for geom processing seqs -- shared
-	GlobalAccess data_access;
+	//GlobalAccess data_access;
+	GlobalAccess *data_access = setup_pix_seq_data();
 
-	// make queues for geom objects
-	G3d_qu_t pix_g3d_qu(QUEUE_SIZE);
-	G3d_qu_t raw_g3d_qu(QUEUE_SIZE);
-	G3d_qu_t traj_g3d_qu(QUEUE_SIZE);
+	// make queue for pix geom objects
+	AppQueueData pix_data_qu(QUEUE_SIZE);
+	if(!data_access->addGlobal(PixAppQueue, &pix_data_qu)) printf("bad PixAppQueue\n");
+	// make queue for raw geom objects
+	AppQueueData raw_data_qu(QUEUE_SIZE);
+	if(!data_access->addGlobal(RawAppQueue, &raw_data_qu)) printf("bad RawAppQueue\n");
+	
+	//G3d_qu_t raw_g3d_qu(QUEUE_SIZE);
+	//G3d_qu_t traj_g3d_qu(QUEUE_SIZE);
 
 	std::cout << "One Way Queues<Geom3d> ";
 
@@ -190,9 +219,9 @@ void app_startup()
 	std::string raw_file = "raw_seq.xml";
 	std::string traj_file = "traj_seq.xml";
 
-    G3d_Producer pix_g3d_producer(pix_file, &data_access, &pix_g3d_qu);
-    G3d_Transformer raw_g3d_transformer(raw_file, &data_access, &pix_g3d_qu, &raw_g3d_qu);
-    G3d_Consumer traj_g3d_consumer(traj_file, &data_access, &raw_g3d_qu);
+    G3d_Producer pix_g3d_producer(pix_file, data_access, &pix_data_qu.GeomQu());
+    G3d_Transformer raw_g3d_transformer(raw_file, data_access, &pix_data_qu.GeomQu(), &raw_data_qu.GeomQu());
+    G3d_Consumer traj_g3d_consumer(traj_file, data_access, &raw_data_qu.GeomQu());
 
     // Start the threads.
     boost::thread raw_g3d_transform(raw_g3d_transformer);
@@ -218,17 +247,18 @@ void app_startup()
 
     traj_g3d_consume.join();
 	*/
+
+	std::cout << "Wait forever " << std::endl;
+	while(1);
+
 	boost::this_thread::sleep(boost::posix_time::milliseconds(6000));
-
-
-
 	std::cout << "Stuff test values " << std::endl;
 
     // Initialize the buffer with some values before launching producer and consumer threads.
     for (unsigned long i = 0; i < 5; i++) {
 		Geom3d pt(100+i);
 		std::cout << " Start " << pt << std::endl;
-        pix_g3d_qu.push_front(pt);
+        pix_data_qu.GeomQu().push_front(pt);
     }
 
 	//boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
