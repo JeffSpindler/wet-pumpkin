@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BouncingSpheres.h" />
+    <ClInclude Include="AppMainWm5.h" />
     <ClInclude Include="RigidBall.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BouncingSpheres.cpp" />
+    <ClCompile Include="AppMainWm5.cpp" />
     <ClCompile Include="RigidBall.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

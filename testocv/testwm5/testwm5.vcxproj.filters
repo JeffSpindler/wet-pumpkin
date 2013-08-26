@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BouncingSpheres.h">
+    <ClInclude Include="RigidBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RigidBall.h">
+    <ClInclude Include="AppMainWm5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BouncingSpheres.cpp">
+    <ClCompile Include="RigidBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBall.cpp">
+    <ClCompile Include="AppMainWm5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

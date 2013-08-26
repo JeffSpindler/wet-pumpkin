@@ -232,6 +232,21 @@ void app_startup()
 
     boost::thread pix_g3d_produce(pix_g3d_producer);
 
+	boost::this_thread::sleep(boost::posix_time::milliseconds(30000));
+	//while(1);
+	std::cout << "Exiting " << std::endl;
+	return;
+
+    pix_g3d_produce.detach();
+
+    raw_g3d_transform.detach();
+
+    traj_g3d_consume.detach();
+
+	std::cout << "Exiting " << std::endl;
+	boost::this_thread::sleep(boost::posix_time::milliseconds(5000));
+
+	return;
 
 
     // Wait for completion.
@@ -261,10 +276,18 @@ void app_startup()
         pix_data_qu.GeomQu().push_front(pt);
     }
 
-	//boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
-	std::cout << "Wait forever " << std::endl;
-	while(1);
+	std::cout << "Wait for 30 secs " << std::endl;
+	boost::this_thread::sleep(boost::posix_time::milliseconds(30000));
+	//while(1);
 
+    pix_g3d_produce.detach();
+
+    raw_g3d_transform.detach();
+
+    traj_g3d_consume.detach();
+
+	std::cout << "Exiting " << std::endl;
+	boost::this_thread::sleep(boost::posix_time::milliseconds(5000));
 
     // End of measurement
 }
