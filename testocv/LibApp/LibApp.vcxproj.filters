@@ -18,44 +18,58 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\app_test\Geom3d.h">
+    <ClInclude Include="CamCal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\IBlock.h">
+    <ClInclude Include="CamCalData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\IGlobal.h">
+    <ClInclude Include="Geom3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\IGlobalAccess.h">
+    <ClInclude Include="Geom3dData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\GlobalAccess.h">
+    <ClInclude Include="GlobalAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\Im.h">
+    <ClInclude Include="IApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\ImData.h">
+    <ClInclude Include="IBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\ISeq.h">
+    <ClInclude Include="IGlobal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\PixPt.h">
+    <ClInclude Include="IGlobalAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\PixPtData.h">
+    <ClInclude Include="Im.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\Pt3d.h">
+    <ClInclude Include="ImData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\CamCal.h">
+    <ClInclude Include="ISeq.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\app_test\CamCalData.h">
+    <ClInclude Include="PixPt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PixPtData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pt3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeomApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeomApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

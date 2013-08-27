@@ -22,7 +22,7 @@ namespace P3D
 class AppQueueData : public IGlobal
 {
 public:
-	AppQueueData(int capacity) : m_read_only(false), m_g3d_qu(capacity)
+	AppQueueData(int capacity = 10) : m_read_only(false), m_g3d_qu(capacity)
 	{ 
 			m_name = "AppQueueData"; 
 	};

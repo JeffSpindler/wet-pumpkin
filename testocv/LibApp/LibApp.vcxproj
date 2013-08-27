@@ -34,9 +34,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\ocvtest.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\ocvtest.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -74,19 +76,25 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\app_test\CamCal.h" />
-    <ClInclude Include="..\app_test\CamCalData.h" />
-    <ClInclude Include="..\app_test\Geom3d.h" />
-    <ClInclude Include="..\app_test\GlobalAccess.h" />
-    <ClInclude Include="..\app_test\IBlock.h" />
-    <ClInclude Include="..\app_test\IGlobal.h" />
-    <ClInclude Include="..\app_test\IGlobalAccess.h" />
-    <ClInclude Include="..\app_test\Im.h" />
-    <ClInclude Include="..\app_test\ImData.h" />
-    <ClInclude Include="..\app_test\ISeq.h" />
-    <ClInclude Include="..\app_test\PixPt.h" />
-    <ClInclude Include="..\app_test\PixPtData.h" />
-    <ClInclude Include="..\app_test\Pt3d.h" />
+    <ClInclude Include="CamCal.h" />
+    <ClInclude Include="CamCalData.h" />
+    <ClInclude Include="Geom3d.h" />
+    <ClInclude Include="Geom3dData.h" />
+    <ClInclude Include="GeomApp.h" />
+    <ClInclude Include="GlobalAccess.h" />
+    <ClInclude Include="IApp.h" />
+    <ClInclude Include="IBlock.h" />
+    <ClInclude Include="IGlobal.h" />
+    <ClInclude Include="IGlobalAccess.h" />
+    <ClInclude Include="Im.h" />
+    <ClInclude Include="ImData.h" />
+    <ClInclude Include="ISeq.h" />
+    <ClInclude Include="PixPt.h" />
+    <ClInclude Include="PixPtData.h" />
+    <ClInclude Include="Pt3d.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeomApp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
