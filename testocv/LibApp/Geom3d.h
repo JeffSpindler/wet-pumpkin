@@ -95,6 +95,7 @@ public:
 		CAM_RAY = 4,
 		FRAME = 10,
 		SPIN = 11,
+		PSEG = 12,
 	};
 
 private:

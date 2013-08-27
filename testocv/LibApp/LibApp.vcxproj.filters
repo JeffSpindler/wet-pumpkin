@@ -15,36 +15,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="app_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="app_threads.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="app_startup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pix_seq_setup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app_test.h">
+    <ClInclude Include="..\app_test\Geom3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppDataOne.h">
+    <ClInclude Include="..\app_test\IBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoABlock.h">
+    <ClInclude Include="..\app_test\IGlobal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoASeq.h">
+    <ClInclude Include="..\app_test\IGlobalAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoBBlock.h">
+    <ClInclude Include="..\app_test\GlobalAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bounded_buffer.h">
+    <ClInclude Include="..\app_test\Im.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\ImData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\ISeq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\PixPt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\PixPtData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\Pt3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\CamCal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\app_test\CamCalData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
