@@ -20,8 +20,6 @@ class IGlobalAccess;
 	
 // Test class for logic block
 
-namespace P3D
-{
 class AcqImBlk : public IBlock
 {
 public:
@@ -124,10 +122,8 @@ private:
 	}
 };
 
-};
-
-BOOST_CLASS_VERSION(P3D::AcqImBlk, 0)
-BOOST_CLASS_EXPORT(P3D::AcqImBlk);
+BOOST_CLASS_VERSION(AcqImBlk, 0)
+BOOST_CLASS_EXPORT(AcqImBlk);
 
 #endif
 

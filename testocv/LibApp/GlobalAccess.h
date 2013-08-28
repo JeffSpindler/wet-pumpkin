@@ -9,8 +9,6 @@
 
 #include "IGlobalAccess.h"
 
-
-
 // Accessor Interface class for global managed data
 
 class GlobalAccess : public IGlobalAccess

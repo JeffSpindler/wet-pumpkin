@@ -16,9 +16,6 @@
 
 // Global Im dq
 
-namespace P3D
-{
-
 class ImData : public IGlobal
 {
 public:
@@ -105,10 +102,7 @@ private:
 	}
 };
 
-}
-BOOST_CLASS_VERSION(P3D::ImData, 0)
-
-
+BOOST_CLASS_VERSION(ImData, 0)
 
 #endif
 

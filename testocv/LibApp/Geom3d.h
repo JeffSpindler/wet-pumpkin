@@ -21,9 +21,6 @@
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
 
-namespace P3D
-{
-
 class Geom3d
 {
 public:
@@ -119,8 +116,7 @@ private:
 typedef std::vector<Geom3d> Geom3d_v_t;
 typedef std::deque<Geom3d> Geom3d_dq_t;
 typedef std::map<int, Geom3d> Geom3d_m_t;
-}
 
-BOOST_CLASS_VERSION(P3D::Geom3d, 0)
+BOOST_CLASS_VERSION(Geom3d, 0)
 
 #endif

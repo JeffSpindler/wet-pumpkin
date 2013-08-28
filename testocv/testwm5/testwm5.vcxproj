@@ -70,6 +70,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>..\LibApp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Wm5CoreD.lib;Wm5ImagicsD.lib;Wm5MathematicsD.lib;Wm5PhysicsD.lib;Wm5WglApplicationsD.lib;Wm5WglGraphicsD.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>

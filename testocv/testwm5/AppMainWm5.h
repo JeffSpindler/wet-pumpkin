@@ -9,7 +9,10 @@
 #ifndef APPMAINWM5_H
 #define APPMAINWM5_H
 
+#include "CrunchApp.h"
+
 #include "Wm5WindowApplication3.h"
+
 using namespace Wm5;
 
 class AppMainWm5 : public WindowApplication3
@@ -32,6 +35,10 @@ protected:
     void PhysicsTick ();
     void GraphicsTick ();
 
+	// App Vars
+
+	CrunchApp *m_app;
+	std::string m_name;
 
     // Simulated clock.
     float mSimTime, mSimDeltaTime;

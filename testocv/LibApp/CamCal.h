@@ -24,9 +24,6 @@
 #include "Wm5Vector3.h"
 #include "Wm5Quaternion.h"
 
-namespace P3D
-{
-
 class CamCal : Wm5::Vector3d
 {
 public:
@@ -95,8 +92,7 @@ private:
 
 typedef std::vector<CamCal> camcal_v_t;
 typedef std::deque<CamCal> camcal_dq_t;
-}
 
-BOOST_CLASS_VERSION(P3D::CamCal, 0)
+BOOST_CLASS_VERSION(CamCal, 0)
 
 #endif

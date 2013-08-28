@@ -15,7 +15,7 @@
 
 #include "app_test.h"
 
-using namespace P3D;
+
 
 bool ReadBlockFile(std::string &file_name, DoABlock *block)
 {

@@ -33,6 +33,7 @@
 #include <boost/progress.hpp>
 #include <boost/bind.hpp>
 
+#include "Im.h"
 #include "Pt3d.h"
 #include "Geom3d.h"
 #include "Geom3dData.h"
@@ -41,8 +42,9 @@
 
 #include "GlobalAccess.h"
 
-namespace P3D
-{
+using namespace P3D;
+//namespace P3D
+//{
 
 // originate Geom3d objects using config from filename
 // for test generate an g3d every second for 10 seconds
@@ -177,7 +179,8 @@ class GeomApp // : boost::noncopyable
 {
 public:
     // Construction and destruction.
-    GeomApp (std::string &name);
+    GeomApp ();
+    //GeomApp (std::string &name);
 	virtual ~GeomApp ();
 
 	bool onInitialize();
@@ -191,16 +194,16 @@ public:
 	// create global shared data for geom processing seqs -- shared
 	GlobalAccess *m_data_access;
 
-	// make queue for pix geom objects
-	AppQueueData *m_pix_data_qu;
-	// make queue for raw geom objects
-	AppQueueData *m_raw_data_qu;
+	//// make queue for pix geom objects
+	//AppQueueData *m_pix_data_qu;
+	//// make queue for raw geom objects
+	//AppQueueData *m_raw_data_qu;
 
-    G3d_Producer *m_pix_g3d_producer;
-    G3d_Consumer *m_traj_g3d_consumer;
+ //   G3d_Producer *m_pix_g3d_producer;
+ //   G3d_Consumer *m_traj_g3d_consumer;
 
-    boost::thread *m_traj_g3d_consume;
-    boost::thread *m_pix_g3d_produce;
+ //   boost::thread *m_traj_g3d_consume;
+ //   boost::thread *m_pix_g3d_produce;
 
 
 
@@ -241,8 +244,8 @@ private:
 	}
 };
 
-}
 
-BOOST_CLASS_VERSION(P3D::GeomApp, 0)
+//}
+BOOST_CLASS_VERSION(GeomApp, 0)
 
 #endif

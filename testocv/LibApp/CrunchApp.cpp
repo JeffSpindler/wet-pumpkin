@@ -4,44 +4,43 @@
 // File Version: 1.0.0 (2013/08/27)
 
 
-#include "GeomApp.h"
+#include "CrunchApp.h"
 
 #include "PixPtData.h"
 #include "ImData.h"
 #include "CamCalData.h"
 
-//namespace P3D
-//{
-const std::string GeomApp::PixAppQueue = "PixAppQueue";
-const std::string GeomApp::RawAppQueue = "RawAppQueue";
-const std::string GeomApp::RawPixPts = "RawPixPts";
-const std::string GeomApp::FinalPixPts = "FinalPixPts";
-const std::string GeomApp::InputIms = "InputIms";
-const std::string GeomApp::CamCals = "CamCals";
-const std::string GeomApp::PixGeomsOut = "PixGeomsOut";
-
+const std::string CrunchApp::PixAppQueueStr = "PixAppQueue";
+const std::string CrunchApp::RawAppQueueStr = "RawAppQueue";
+const std::string CrunchApp::RawPixPtsStr = "RawPixPts";
+const std::string CrunchApp::FinalPixPtsStr = "FinalPixPts";
+const std::string CrunchApp::InputImsStr = "InputIms";
+const std::string CrunchApp::CamCalsStr = "CamCals";
+const std::string CrunchApp::PixGeomsOutStr = "PixGeomsOut";
+/*
 //----------------------------------------------------------------------------
-GeomApp::GeomApp ()
+CrunchApp::CrunchApp ()
 {
 	m_valid = false;
-	m_name = "GeomApp";
+	m_name = "CrunchApp";
 
 }
-//GeomApp::GeomApp (std::string &name)
-//{
-//	m_valid = false;
-//	m_name = name;
-//
-//}
+
+CrunchApp::CrunchApp (std::string &name)
+{
+	m_valid = false;
+	m_name = name;
+
+}
+
 //----------------------------------------------------------------------------
 // Make the one time objects for running app
-bool GeomApp::onInitialize(void)
+bool CrunchApp::onInitialize(void)
 {
 	// 
 	// create data managers for geom processing seqs -- shared
 	//GlobalAccess data_access;
 	GlobalAccess *m_data_access = setup_pix_seq_data();
-/*
 	m_pix_data_qu = new AppQueueData(pix_queue_size);
 	m_raw_data_qu = new AppQueueData(pix_queue_size);
 
@@ -67,7 +66,6 @@ bool GeomApp::onInitialize(void)
 	boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
 
     m_pix_g3d_produce = new boost::thread (*m_pix_g3d_producer);
-*/
 	//while(1);
 	std::cout << "Threads Active " << std::endl;
 
@@ -76,11 +74,10 @@ bool GeomApp::onInitialize(void)
 }
 
 // call this to kill everything
-void GeomApp::OnTerminate()
+void CrunchApp::OnTerminate()
 	{
 		if(!m_valid)
 			return;
-		/*
 		// stop the threads
 		m_traj_g3d_consume->detach();
 		m_pix_g3d_produce->detach();
@@ -92,10 +89,9 @@ void GeomApp::OnTerminate()
 		delete m_pix_data_qu;
 		delete m_raw_data_qu;
 		delete m_data_access;
-		*/
 	}
 
-GlobalAccess *GeomApp::setup_pix_seq_data()
+GlobalAccess *CrunchApp::setup_pix_seq_data()
 {
 	GlobalAccess *data_access = new GlobalAccess;
 	// raw pix pts storage
@@ -125,4 +121,5 @@ GlobalAccess *GeomApp::setup_pix_seq_data()
 	return(data_access);
 }
 
-//}
+*/
+

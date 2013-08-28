@@ -10,13 +10,14 @@ WM5_WINDOW_APPLICATION(AppMainWm5);
 
 //----------------------------------------------------------------------------
 AppMainWm5::AppMainWm5 ()
-    :
+    : m_name("AppMainWm5"),
     WindowApplication3("AppMainWm5", 0, 0, 640, 480,
         Float4(1.0f, 1.0f, 1.0f, 1.0f)),
         mTextColor(0.0f, 0.0f, 0.0f, 1.0f)
 {
     mSimTime = 0.0f;
     mSimDeltaTime = 1.0f/10.0f;
+	m_app = NULL;
 }
 //----------------------------------------------------------------------------
 bool AppMainWm5::OnInitialize ()
@@ -26,8 +27,21 @@ bool AppMainWm5::OnInitialize ()
         return false;
     }
 
+	std::cout << m_name << "  OnInitialize\n";
 	// Init app
+	m_app = new CrunchApp(m_name);
+	std::cout << *m_app << std::endl << std::endl;
 
+	m_app->onInitialize();
+
+	//m_app = new GeomApp(m_name);
+
+
+	Im im_vga(640, 480);
+	std::cout << im_vga << std::endl << std::endl;
+
+	Pt3d pt(1,2,3);
+	std::cout << pt << std::endl << std::endl;
 
 	// Init WM5 Window
     // Set up the camera.
@@ -58,6 +72,11 @@ void AppMainWm5::OnTerminate()
 
     mScene = 0;
     mWireState = 0;
+
+	if(m_app != NULL) { 
+		m_app->OnTerminate();
+		delete m_app;
+	}
 
     WindowApplication3::OnTerminate();
 }

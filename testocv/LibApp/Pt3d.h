@@ -8,11 +8,15 @@
 #include <iostream>
 #include <iomanip>
 
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
+#include <boost/utility.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/vector.hpp>
 
 #include "Wm5Vector3.h"
-
-namespace P3D
-{
 
 class Pt3d : Wm5::Vector3d
 {
@@ -27,6 +31,8 @@ public:
 	virtual ~Pt3d () {};
 
     Pt3d (const Wm5::Vector3d& pos) : m_valid(true), Wm5::Vector3d(pos), m_tag(0), m_idx(0), 
+											m_time_usec(0), m_conf(0) {};
+    Pt3d (double x, double y, double z) : m_valid(true), Wm5::Vector3d(x,y,z), m_tag(0), m_idx(0), 
 											m_time_usec(0), m_conf(0) {};
 	
 	bool m_valid;
@@ -48,7 +54,7 @@ public:
 	}
 private:
 	// Serialization Support
-/*	friend class boost::serialization::access;
+	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_NVP( m_valid );
@@ -57,14 +63,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP( m_time_usec );
 		ar & BOOST_SERIALIZATION_NVP( m_conf );
 	}
-	*/
 };
-
-//BOOST_CLASS_VERSION(Pt3d, 0)
 
 typedef std::vector<Pt3d> Pt3d_v_t;
 typedef std::deque<Pt3d> Pt3d_dq_t;
 
-}
+BOOST_CLASS_VERSION(Pt3d, 0)
 
 #endif

@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testwm5", "testwm5\testwm5.vcxproj", "{E297F18C-727B-48CC-94D8-D219E143CC2B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C57EE749-1D31-4955-A04E-86834FDF62F9} = {C57EE749-1D31-4955-A04E-86834FDF62F9}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ocv_improc", "ocv_improc\ocv_improc.vcxproj", "{9BE19968-1877-4E8D-89A7-73C6CBDD9645}"
 EndProject

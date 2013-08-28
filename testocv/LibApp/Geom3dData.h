@@ -16,9 +16,6 @@
 
 // Global Geom Vector
 
-namespace P3D
-{
-
 class Geom3dData : public IGlobal
 {
 public:
@@ -99,10 +96,7 @@ private:
 	}
 };
 
-}
-BOOST_CLASS_VERSION(P3D::Geom3dData, 0)
-
-
+BOOST_CLASS_VERSION(Geom3dData, 0)
 
 #endif
 

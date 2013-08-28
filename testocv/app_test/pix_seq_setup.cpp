@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "DoASeq.h"
+#include "AppSeq.h"
 
 //#include "AppDataOne.h"
 //#include "DoABlock.h"
@@ -19,7 +19,7 @@
 
 #include "app_test.h"
 
-using namespace P3D;
+
 
 std::string RawPixPts = "RawPixPts";
 std::string FinalPixPts = "FinalPixPts";
@@ -85,7 +85,12 @@ void create_pix_seq()
 	block_cands->print();
 
 	// make the seq and add the blocks
-	DoASeq pix_seq;
+	AppSeq pix_seq;
+
+	// save an empty seq
+	std::string SeqFileSavStr = "traj_seq_sav.xml";
+	AppSeq::Write(&pix_seq, SeqFileSavStr);
+
 
 	pix_seq.insertBlock(blockacq);
 	pix_seq.insertBlock(block_cands);
@@ -96,16 +101,16 @@ void create_pix_seq()
 
 	std::cout << "\n Write Seq\n";
 
-	std::string SeqFileSavStr = "pix_seq_sav.xml";
+	SeqFileSavStr = "pix_seq_sav.xml";
 	std::string SeqFileStr = "pix_seq.xml";
 
 	// write out the resulting seq
 
-	DoASeq::Write(&pix_seq, SeqFileSavStr);
+	AppSeq::Write(&pix_seq, SeqFileSavStr);
 
-	DoASeq *rd_seq = new DoASeq;
+	AppSeq *rd_seq = new AppSeq;
 
-	if(DoASeq::Read(SeqFileStr, rd_seq)) {
+	if(AppSeq::Read(SeqFileStr, rd_seq)) {
 		rd_seq->print();
 	}
 

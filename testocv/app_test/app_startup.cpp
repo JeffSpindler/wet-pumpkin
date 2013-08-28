@@ -28,10 +28,9 @@
 #include "DoASeq.h"
 #include "GlobalAccess.h"
 
-using namespace P3D;
 
-//typedef one_way_queue<P3D::Pt3d> Pt3d_qu_t;
-//typedef one_way_queue<P3D::Geom3d> G3d_qu_t;
+//typedef one_way_queue<Pt3d> Pt3d_qu_t;
+//typedef one_way_queue<Geom3d> G3d_qu_t;
 
 const unsigned QUEUE_SIZE     = 10;
 const unsigned NUM_INIT = QUEUE_SIZE*2 - 1;

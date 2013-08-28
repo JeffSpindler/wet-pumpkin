@@ -21,9 +21,9 @@
 #include "Pt3d.h"
 #include "Geom3d.h"
 
-using namespace P3D;
 
-typedef one_way_queue<P3D::Pt3d> Pt3d_qu_t;
+
+typedef one_way_queue<Pt3d> Pt3d_qu_t;
 
 const unsigned QUEUE_SIZE     = 50;
 const unsigned NUM_INIT = QUEUE_SIZE*2 - 1;

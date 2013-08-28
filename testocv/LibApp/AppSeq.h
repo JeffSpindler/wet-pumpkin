@@ -7,8 +7,6 @@
 #include "IGlobalAccess.h"
 
 // Interface class for logic block
-namespace P3D
-{
 
 class AppSeq : public ISeq
 {
@@ -193,9 +191,7 @@ private:
 	}
 };
 
-};
-
-BOOST_CLASS_VERSION(P3D::AppSeq, 0)
+BOOST_CLASS_VERSION(AppSeq, 0)
 
 #endif
 

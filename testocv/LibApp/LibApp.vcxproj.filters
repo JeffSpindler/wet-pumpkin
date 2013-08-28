@@ -33,9 +33,6 @@
     <ClInclude Include="GlobalAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,12 +60,24 @@
     <ClInclude Include="Pt3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeomApp.h">
+    <ClInclude Include="AppSeq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CrunchApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AcqImBlk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PixCandsBlk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppQueueData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeomApp.cpp">
+    <ClCompile Include="CrunchApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

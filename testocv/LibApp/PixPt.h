@@ -18,9 +18,6 @@
 
 #include "Wm5Vector2.h"
 
-namespace P3D
-{
-
 class PixPt : Wm5::Vector2f
 {
 public:
@@ -71,8 +68,7 @@ private:
 
 typedef std::vector<PixPt> PixPt_v_t;
 typedef std::deque<PixPt> PixPt_dq_t;
-}
 
-BOOST_CLASS_VERSION(P3D::PixPt, 0)
+BOOST_CLASS_VERSION(PixPt, 0)
 
 #endif

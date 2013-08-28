@@ -16,9 +16,6 @@
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
 
-namespace P3D
-{
-
 class Im
 {
 public:
@@ -70,8 +67,7 @@ private:
 
 typedef std::vector<Im> Im_v_t;
 typedef std::deque<Im> Im_dq_t;
-}
 
-BOOST_CLASS_VERSION(P3D::Im, 0)
+BOOST_CLASS_VERSION(Im, 0)
 
 #endif

@@ -16,9 +16,6 @@
 
 // Global Im dq
 
-namespace P3D
-{
-
 class CamCalData : public IGlobal
 {
 public:
@@ -105,10 +102,7 @@ private:
 	}
 };
 
-}
-BOOST_CLASS_VERSION(P3D::CamCalData, 0)
-
-
+BOOST_CLASS_VERSION(CamCalData, 0)
 
 #endif
 

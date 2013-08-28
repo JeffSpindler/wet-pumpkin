@@ -17,8 +17,6 @@
 
 // Global Geom Vector
 
-namespace P3D
-{
 class AppQueueData : public IGlobal
 {
 public:
@@ -99,11 +97,7 @@ private:
 	}
 };
 
-};
-
-BOOST_CLASS_VERSION(P3D::AppQueueData, 0)
-
-
+BOOST_CLASS_VERSION(AppQueueData, 0)
 
 #endif
 

@@ -16,9 +16,6 @@
 
 // Global PixPt Vector
 
-namespace P3D
-{
-
 class PixPtData : public IGlobal
 {
 public:
@@ -105,8 +102,7 @@ private:
 	}
 };
 
-}
-BOOST_CLASS_VERSION(P3D::PixPtData, 0)
+BOOST_CLASS_VERSION(PixPtData, 0)
 
 
 
