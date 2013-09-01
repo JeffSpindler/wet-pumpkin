@@ -17,7 +17,7 @@
 #include "connection.hpp" // Must come before boost/serialization headers.
 #include <boost/serialization/vector.hpp>
 
-#include "CommGeom3dServer.h"
+#include "comm_server.h"
 
 bool get_input ( char *buffer, std::size_t size )
 {
@@ -53,18 +53,16 @@ void make_str(str_v_t &send_str_v)
 	send_str_v.push_back(test_str);
 }
 
-void make_g3ds(int tag, Geom3d_v_t &g3d_v)
+void make_stocks(stock_v_t &stock_v)
 {
-	Geom3d g3d(tag);
-
-	g3d.m_idx = 0;
-	g3d_v.push_back(g3d);
-	g3d.m_idx++;
-	//g3d.m_tag = ++tag;
-	g3d_v.push_back(g3d);
-	//g3d.m_tag = ++tag;
-	g3d.m_idx++;
-	g3d_v.push_back(g3d);
+	stock stk;
+	stk.code = "code1";
+	stk.name = "s0";
+	stock_v.push_back(stk);
+	stk.name = "s1";
+	stock_v.push_back(stk);
+	stk.name = "s2";
+	stock_v.push_back(stk);
 }
 
 int main(int argc, char* argv[])
@@ -73,13 +71,13 @@ int main(int argc, char* argv[])
 	int bufsz = 1024;
 	bool got_char_flag = false;
 
-	Geom3d_dq_t recv_dq;
-	Geom3d_v_t send_v;
+	stock_dq_t recv_dq;
+	stock_v_t send_v;
 	int send_count = 0;
 
 	std::string cmdstr, argstr;
 
-	CommGeom3dServer m_server;
+	comm_server m_server;
 	m_server.save(std::string("wm_server.xml"));
 	m_server.StartServer();	// startup everything
 
@@ -87,16 +85,16 @@ int main(int argc, char* argv[])
 		recv_dq.clear();
 		if(m_server.Update(recv_dq)) {
 			std::cout << "Recv size " << recv_dq.size() << std::endl;
-			BOOST_FOREACH(Geom3d g3d, recv_dq) std::cout << g3d << std::endl;
+			BOOST_FOREACH(stock stk, recv_dq) std::cout << stk << std::endl;
 			std::cout << std::endl << std::endl;
 			// send it back
 			if(true) {
 				send_v.clear();
-				BOOST_FOREACH(Geom3d g3d, recv_dq) send_v.push_back(g3d);
+				BOOST_FOREACH(stock stk, recv_dq) send_v.push_back(stk);
 				m_server.Notify(send_v);
 				// print it
 				std::cout << "send back size " << send_v.size() << std::endl;
-				BOOST_FOREACH(Geom3d g3d, send_v) std::cout << g3d << std::endl;
+				BOOST_FOREACH(stock stk, send_v) std::cout << stk << std::endl;
 				std::cout << "\n\n";
 			}
 		}
@@ -107,12 +105,12 @@ int main(int argc, char* argv[])
 			send_count++;
 			send_v.clear();
 
-			make_g3ds(send_count, send_v);
+			make_stocks(send_v);
 
 			m_server.Notify(send_v);
 
 			std::cout << "send size " << send_v.size() << std::endl;
-			BOOST_FOREACH(Geom3d g3d, send_v) std::cout << g3d << std::endl;
+			BOOST_FOREACH(stock stk, send_v) std::cout << stk << std::endl;
 			std::cout << std::endl << "sent " << "\n\n";
 		}
 

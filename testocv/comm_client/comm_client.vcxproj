@@ -84,6 +84,10 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="comm_client.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="comm_client.h" />
+    <ClInclude Include="stock.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,123 +1,158 @@
+// Perform3-D LLC
+// Copyright (c) 2013
+// File Version: 1.0.0 (2013/08/29)
 //
-// comm_server.cpp
-// ~~~~~~~~~~
+// this sends data to/from a server
 //
-// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// data is sent with an 8 byte hex header which leads.
 //
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-//
+// This is derived from the boost asio serialization example server side using boost threads.
+// 
 
-#include <boost/asio.hpp>
 #include <boost/bind.hpp>
-#include <boost/lexical_cast.hpp>
 #include <iostream>
-#include <vector>
-#include "connection.hpp" // Must come before boost/serialization headers.
-#include <boost/serialization/vector.hpp>
-#include "stock.hpp"
+#include <boost/lexical_cast.hpp>
 
-namespace s11n_example {
+#include "comm_server.h"
 
-/// Serves stock quote information to any client that connects to it.
-class server
+using boost::asio::ip::tcp;
+
+const std::string comm_server::default_name = "comm_server";
+const std::string comm_server::default_service = "default_service";
+const std::string comm_server::default_addr = "127.0.0.1";
+const std::string comm_server::default_port = "13110";
+
+
+void comm_server::StartServer(int port_num)
 {
-public:
-  /// Constructor opens the acceptor and starts waiting for the first incoming
-  /// connection.
-  server(boost::asio::io_service& io_service, unsigned short port)
-    : acceptor_(io_service,
-        boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-  {
-    // Create the data to be sent to each client.
-    stock s;
-    s.code = "ABC";
-    s.name = "A Big Company";
-    s.open_price = 4.56;
-    s.high_price = 5.12;
-    s.low_price = 4.33;
-    s.last_price = 4.98;
-    s.buy_price = 4.96;
-    s.buy_quantity = 1000;
-    s.sell_price = 4.99;
-    s.sell_quantity = 2000;
-    stocks_.push_back(s);
-    s.code = "DEF";
-    s.name = "Developer Entertainment Firm";
-    s.open_price = 20.24;
-    s.high_price = 22.88;
-    s.low_price = 19.50;
-    s.last_price = 19.76;
-    s.buy_price = 19.72;
-    s.buy_quantity = 34000;
-    s.sell_price = 19.85;
-    s.sell_quantity = 45000;
-    stocks_.push_back(s);
+	if(port_num != 0) {
+		m_Port = port_num;
+	}
 
-    // Start an accept operation for a new connection.
-    connection_ptr new_conn(new connection(acceptor_.get_io_service()));
-    acceptor_.async_accept(new_conn->socket(),
-        boost::bind(&server::handle_accept, this,
-          boost::asio::placeholders::error, new_conn));
-  }
+	std::cerr << m_name << "  StartServer Port " << m_Port <<std::endl;
+	// Create the acceptor
+	m_Acceptor.reset(new tcp::acceptor(m_IOService, tcp::endpoint(tcp::v4(), m_Port)));
+	// Set up the accept process as a separate thread
+	m_AcceptThread.reset(new boost::thread(&comm_server::StartAccept, this));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(30));
+}
+void comm_server::Terminate()
+{
+	if(m_DidExec) {
+		m_IOService.stop();
+		m_DidExec = false;
+		m_AcceptThread->detach();
+	}
+}
 
-  /// Handle completion of a accept operation.
-  void handle_accept(const boost::system::error_code& e, connection_ptr conn)
-  {
-    if (!e)
+void comm_server::StartAccept()
+{
+	// Create socket for a new connection
+	SocketPtr NewConn(new s11n_example::connection(m_IOService));
+
+	m_DidExec = true;
+
+	// Start an async listen/accept process
+    m_Acceptor->async_accept(NewConn->socket(),
+        boost::bind(&comm_server::AcceptHandler, this, NewConn,
+          boost::asio::placeholders::error));
+
+	// Run the IO service
+	m_IOService.run();
+}
+
+int comm_server::Notify(stock_v_t &stk_v)
+{
+	boost::unique_lock<boost::mutex> lock(m_Mutex);
+
+	std::list<SocketPtr> badSockets;
+	int iCount = 0;
+	for(std::list<SocketPtr>::iterator it=m_listSockets.begin(); it!=m_listSockets.end(); it++)
+	{
+		try {
+			// Send the data
+			  (*it)->async_write(stk_v,
+									boost::bind(&comm_server::WriteHandler, this, (*it),
+									  boost::asio::placeholders::error));
+			iCount++;
+		}
+		catch(boost::system::system_error &) {
+			// An exception means that the client closed the connection
+			// Add this socket to the bad list to be removed outside of the for loop
+			std::cout << m_name << " comm_server::Notify ---Socket Error\n";		
+			badSockets.push_back(*it);
+		}
+		catch(...) {  // Handle all remaining exceptions
+			std::cout << m_name << " comm_server::Notify ----System Error Write failed\n";
+		}
+	}
+
+	// Remove all sockets
+	for(std::list<SocketPtr>::iterator it=badSockets.begin(); it!=badSockets.end(); it++)
+	{
+		std::cout << "----Remove dead sockets\n";
+		m_listSockets.remove(*it);
+	}
+	return iCount;
+}
+
+void comm_server::AcceptHandler(SocketPtr newConn, const boost::system::error_code& error)
+{
+    if (!error)
     {
-      // Successfully accepted a new connection. Send the list of stocks to the
-      // client. The connection::async_write() function will automatically
-      // serialize the data structure for us.
-      conn->async_write(stocks_,
-          boost::bind(&server::handle_write, this,
-            boost::asio::placeholders::error, conn));
-    }
+		std::cout << "AcceptHandler ---- new connection\n";
+		// Store the newly connected socket in our list of active sockets
+		boost::unique_lock<boost::mutex> lock(m_Mutex);
 
-    // Start an accept operation for a new connection.
-    connection_ptr new_conn(new connection(acceptor_.get_io_service()));
-    acceptor_.async_accept(new_conn->socket(),
-        boost::bind(&server::handle_accept, this,
-          boost::asio::placeholders::error, new_conn));
-  }
+		// only one connect at a time
+		m_listSockets.push_back(newConn);
+
+		newConn->async_read(m_recv_stk_v, boost::bind(&comm_server::ReadHandler, 
+								this, newConn, boost::asio::placeholders::error));		
+    }
+	// Start a new listen/accept process
+    StartAccept();
+}
 
   /// Handle completion of a write operation.
-  void handle_write(const boost::system::error_code& e, connection_ptr conn)
-  {
-    // Nothing to do. The socket will be closed automatically when the last
-    // reference to the connection object goes away.
-  }
-
-private:
-  /// The acceptor object used to accept incoming socket connections.
-  boost::asio::ip::tcp::acceptor acceptor_;
-
-  /// The data to be sent to each client.
-  std::vector<stock> stocks_;
-};
-
-} // namespace s11n_example
-
-int server_main(int argc, char* argv[])
+void comm_server::WriteHandler(SocketPtr conn, const boost::system::error_code& error )
 {
-  try
-  {
-    // Check command line arguments.
-    if (argc != 2)
+    // Null for now
+}
+
+// copy over all inputs
+bool comm_server::Update(stock_dq_t &stk_dq)
+{
+	boost::unique_lock<boost::mutex> lock(m_UpdateMut);
+	
+	while(!m_access_stk_dq.empty()) {
+		stk_dq.push_back(m_access_stk_dq.front());	// copy it
+		m_access_stk_dq.pop_front();	// remove it
+	}
+	return (!stk_dq.empty());
+}
+
+void comm_server::ReadHandler(SocketPtr conn, const boost::system::error_code& e)
+{
+    if (!e) {
+		boost::unique_lock<boost::mutex> lock(m_UpdateMut);
+		// copy path segs out to our dq of path segs
+		for (std::size_t i = 0; i < m_recv_stk_v.size(); ++i) {
+			m_access_stk_dq.push_back(m_recv_stk_v[i]);
+			//m_path_seg_v[i].print(1);
+		}
+	} else {
+		// An error occurred.
+		std::cerr << m_name << " ReadHandler Error\n" << e.message() << std::endl;
+	}
+
+    if (!e)
     {
-      std::cerr << "Usage: server <port>" << std::endl;
-      return 1;
+      // Successfully established connection. Start operation to read the data
+      // The connection::async_read() function will automatically
+      // decode the data that is read from the underlying socket.
+      conn->async_read(m_recv_stk_v,
+          boost::bind(&comm_server::ReadHandler, this, conn,
+            boost::asio::placeholders::error));
     }
-    unsigned short port = boost::lexical_cast<unsigned short>(argv[1]);
-
-    boost::asio::io_service io_service;
-    s11n_example::server server(io_service, port);
-    io_service.run();
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << e.what() << std::endl;
-  }
-
-  return 0;
 }

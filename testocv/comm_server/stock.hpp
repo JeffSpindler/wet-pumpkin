@@ -13,8 +13,6 @@
 
 #include <string>
 
-namespace s11n_example {
-
 /// Structure to hold information about a single stock.
 struct stock
 {
@@ -28,6 +26,11 @@ struct stock
   int buy_quantity;
   double sell_price;
   int sell_quantity;
+
+	friend std::ostream& operator<<(std::ostream& os, const stock &stk) {
+		os << stk.code << "  " << stk.name << std::endl; 
+		return os;
+	}
 
   template <typename Archive>
   void serialize(Archive& ar, const unsigned int version)
@@ -45,6 +48,8 @@ struct stock
   }
 };
 
-} // namespace s11n_example
+typedef std::vector<stock> stock_v_t;
+typedef std::deque<stock> stock_dq_t;
+
 
 #endif // SERIALIZATION_STOCK_HPP

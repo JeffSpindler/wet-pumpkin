@@ -150,8 +150,8 @@ public:
       }
       catch (std::exception& e)
       {
+		std::cerr << "handle_read_data " << e.what();
         // Unable to decode data.
-		std::cerr << e.what() << std::endl;
         boost::system::error_code error(boost::asio::error::invalid_argument);
         boost::get<0>(handler)(error);
         return;
