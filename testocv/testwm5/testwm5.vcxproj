@@ -73,11 +73,15 @@
       <AdditionalIncludeDirectories>..\LibApp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Wm5CoreD.lib;Wm5ImagicsD.lib;Wm5MathematicsD.lib;Wm5PhysicsD.lib;Wm5WglApplicationsD.lib;Wm5WglGraphicsD.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LibApp.lib;Wm5CoreD.lib;Wm5ImagicsD.lib;Wm5MathematicsD.lib;Wm5PhysicsD.lib;Wm5WglApplicationsD.lib;Wm5WglGraphicsD.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>..\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

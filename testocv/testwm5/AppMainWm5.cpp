@@ -6,6 +6,8 @@
 
 #include "AppMainWm5.h"
 
+#include "CommGeom3dClient.h"
+
 WM5_WINDOW_APPLICATION(AppMainWm5);
 
 //----------------------------------------------------------------------------
@@ -27,15 +29,15 @@ bool AppMainWm5::OnInitialize ()
         return false;
     }
 
+    CommGeom3dClient client;
+    client.StartClient(std::string("127.0.0.1"), std::string("11110"));
+
 	std::cout << m_name << "  OnInitialize\n";
 	// Init app
 	m_app = new CrunchApp(m_name);
 	std::cout << *m_app << std::endl << std::endl;
 
 	m_app->onInitialize();
-
-	//m_app = new GeomApp(m_name);
-
 
 	Im im_vga(640, 480);
 	std::cout << im_vga << std::endl << std::endl;
@@ -102,7 +104,16 @@ bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
 		printf("Toggle wireframe\n");
         mWireState->Enabled = !mWireState->Enabled;
         return true;
-    }
+	case 't':  { // test data inserted
+		static int test_id = 0;
+		static Geom3d g3d(0);
+
+		printf("Add Test Data %d\n", ++test_id);
+		g3d.m_tag = test_id;
+		m_app->addInput(g3d);
+		return true;
+		}
+	}
 
     return false;
 }

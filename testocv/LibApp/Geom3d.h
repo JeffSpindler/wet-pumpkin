@@ -20,6 +20,8 @@
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/serialization/deque.hpp>
+#include <boost/serialization/map.hpp>
 
 class Geom3d
 {
@@ -31,32 +33,32 @@ public:
 		m_valid = false;
 		m_type = INVALID;
 		memset(m_pt, 0, sizeof(m_pt));
-		memset(m_vel, 0, sizeof(m_vel));
+		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
     Geom3d (int tag) : m_tag(tag), m_idx(0), m_time_usec(0), m_conf(0) {
 		m_valid = true;
 		m_type = POINT;
 		memset(m_pt, 0, sizeof(m_pt));
-		memset(m_vel, 0, sizeof(m_vel));
+		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 	Geom3d (int tag, double x, double y, double z) : m_tag(tag), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
 		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
-		memset(m_vel, 0, sizeof(m_vel));
+		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 	Geom3d (double x, double y, double z) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
 		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
-		memset(m_vel, 0, sizeof(m_vel));
+		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 	Geom3d (double pos[]) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
 		memcpy(m_pt, pos, sizeof(m_pt));
-		memset(m_vel, 0, sizeof(m_vel));
+		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 
@@ -71,7 +73,7 @@ public:
 
 	double m_pt[3];
 	double m_dir[4];				// quaternion for rotation/frame slope for line normal for plane/spin
-	double m_vel[3];				// 3 vector - speed is magnitude
+	//double m_vel[3];				// 3 vector - speed is magnitude
 
 	friend std::ostream& operator<<(std::ostream& os, const Geom3d &g3d) {
 		if(!g3d.m_valid) {
@@ -93,6 +95,7 @@ public:
 		FRAME = 10,
 		SPIN = 11,
 		PSEG = 12,
+        VEL = 13,
 	};
 
 private:
@@ -109,7 +112,7 @@ private:
 
 		ar & BOOST_SERIALIZATION_NVP( m_pt );
 		ar & BOOST_SERIALIZATION_NVP( m_dir );
-		ar & BOOST_SERIALIZATION_NVP( m_vel );
+		//ar & BOOST_SERIALIZATION_NVP( m_vel );
 	}
 };
 

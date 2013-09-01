@@ -1,16 +1,14 @@
 //
 // client.cpp
-// ~~~~~~~~~~
 //
-// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2013 Perform3-D LLC
 //
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
+
 #include <conio.h>
 #include <iostream>
 
-#include "comm_client.h"
+#include "CommGeom3dClient.h"
 
 bool get_input ( char *buffer, std::size_t size )
 {
@@ -35,17 +33,29 @@ bool get_input ( char *buffer, std::size_t size )
 	return true;
 }
 
-void make_stocks(stock_v_t &stock_v)
+void make_str(str_v_t &send_str_v)
 {
-	stock stk;
+	std::string test_str = "HEY send it will ya.";
+	send_str_v.clear();
+	send_str_v.push_back(test_str);
+	test_str = "my oh my";
+	send_str_v.push_back(test_str);
+	test_str = "last try";
+	send_str_v.push_back(test_str);
+}
 
-	stk.code = "code1";
-	stk.name = "s0";
-	stock_v.push_back(stk);
-	stk.name = "s1";
-	stock_v.push_back(stk);
-	stk.name = "s2";
-	stock_v.push_back(stk);
+void make_g3ds(int tag, Geom3d_v_t &g3d_v)
+{
+	Geom3d g3d(tag);
+
+	g3d.m_idx = 0;
+	g3d_v.push_back(g3d);
+	g3d.m_idx++;
+	//g3d.m_tag = ++tag;
+	g3d_v.push_back(g3d);
+	//g3d.m_tag = ++tag;
+	g3d.m_idx++;
+	g3d_v.push_back(g3d);
 }
 
 int main(int argc, char* argv[])
@@ -54,13 +64,13 @@ int main(int argc, char* argv[])
 	int bufsz = 1024;
 	bool got_char_flag = false;
 
-	stock_dq_t recv_dq;
-	stock_v_t send_v;
+	Geom3d_dq_t recv_dq;
+	Geom3d_v_t send_v;
 	int send_count = 0;
 
 	std::string cmdstr, argstr;
 
-	comm_client m_client;
+	CommGeom3dClient m_client;
 	m_client.save(std::string("wm_client.xml"));
 	m_client.StartClient();	// startup everything
 
@@ -69,7 +79,7 @@ int main(int argc, char* argv[])
 		recv_dq.clear();
 		if(m_client.Update(recv_dq)) {
 			std::cout << "Recv size " << recv_dq.size() << std::endl;
-			BOOST_FOREACH(stock stk, recv_dq) std::cout << stk << std::endl;
+			BOOST_FOREACH(Geom3d g3d, recv_dq) std::cout << g3d << std::endl;
 			std::cout << std::endl << std::endl;
 		}
 
@@ -79,12 +89,12 @@ int main(int argc, char* argv[])
 			send_count++;
 			send_v.clear();
 
-			make_stocks(send_v);
+			make_g3ds(send_count, send_v);
 
 			m_client.Notify(send_v);
 
 			std::cout << "send size " << send_v.size() << std::endl;
-			BOOST_FOREACH(stock stk, send_v) std::cout << stk << std::endl;
+			BOOST_FOREACH(Geom3d g3d, send_v) std::cout << g3d << std::endl;
 			std::cout << std::endl << "client str sent " << "\n\n";
 		}
 

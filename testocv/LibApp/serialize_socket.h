@@ -1,15 +1,11 @@
+// (c) 2013 Perform3-D
+// serialize_socket.hpp
 //
-// connection.hpp
-// ~~~~~~~~~~~~~~
-//
-// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-//
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+// derived from connection.hpp boost asio serialize example
 //
 
-#ifndef SERIALIZATION_CONNECTION_HPP
-#define SERIALIZATION_CONNECTION_HPP
+#ifndef SERIALIZE_SOCKET
+#define SERIALIZE_SOCKET
 
 #include <boost/asio.hpp>
 #include <boost/archive/text_iarchive.hpp>
@@ -22,8 +18,6 @@
 #include <sstream>
 #include <vector>
 
-namespace s11n_example {
-
 /// The connection class provides serialization primitives on top of a socket.
 /**
  * Each message sent using this class consists of:
@@ -31,11 +25,11 @@ namespace s11n_example {
  * hexadecimal.
  * @li The serialized data.
  */
-class connection
+class serialize_socket
 {
 public:
   /// Constructor.
-  connection(boost::asio::io_service& io_service)
+  serialize_socket(boost::asio::io_service& io_service)
     : socket_(io_service)
   {
   }
@@ -83,10 +77,10 @@ public:
   void async_read(T& t, Handler handler)
   {
     // Issue a read operation to read exactly the number of bytes in a header.
-    void (connection::*f)(
+    void (serialize_socket::*f)(
         const boost::system::error_code&,
         T&, boost::tuple<Handler>)
-      = &connection::handle_read_header<T, Handler>;
+      = &serialize_socket::handle_read_header<T, Handler>;
     boost::asio::async_read(socket_, boost::asio::buffer(inbound_header_),
         boost::bind(f,
           this, boost::asio::placeholders::error, boost::ref(t),
@@ -119,10 +113,10 @@ public:
 
       // Start an asynchronous call to receive the data.
       inbound_data_.resize(inbound_data_size);
-      void (connection::*f)(
+      void (serialize_socket::*f)(
           const boost::system::error_code&,
           T&, boost::tuple<Handler>)
-        = &connection::handle_read_data<T, Handler>;
+        = &serialize_socket::handle_read_data<T, Handler>;
       boost::asio::async_read(socket_, boost::asio::buffer(inbound_data_),
         boost::bind(f, this,
           boost::asio::placeholders::error, boost::ref(t), handler));
@@ -150,6 +144,7 @@ public:
       }
       catch (std::exception& e)
       {
+		std::cerr << "handle_read_data " << e.what();
         // Unable to decode data.
         boost::system::error_code error(boost::asio::error::invalid_argument);
         boost::get<0>(handler)(error);
@@ -181,8 +176,6 @@ private:
   std::vector<char> inbound_data_;
 };
 
-typedef boost::shared_ptr<connection> connection_ptr;
+typedef boost::shared_ptr<serialize_socket> serialize_socket_ptr;
 
-} // namespace s11n_example
-
-#endif // SERIALIZATION_CONNECTION_HPP
+#endif // SERIALIZE_SOCKET

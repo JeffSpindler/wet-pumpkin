@@ -1,16 +1,15 @@
 // circular buffer which discards oldest values
 // main app interface buffer
 //
-// Derived from Boost Circular Buffer bounded_buffer object
+// Use dq with removal of oldest if larger than max size
 //
 // Copyright (c) 2013 Perform3-D LLC
 
 #ifndef APPQUEUE_H
 #define APPQUEUE_H
 
-#define BOOST_CB_DISABLE_DEBUG
+#include <deque>
 
-#include <boost/circular_buffer.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread/thread.hpp>
@@ -20,22 +19,22 @@
 
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/deque.hpp>
 
 #include "Geom3d.h"
 
-// Circular Buffer which is fed by source with overwriting if not read fast enough
+// Circular Buffer which is fed by source with removal of oldest if not read fast enough
 // 
 
 template <class T>
 class AppQueue {
 public:
-
-    typedef boost::circular_buffer<T> container_type;
+    typedef std::deque<T> container_type;
     typedef typename container_type::size_type size_type;
     typedef typename container_type::value_type value_type;
     typedef typename boost::call_traits<value_type>::param_type param_type;
 
-    explicit AppQueue(size_type capacity) : m_lost_count(0), m_container(capacity) {}
+    explicit AppQueue(size_type capacity) : m_lost_count(0), m_max_size(capacity) {}
 
 	void init() {		// setup for restart
         boost::mutex::scoped_lock lock(m_mutex);
@@ -45,7 +44,10 @@ public:
 
     void push_front(param_type item) {
         boost::mutex::scoped_lock lock(m_mutex);
-		if(m_container.full()) ++m_lost_count;
+		if(m_container.size() >= m_max_size) {
+            m_container.pop_back();     // remove oldest 1st
+			++m_lost_count;
+		}
         m_container.push_front(item);
         lock.unlock();
         m_not_empty.notify_one();
@@ -70,6 +72,7 @@ private:
     bool is_not_empty() const { return !m_container.empty(); }
     bool is_empty() const { return m_container.empty(); }
 
+    unsigned m_max_size;     // largest num elements
     container_type m_container;
     boost::mutex m_mutex;
     boost::condition m_not_empty;
@@ -82,7 +85,7 @@ private:
 	{
 		// do for each and write/read out elements ??
 		// copy to a vector or read a vector
-		//ar & BOOST_SERIALIZATION_NVP(m_container);
+		ar & BOOST_SERIALIZATION_NVP(m_container);
 	}
 };
 

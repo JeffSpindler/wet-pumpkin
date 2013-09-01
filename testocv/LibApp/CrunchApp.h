@@ -154,7 +154,9 @@ public:
             m_in_qu->pop_back(&m_item);
 			std::cout << m_count << " RECV " << m_item << std::endl;
 			m_count++;
-			boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+			m_seq->run(m_data_access);
+
+			//boost::this_thread::sleep(boost::posix_time::milliseconds(500));
         }
     }
 
@@ -208,12 +210,12 @@ public:
 		GlobalAccess *m_data_access = setup_pix_seq_data();
 
 		m_pix_data_qu = new AppQueueData(pix_queue_size);
-		m_raw_data_qu = new AppQueueData(pix_queue_size);
+		m_traj_data_qu = new AppQueueData(pix_queue_size);
 
 		// make queue for pix geom objects
 		if(!m_data_access->addGlobal(PixAppQueue, m_pix_data_qu)) printf("bad PixAppQueue\n");
 		// make queue for raw geom objects
-		if(!m_data_access->addGlobal(RawAppQueue, m_raw_data_qu)) printf("bad RawAppQueue\n");
+		if(!m_data_access->addGlobal(RawAppQueue, m_traj_data_qu)) printf("bad RawAppQueue\n");
 
 		std::cout << "One Way Queues<Geom3d> ";
 
@@ -222,8 +224,8 @@ public:
 		std::string pix_file = "pix_seq.xml";
 		std::string traj_file = "traj_seq.xml";
 
-		m_pix_g3d_producer = new Geom3d_Producer(pix_file, m_data_access, &m_raw_data_qu->GeomQu());
-		m_traj_g3d_consumer = new Geom3d_Consumer(traj_file, m_data_access, &m_raw_data_qu->GeomQu());
+		m_pix_g3d_producer = new Geom3d_Producer(pix_file, m_data_access, &m_pix_data_qu->GeomQu());
+		m_traj_g3d_consumer = new Geom3d_Consumer(traj_file, m_data_access, &m_pix_data_qu->GeomQu());
 
 		// Start the threads.
 		m_traj_g3d_consume = new boost::thread (*m_traj_g3d_consumer);
@@ -251,7 +253,7 @@ public:
 		delete m_pix_g3d_producer;
 		delete m_traj_g3d_consumer;
 		delete m_pix_data_qu;
-		delete m_raw_data_qu;
+		delete m_traj_data_qu;
 
 		//delete m_data_access;
 		std::cout << "OnTerminate " << m_name << '\n';
@@ -291,6 +293,11 @@ public:
 
 		return(data_access);
 	};
+	// I/O methods
+	bool addInput(Geom3d &g3d) {  // put a value in input que
+		m_pix_data_qu->GeomQu().push_front(g3d);
+		return(true);
+	};
 	
 
 	bool m_valid;
@@ -307,13 +314,14 @@ public:
 	// make queue for pix geom objects
 	AppQueueData *m_pix_data_qu;
 	// make queue for raw geom objects
-	AppQueueData *m_raw_data_qu;
+	AppQueueData *m_traj_data_qu;
 
     Geom3d_Producer *m_pix_g3d_producer;
-    Geom3d_Consumer *m_traj_g3d_consumer;
-
-    boost::thread *m_traj_g3d_consume;
     boost::thread *m_pix_g3d_produce;
+
+    Geom3d_Consumer *m_traj_g3d_consumer;
+    boost::thread *m_traj_g3d_consume;
+
 
 	friend std::ostream& operator<<(std::ostream& os, const CrunchApp &pt) {
 		if(!pt.m_valid) {

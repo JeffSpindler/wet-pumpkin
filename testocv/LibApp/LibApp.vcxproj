@@ -77,13 +77,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AcqImBlk.h" />
+    <ClInclude Include="AppQueue.h" />
     <ClInclude Include="AppQueueData.h" />
     <ClInclude Include="AppSeq.h" />
     <ClInclude Include="CamCal.h" />
     <ClInclude Include="CamCalData.h" />
+    <ClInclude Include="CommGeom3dClient.h" />
+    <ClInclude Include="CommGeom3dServer.h" />
     <ClInclude Include="CrunchApp.h" />
     <ClInclude Include="Geom3d.h" />
     <ClInclude Include="Geom3dData.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="GlobalAccess.h" />
     <ClInclude Include="IBlock.h" />
     <ClInclude Include="IGlobal.h" />
@@ -95,8 +99,11 @@
     <ClInclude Include="PixPt.h" />
     <ClInclude Include="PixPtData.h" />
     <ClInclude Include="Pt3d.h" />
+    <ClInclude Include="serialize_socket.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CommGeom3dClient.cpp" />
+    <ClCompile Include="CommGeom3dServer.cpp" />
     <ClCompile Include="CrunchApp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
