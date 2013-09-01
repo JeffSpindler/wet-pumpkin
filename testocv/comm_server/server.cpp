@@ -7,117 +7,131 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-
+#include <conio.h>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <vector>
+
 #include "connection.hpp" // Must come before boost/serialization headers.
 #include <boost/serialization/vector.hpp>
-#include "stock.hpp"
 
-namespace s11n_example {
+#include "CommGeom3dServer.h"
 
-/// Serves stock quote information to any client that connects to it.
-class server
+bool get_input ( char *buffer, std::size_t size )
 {
-public:
-  /// Constructor opens the acceptor and starts waiting for the first incoming
-  /// connection.
-  server(boost::asio::io_service& io_service, unsigned short port)
-    : acceptor_(io_service,
-        boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-  {
-    // Create the data to be sent to each client.
-    stock s;
-    s.code = "ABC";
-    s.name = "A Big Company";
-    s.open_price = 4.56;
-    s.high_price = 5.12;
-    s.low_price = 4.33;
-    s.last_price = 4.98;
-    s.buy_price = 4.96;
-    s.buy_quantity = 1000;
-    s.sell_price = 4.99;
-    s.sell_quantity = 2000;
-    stocks_.push_back(s);
-    s.code = "DEF";
-    s.name = "Developer Entertainment Firm";
-    s.open_price = 20.24;
-    s.high_price = 22.88;
-    s.low_price = 19.50;
-    s.last_price = 19.76;
-    s.buy_price = 19.72;
-    s.buy_quantity = 34000;
-    s.sell_price = 19.85;
-    s.sell_quantity = 45000;
-    stocks_.push_back(s);
+	int timeout = 1;
+	std::time_t start = std::time ( 0 );
+	std::size_t n = 0;
+	while(1) {
+		if ( n == 0 && std::difftime ( std::time ( 0 ), start ) >= timeout )
+			return false;
+		if ( _kbhit() ) {
+			if ( n == size - 1 )
+				break;
+			char ch = (int)_getche();
+			if ( ch == '\r' || ch == '/n' ) {
+				break;
+			} else {
+				buffer[n++] = ch;
+			}
+		}
+	}
+	buffer[n] = '\0';
+	return true;
+}
 
-    // Start an accept operation for a new connection.
-    connection_ptr new_conn(new connection(acceptor_.get_io_service()));
-    acceptor_.async_accept(new_conn->socket(),
-        boost::bind(&server::handle_accept, this,
-          boost::asio::placeholders::error, new_conn));
-  }
+void make_str(str_v_t &send_str_v)
+{
+	std::string test_str = "HEY send it will ya.";
+	send_str_v.clear();
+	send_str_v.push_back(test_str);
+	test_str = "my oh my";
+	send_str_v.push_back(test_str);
+	test_str = "last try";
+	send_str_v.push_back(test_str);
+}
 
-  /// Handle completion of a accept operation.
-  void handle_accept(const boost::system::error_code& e, connection_ptr conn)
-  {
-    if (!e)
-    {
-      // Successfully accepted a new connection. Send the list of stocks to the
-      // client. The connection::async_write() function will automatically
-      // serialize the data structure for us.
-      conn->async_write(stocks_,
-          boost::bind(&server::handle_write, this,
-            boost::asio::placeholders::error, conn));
-    }
+void make_g3ds(int tag, Geom3d_v_t &g3d_v)
+{
+	Geom3d g3d(tag);
 
-    // Start an accept operation for a new connection.
-    connection_ptr new_conn(new connection(acceptor_.get_io_service()));
-    acceptor_.async_accept(new_conn->socket(),
-        boost::bind(&server::handle_accept, this,
-          boost::asio::placeholders::error, new_conn));
-  }
-
-  /// Handle completion of a write operation.
-  void handle_write(const boost::system::error_code& e, connection_ptr conn)
-  {
-    // Nothing to do. The socket will be closed automatically when the last
-    // reference to the connection object goes away.
-  }
-
-private:
-  /// The acceptor object used to accept incoming socket connections.
-  boost::asio::ip::tcp::acceptor acceptor_;
-
-  /// The data to be sent to each client.
-  std::vector<stock> stocks_;
-};
-
-} // namespace s11n_example
+	g3d.m_idx = 0;
+	g3d_v.push_back(g3d);
+	g3d.m_idx++;
+	//g3d.m_tag = ++tag;
+	g3d_v.push_back(g3d);
+	//g3d.m_tag = ++tag;
+	g3d.m_idx++;
+	g3d_v.push_back(g3d);
+}
 
 int main(int argc, char* argv[])
 {
-  try
-  {
-    // Check command line arguments.
-    if (argc != 2)
-    {
-      std::cerr << "Usage: server <port>" << std::endl;
-      return 1;
-    }
-    unsigned short port = boost::lexical_cast<unsigned short>(argv[1]);
+	char inchar[1024];
+	int bufsz = 1024;
+	bool got_char_flag = false;
 
-    boost::asio::io_service io_service;
-    s11n_example::server server(io_service, port);
-    io_service.run();
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << e.what() << std::endl;
-  }
+	Geom3d_dq_t recv_dq;
+	Geom3d_v_t send_v;
+	int send_count = 0;
 
-  return 0;
+	std::string cmdstr, argstr;
+
+	CommGeom3dServer m_server;
+	m_server.save(std::string("wm_server.xml"));
+	m_server.StartServer();	// startup everything
+
+	while(cmdstr != "Q") {
+		recv_dq.clear();
+		if(m_server.Update(recv_dq)) {
+			std::cout << "Recv size " << recv_dq.size() << std::endl;
+			BOOST_FOREACH(Geom3d g3d, recv_dq) std::cout << g3d << std::endl;
+			std::cout << std::endl << std::endl;
+			// send it back
+			if(true) {
+				send_v.clear();
+				BOOST_FOREACH(Geom3d g3d, recv_dq) send_v.push_back(g3d);
+				m_server.Notify(send_v);
+				// print it
+				std::cout << "send back size " << send_v.size() << std::endl;
+				BOOST_FOREACH(Geom3d g3d, send_v) std::cout << g3d << std::endl;
+				std::cout << "\n\n";
+			}
+		}
+
+		if(cmdstr == "SEND") {
+			std::cout << std::endl << "server send  ";
+			boost::to_upper(argstr);
+			send_count++;
+			send_v.clear();
+
+			make_g3ds(send_count, send_v);
+
+			m_server.Notify(send_v);
+
+			std::cout << "send size " << send_v.size() << std::endl;
+			BOOST_FOREACH(Geom3d g3d, send_v) std::cout << g3d << std::endl;
+			std::cout << std::endl << "sent " << "\n\n";
+		}
+
+		if ( !get_input ( inchar, bufsz) ) {
+			cmdstr = "";
+			continue;
+		} else {
+			std::cout << std::endl;
+			std::cout << "> ";
+		}
+		cmdstr = inchar;
+		int spaceLoc = cmdstr.find(' ');
+		if(spaceLoc != -1)
+		{
+			argstr = cmdstr.substr(spaceLoc+1);
+			cmdstr = cmdstr.substr(0, spaceLoc);
+		}
+		boost::to_upper(cmdstr);
+	}
+	m_server.Terminate();
+	return 0;
 }
