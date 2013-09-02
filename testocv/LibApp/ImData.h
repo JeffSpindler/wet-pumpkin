@@ -4,7 +4,14 @@
 #include <string>
 #include <vector>
 #include <deque>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
 
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
+#include <boost/utility.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
@@ -67,7 +74,7 @@ public:
 			return(false);
 		}
 		return(true);
-	}
+	};
 
 	static bool Write(ImData *data_ptr, std::string &file_name)
 	{
@@ -87,7 +94,7 @@ public:
 			return(false);
 		}
 		return(true);
-	}
+	};
 
 private:
 	// Serialization Support

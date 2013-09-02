@@ -51,6 +51,13 @@ private:
 
 		return(i->second);
 	}
+public:
+	static const std::string PixAppQuStr;
+	static const std::string TrajAppQuStr;
+	static const std::string RawPixPtsStr;
+	static const std::string FinalPixPtsStr;
+	static const std::string InputImsStr;
+	static const std::string CamCalsStr;
 
 private:
 	// Serialization Support

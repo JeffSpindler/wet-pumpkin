@@ -1,3 +1,7 @@
+// Perform3-D LLC
+// Copyright (c) 2013
+// File Version: 1.0.0 (2013/09/02)
+
 #ifndef APPSEQ_H
 #define APPSEQ_H
 

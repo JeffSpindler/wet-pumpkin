@@ -49,6 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,16 +96,27 @@
     <ClInclude Include="Im.h" />
     <ClInclude Include="ImData.h" />
     <ClInclude Include="ISeq.h" />
+    <ClInclude Include="LabelFixBlk.h" />
+    <ClInclude Include="LoadFixBlk.h" />
     <ClInclude Include="PixCandsBlk.h" />
     <ClInclude Include="PixPt.h" />
     <ClInclude Include="PixPtData.h" />
     <ClInclude Include="Pt3d.h" />
     <ClInclude Include="serialize_socket.h" />
+    <ClInclude Include="SortFixBlk.h" />
+    <ClInclude Include="TrackFixBlk.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AcqImBlk.cpp" />
     <ClCompile Include="CommGeom3dClient.cpp" />
     <ClCompile Include="CommGeom3dServer.cpp" />
     <ClCompile Include="CrunchApp.cpp" />
+    <ClCompile Include="GlobalAccess.cpp" />
+    <ClCompile Include="LabelFixBlk.cpp" />
+    <ClCompile Include="LoadFixBlk.cpp" />
+    <ClCompile Include="PixCandsBlk.cpp" />
+    <ClCompile Include="SortFixBlk.cpp" />
+    <ClCompile Include="TrackFixBlk.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

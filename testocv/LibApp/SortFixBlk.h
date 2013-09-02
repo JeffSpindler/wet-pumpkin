@@ -1,5 +1,9 @@
-#ifndef PIXCANDSBLK_H
-#define PIXCANDSBLK_H
+// Perform3-D LLC
+// Copyright (c) 2013
+// File Version: 1.0.0 (2013/09/02)
+
+#ifndef SORTFIXBLK_H
+#define SORTFIXBLK_H
 
 #include "Global.h"
 
@@ -10,19 +14,20 @@
 #include "Geom3dData.h"
 
 #include "IGlobalAccess.h"
-	
-// Test class for logic block
 
-class PixCandsBlk : public IBlock
+	
+// Class for logic block
+
+class SortFixBlk : public IBlock
 {
 public:
-	PixCandsBlk() :  m_cals(NULL), m_str_cals("CamCals"), m_pts(NULL),
+	SortFixBlk() :  m_cals(NULL), m_str_cals("CamCals"), m_pts(NULL),
 						m_str_pts("RawPixPts"), m_geoms(NULL),
 						m_str_geoms("PixGeomsOut"), m_val1(0),
 						m_val2(0)  {
-		m_name = "PixCandsBlk";
+		m_name = "SortFixBlk";
 	};
-	virtual ~PixCandsBlk() {};
+	virtual ~SortFixBlk() {};
 
 	bool doSetup(IGlobalAccess *data_access);
 	bool doRun(IGlobalAccess *data_access = NULL);
@@ -40,13 +45,14 @@ protected:
 	float m_val2;
 
 public:
-	static bool Read(std::string &file_name, PixCandsBlk *block)
+	static const std::string block_name;
+	static bool Read(std::string &file_name, SortFixBlk *block)
 	{
 		// 
 		try {
 			std::ifstream ifs(file_name);
 			if(!ifs.good()) {
-				std::cout << "PixCandsBlk Read " << "Bad File Open " << file_name << '\n';
+				std::cout << "SortFixBlk Read " << "Bad File Open " << file_name << '\n';
 				return(false);
 			}
 
@@ -55,18 +61,18 @@ public:
 			ia >> BOOST_SERIALIZATION_NVP(*block);
 		} 
 		catch(std::exception &e) {
-			std::cout << "PixCandsBlk Read " << e.what() << '\n';
+			std::cout << "SortFixBlk Read " << e.what() << '\n';
 			return(false);
 		}
 		return(true);
 	}
 
-	static bool Write(PixCandsBlk *block, std::string &file_name)
+	static bool Write(SortFixBlk *block, std::string &file_name)
 	{
 		try {
 			std::ofstream ofs(file_name);
 			if(!ofs.good()) {
-				std::cout << "PixCandsBlk Write " << "Bad File Open " << file_name << '\n';
+				std::cout << "SortFixBlk Write " << "Bad File Open " << file_name << '\n';
 				return(false);
 			}
 
@@ -75,7 +81,7 @@ public:
 			oa << BOOST_SERIALIZATION_NVP(block);
 		} 
 		catch(std::exception &e) {
-			std::cout << "PixCandsBlk Write " << e.what() << '\n';
+			std::cout << "SortFixBlk Write " << e.what() << '\n';
 			return(false);
 		}
 		return(true);
@@ -91,7 +97,8 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(m_val2);
 	}
 };
-BOOST_CLASS_VERSION(PixCandsBlk, 0)
+
+BOOST_CLASS_VERSION(SortFixBlk, 0)
 
 #endif
 
