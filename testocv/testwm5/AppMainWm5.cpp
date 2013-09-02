@@ -6,6 +6,9 @@
 
 #include "AppMainWm5.h"
 
+#include "CrunchApp.h"
+#include "BlockExports.h"
+
 #include "CommGeom3dClient.h"
 
 WM5_WINDOW_APPLICATION(AppMainWm5);
@@ -29,8 +32,8 @@ bool AppMainWm5::OnInitialize ()
         return false;
     }
 
-    CommGeom3dClient client;
-    client.StartClient(std::string("127.0.0.1"), std::string("11110"));
+    //CommGeom3dClient client;
+    //client.StartClient(std::string("127.0.0.1"), std::string("11110"));
 
 	std::cout << m_name << "  OnInitialize\n";
 	// Init app
@@ -97,14 +100,14 @@ bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
     {
         return true;
     }
-
+	//boost::to_upper(key);
     switch (key)
     {
     case 'w':  // toggle wireframe
 		printf("Toggle wireframe\n");
         mWireState->Enabled = !mWireState->Enabled;
         return true;
-	case 't':  { // test data inserted
+	case 'q':  { // test data inserted
 		static int test_id = 0;
 		static Geom3d g3d(0);
 
@@ -113,9 +116,27 @@ bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
 		m_app->addInput(g3d);
 		return true;
 		}
+	case 'u': { // make test seq
+		printf("Make Test Seq\n");
+		m_app->testPixSeq();
+		m_app->testTrajSeq();
+		return true;
+		}
+	case '/':
+	case '?':
+		print_help();
+		return true;
 	}
 
     return false;
+}
+void AppMainWm5::print_help()
+{
+	printf("\n\nvalid keys\n\n");
+	printf("Q - test app\n");
+	printf("U - Write Seq files\n");
+	printf("W - toggle wireframe\n");
+	printf("? - list help\n");
 }
 //----------------------------------------------------------------------------
 void AppMainWm5::CreateScene ()

@@ -9,11 +9,12 @@
 #ifndef APPMAINWM5_H
 #define APPMAINWM5_H
 
-#include "CrunchApp.h"
+
 
 #include "Wm5WindowApplication3.h"
-
 using namespace Wm5;
+
+class CrunchApp;
 
 class AppMainWm5 : public WindowApplication3
 {
@@ -34,7 +35,7 @@ protected:
 
     void PhysicsTick ();
     void GraphicsTick ();
-
+	void print_help();
 	// App Vars
 
 	CrunchApp *m_app;

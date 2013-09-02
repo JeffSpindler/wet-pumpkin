@@ -1,13 +1,7 @@
 #ifndef DOABLOCK_H
 #define DOABLOCK_H
 
-#include <string>
-#include <vector>
-#include <map>
-
-#include <boost/utility.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>
+#include "Global.h"
 
 #include "IBlock.h"
 #include "AppDataOne.h"
@@ -32,25 +26,9 @@ public:
 	};
 	virtual ~DoABlock() {};
 
-	bool doSetup(IGlobalAccess *data_access) { 
-		if(!data_access)	return false;
-
-		m_D1 = reinterpret_cast<AppDataOne*>(data_access->getGlobal(m_str_D1));
-		m_D2 = reinterpret_cast<AppDataOne*>(data_access->getGlobal(m_str_D2));
-		return (m_D1 != 0 && m_D2 != 0);
-	};
-
-	bool doRun(IGlobalAccess *data_access = NULL) { 
-		std::cout << m_name << std::endl;
-		return(true);
-	};
-
-	void doPrint() { 
-		std::cout << m_name << "  " << m_str_D1 << " " << m_str_D2 << std::endl;
-		if(m_D1 != NULL) m_D1->print();
-		if(m_D2 != NULL) m_D2->print();
-		std::cout << std::endl;
-	};
+	bool doSetup(IGlobalAccess *data_access);
+	bool doRun(IGlobalAccess *data_access = NULL);
+	void doPrint();
 
 protected:
 	std::string m_str_D1;
@@ -115,7 +93,6 @@ private:
 	}
 };
 BOOST_CLASS_VERSION(DoABlock, 0)
-BOOST_CLASS_EXPORT(DoABlock);
 
 #endif
 

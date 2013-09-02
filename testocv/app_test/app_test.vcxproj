@@ -59,7 +59,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Wm5CoreD.lib;Wm5ImagicsD.lib;Wm5MathematicsD.lib;Wm5PhysicsD.lib;Wm5WglApplicationsD.lib;Wm5WglGraphicsD.lib;opencv_calib3d246d.lib;opencv_contrib246d.lib;opencv_core246d.lib;opencv_features2d246d.lib;opencv_flann246d.lib;opencv_gpu246d.lib;opencv_haartraining_engined.lib;opencv_highgui246d.lib;opencv_imgproc246d.lib;opencv_legacy246d.lib;opencv_ml246d.lib;opencv_nonfree246d.lib;opencv_objdetect246d.lib;opencv_photo246d.lib;opencv_stitching246d.lib;opencv_ts246d.lib;opencv_video246d.lib;opencv_videostab246d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LibApp.lib;Wm5CoreD.lib;Wm5ImagicsD.lib;Wm5MathematicsD.lib;Wm5PhysicsD.lib;Wm5WglApplicationsD.lib;Wm5WglGraphicsD.lib;opencv_calib3d246d.lib;opencv_contrib246d.lib;opencv_core246d.lib;opencv_features2d246d.lib;opencv_flann246d.lib;opencv_gpu246d.lib;opencv_haartraining_engined.lib;opencv_highgui246d.lib;opencv_imgproc246d.lib;opencv_legacy246d.lib;opencv_ml246d.lib;opencv_nonfree246d.lib;opencv_objdetect246d.lib;opencv_photo246d.lib;opencv_stitching246d.lib;opencv_ts246d.lib;opencv_video246d.lib;opencv_videostab246d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,6 +84,8 @@
     <ClCompile Include="app_startup.cpp" />
     <ClCompile Include="app_test.cpp" />
     <ClCompile Include="app_threads.cpp" />
+    <ClCompile Include="DoABlock.cpp" />
+    <ClCompile Include="DoBBlock.cpp" />
     <ClCompile Include="pix_seq_setup.cpp" />
   </ItemGroup>
   <ItemGroup>

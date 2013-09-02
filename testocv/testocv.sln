@@ -9,6 +9,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ocv_improc", "ocv_improc\ocv_improc.vcxproj", "{9BE19968-1877-4E8D-89A7-73C6CBDD9645}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "app_test", "app_test\app_test.vcxproj", "{798E4FBE-7A83-40A2-8939-5D9025BF6845}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C57EE749-1D31-4955-A04E-86834FDF62F9} = {C57EE749-1D31-4955-A04E-86834FDF62F9}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibApp", "LibApp\LibApp.vcxproj", "{C57EE749-1D31-4955-A04E-86834FDF62F9}"
 EndProject

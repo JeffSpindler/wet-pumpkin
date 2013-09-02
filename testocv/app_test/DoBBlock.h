@@ -1,13 +1,7 @@
 #ifndef DOBBLOCK_H
 #define DOBBLOCK_H
 
-#include <string>
-#include <vector>
-#include <map>
-
-#include <boost/utility.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>
+#include "Global.h"
 
 #include "IBlock.h"
 #include "AppDataOne.h"
@@ -32,25 +26,9 @@ public:
 	};
 	virtual ~DoBBlock() {};
 
-	bool doSetup(IGlobalAccess *data_access) { 
-		if(!data_access)	return false;
-
-		m_D3 = reinterpret_cast<AppDataOne*>(data_access->getGlobal(m_str_D3));
-		m_D2 = reinterpret_cast<AppDataOne*>(data_access->getGlobal(m_str_D2));
-		return (m_D3 != 0 && m_D2 != 0);
-	};
-
-	bool doRun(IGlobalAccess *data_access = NULL) { 
-		std::cout << m_name << std::endl;
-		return(true);
-	};
-
-	void doPrint() { 
-		std::cout << m_name << "  " << m_str_D3 << " " << m_str_D2 << std::endl;
-		if(m_D3 != NULL) m_D3->print();
-		if(m_D2 != NULL) m_D2->print();
-		std::cout << std::endl;
-	};
+	bool doSetup(IGlobalAccess *data_access);
+	bool doRun(IGlobalAccess *data_access = NULL);
+	void doPrint();
 
 protected:
 	std::string m_str_D3;
@@ -61,7 +39,7 @@ protected:
 	int m_val1;
 	float m_val2;
 public:
-	static bool Read(std::string &file_name, DoABlock *block)
+	static bool Read(std::string &file_name, DoBBlock *block)
 	{
 		// 
 		try {
@@ -82,7 +60,7 @@ public:
 		return(true);
 	}
 
-	static bool Write(DoABlock *block, std::string &file_name)
+	static bool Write(DoBBlock *block, std::string &file_name)
 	{
 		try {
 			std::ofstream ofs(file_name);
@@ -115,7 +93,7 @@ private:
 	}
 };
 BOOST_CLASS_VERSION(DoBBlock, 0)
-BOOST_CLASS_EXPORT(DoBBlock);
+
 
 #endif
 
