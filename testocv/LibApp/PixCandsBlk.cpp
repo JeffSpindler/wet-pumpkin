@@ -3,6 +3,7 @@
 // File Version: 1.0.0 (2013/09/02)
 
 #include "PixCandsBlk.h"
+#include "GlobalAccess.h"
 	
 // Test class for logic block
 
@@ -10,9 +11,9 @@ bool PixCandsBlk::doSetup(IGlobalAccess *data_access)
 { 
 	if(!data_access)	return false;
 
-	m_cals = reinterpret_cast<CamCalData*>(data_access->getGlobal(m_str_cals));
-	m_pts = reinterpret_cast<PixPtData*>(data_access->getGlobal(m_str_pts));
-	m_geoms = reinterpret_cast<Geom3dData*>(data_access->getGlobal(m_str_geoms));
+	m_cals = reinterpret_cast<CamCalData*>(data_access->getGlobal(GlobalAccess::CamCalsStr));
+	m_pts = reinterpret_cast<PixPtData*>(data_access->getGlobal(GlobalAccess::FinalPixPtsStr));
+	m_geoms = reinterpret_cast<Geom3dData*>(data_access->getGlobal(GlobalAccess::PixAppQuStr));
 	return (m_cals != NULL && m_pts != NULL && m_geoms != NULL);
 };
 

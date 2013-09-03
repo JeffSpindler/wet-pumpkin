@@ -3,19 +3,21 @@
 // File Version: 1.0.0 (2013/09/02)
 
 #include "AcqImBlk.h"
+#include "GlobalAccess.h"
 
 bool AcqImBlk::doSetup(IGlobalAccess *data_access) 
 { 
 	if(!data_access)	return false;
 	m_val1 = 0;
 
-	m_ims = reinterpret_cast<ImData*>(data_access->getGlobal(m_str_ims));
-	m_pts = reinterpret_cast<PixPtData*>(data_access->getGlobal(m_str_pts));
+	m_ims = reinterpret_cast<ImData*>(data_access->getGlobal(GlobalAccess::InputImsStr));
+	m_pts = reinterpret_cast<PixPtData*>(data_access->getGlobal(GlobalAccess::FinalPixPtsStr));
 	return (m_ims != 0 && m_pts != 0);
 };
 
 bool AcqImBlk::doRun(IGlobalAccess *data_access) 
 { 
+	if(m_ims == NULL) return(false);	// fail if no valid im data
 	std::cout << m_name << " RUN ims " << m_ims->DataDQ().size() << std::endl;
 	// save out a pix pt for this run
 	PixPt pt(m_val1);

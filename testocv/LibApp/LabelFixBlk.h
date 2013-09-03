@@ -21,9 +21,8 @@
 class LabelFixBlk : public IBlock
 {
 public:
-	LabelFixBlk() :  m_cals(NULL), m_str_cals("CamCals"), m_pts(NULL),
-						m_str_pts("RawPixPts"), m_geoms(NULL),
-						m_str_geoms("PixGeomsOut"), m_val1(0),
+	LabelFixBlk() :  m_cals(NULL), m_pts(NULL),
+						m_geoms(NULL), m_val1(0),
 						m_val2(0)  {
 		m_name = "LabelFixBlk";
 	};

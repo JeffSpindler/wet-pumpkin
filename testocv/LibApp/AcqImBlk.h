@@ -22,8 +22,6 @@ public:
 	AcqImBlk() :
 		m_ims(NULL),
 		m_pts(NULL),
-		m_str_ims("InputIms"),
-		m_str_pts("RawPixPts"),
 		m_val1(0),
 		m_val2(0)
 	{
