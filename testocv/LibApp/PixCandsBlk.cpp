@@ -31,7 +31,7 @@ bool PixCandsBlk::doRun(IGlobalAccess *data_access)
 
 void PixCandsBlk::doPrint() 
 { 
-	std::cout << m_name << "  " << m_str_cals << " " << m_str_pts << std::endl;
+	std::cout << m_name << std::endl;
 	if(m_cals != NULL) m_cals->print();
 	if(m_pts != NULL) m_pts->print();
 	if(m_geoms != NULL) m_geoms->print();

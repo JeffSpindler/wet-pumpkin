@@ -41,6 +41,9 @@ private:	// access
 	};
 	virtual void doPrint() {
 		std::cout << m_name << " size " << m_geom3d_v.size() << std::endl;
+		BOOST_FOREACH(Geom3d g3d, m_geom3d_v) {
+			std::cout << g3d;
+		}
 	};
 
 public:

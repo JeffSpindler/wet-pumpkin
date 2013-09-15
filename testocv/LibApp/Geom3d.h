@@ -32,6 +32,7 @@ public:
     Geom3d () : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0) {
 		m_valid = false;
 		m_type = INVALID;
+		m_src = 0;
 		memset(m_pt, 0, sizeof(m_pt));
 		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
@@ -39,24 +40,28 @@ public:
     Geom3d (int tag) : m_tag(tag), m_idx(0), m_time_usec(0), m_conf(0) {
 		m_valid = true;
 		m_type = POINT;
+		m_src = 0;
 		memset(m_pt, 0, sizeof(m_pt));
 		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 	Geom3d (int tag, double x, double y, double z) : m_tag(tag), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
+		m_src = 0;
 		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
 		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 	Geom3d (double x, double y, double z) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
+		m_src = 0;
 		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
 		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
 	Geom3d (double pos[]) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
+		m_src = 0;
 		memcpy(m_pt, pos, sizeof(m_pt));
 		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
@@ -66,10 +71,11 @@ public:
 
 	bool m_valid;
 	int m_type;		// pt/line/frame/moving pt/plane/moving frame/cam_ray/
-	int m_tag;
-	int m_idx;
-	double m_time_usec;
-	double m_conf;
+	int m_tag;		// frame num
+	int m_idx;		// index
+	int m_src;		// cam num/cam mask source of data
+	double m_time_usec;		// timestamp
+	double m_conf;	// confidence/quality percent (0-1.0)
 
 	double m_pt[3];
 	double m_dir[4];				// quaternion for rotation/frame slope for line normal for plane/spin
@@ -80,10 +86,58 @@ public:
 			os << " invalid\n";
 			return os;
 		}
+		switch(g3d.m_type) {
+			case(POINT):
+				os << "PT  "; 
+				break;
+			case(LINE):
+				os << "LN  ";
+				break;
+			case(PLANE):
+				os << "PL  ";
+				break;	
+			case(CAM_RAY):
+				os << "CR  ";
+				break;
+			case(FRAME):
+				os << "FRM ";
+				break;
+			case(SPIN):
+				os << "SP  ";
+				break;
+			case(VEL):
+				os << "VEL ";				
+				break;
+			default:
+				os << "UNKN";
+				break;
+		}
+
 		os.precision(1);
 		os.setf(std::ios::fixed);
-		os << std::setw(4) << g3d.m_tag << std::setw(4) << g3d.m_idx << 
-				" (" << g3d.m_pt[0] << "," << g3d.m_pt[1] << "," << g3d.m_pt[2] << ")" << std::endl; 
+		os << std::setw(4) << g3d.m_tag << std::setw(4) << g3d.m_idx << std::setw(4) << g3d.m_src
+				<< " (" << g3d.m_pt[0] << "," << g3d.m_pt[1] << "," << g3d.m_pt[2] << ")"; 
+		switch(g3d.m_type) {
+			case(CAM_RAY):
+			case(PLANE):
+			case(LINE):
+				os.precision(3);
+				os << " (" << g3d.m_dir[0] << "," << g3d.m_dir[1] << "," << g3d.m_dir[2] << ")" << std::endl; 
+				break;
+			case(FRAME):
+			case(SPIN):
+				os.precision(3);
+				os << " [" << g3d.m_dir[0] << "," << g3d.m_dir[1] << "," << g3d.m_dir[2] << "," << g3d.m_dir[3] << "]" << std::endl; 
+				break;
+			case(VEL):
+				os.precision(2);
+				os << " (" << g3d.m_dir[0] << "," << g3d.m_dir[1] << "," << g3d.m_dir[2] << ")" << std::endl; 
+				break;
+			case(POINT):
+				os << std::endl;
+			default:
+				break;
+		}
 		return os;
 	}
 	enum {
@@ -107,6 +161,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP( m_type );
 		ar & BOOST_SERIALIZATION_NVP( m_tag );
 		ar & BOOST_SERIALIZATION_NVP( m_idx );
+		ar & BOOST_SERIALIZATION_NVP( m_src );
 		ar & BOOST_SERIALIZATION_NVP( m_time_usec );
 		ar & BOOST_SERIALIZATION_NVP( m_conf );
 

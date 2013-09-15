@@ -22,8 +22,9 @@ class TrackFixBlk : public IBlock
 {
 public:
 	TrackFixBlk() :  m_cals(NULL), m_pts(NULL),
-					m_geoms(NULL), m_val1(0),
-						m_val2(0)  {
+						m_fix(NULL), m_camrays(NULL), 
+						m_model(NULL), m_cur(NULL), 
+						m_val1(0), m_val2(0)  {
 		m_name = "TrackFixBlk";
 	};
 	virtual ~TrackFixBlk() {};
@@ -33,12 +34,13 @@ public:
 	void doPrint();
 
 protected:
-	std::string m_str_cals;
-	std::string m_str_pts;
-	std::string m_str_geoms;
+	Geom3dData *m_camrays;
+	Geom3dData *m_fix;
+	Geom3dData *m_model;
+	Geom3dData *m_cur;
+
 	CamCalData *m_cals;
 	PixPtData *m_pts;
-	Geom3dData *m_geoms;
 
 	int m_val1;
 	float m_val2;
@@ -89,8 +91,6 @@ private:
 	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version) {
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(IBlock);
-		ar & BOOST_SERIALIZATION_NVP(m_str_cals);
-		ar & BOOST_SERIALIZATION_NVP(m_str_pts);
 		ar & BOOST_SERIALIZATION_NVP(m_val1);
 		ar & BOOST_SERIALIZATION_NVP(m_val2);
 	}

@@ -3,6 +3,10 @@
 //
 // File Version: 1.0.0 (2013/08/27)
 
+#include "Wm5Vector3.h"
+#include "Wm5Ray3.h"
+using namespace Wm5;
+
 #include "CrunchApp.h"
 
 //----------------------------------------------------------------------------
@@ -62,6 +66,28 @@ void CrunchApp::OnTerminate()
 GlobalAccess *CrunchApp::setup_global_data()
  { 
 	GlobalAccess *data_access = new GlobalAccess;
+	
+	// geom queues
+
+	// geom processing storage
+	Geom3dData *in_geoms = new Geom3dData;
+	if(!data_access->addGlobal(GlobalAccess::InGeomStr, in_geoms)) printf("bad data2\n");
+
+	Geom3dData *camray_geoms = new Geom3dData;
+	if(!data_access->addGlobal(GlobalAccess::CamRayStr, camray_geoms)) printf("bad data2\n");
+
+	Geom3dData *cur_geoms = new Geom3dData;
+	if(!data_access->addGlobal(GlobalAccess::CurGeomStr, cur_geoms)) printf("bad data2\n");
+
+	Geom3dData *out_geoms = new Geom3dData;
+	if(!data_access->addGlobal(GlobalAccess::OutGeomStr, out_geoms)) printf("bad data2\n");
+
+	// other geom storage
+	Geom3dData *fix_geoms = new Geom3dData;
+	if(!data_access->addGlobal(GlobalAccess::FixStr, fix_geoms)) printf("bad data2\n");
+	Geom3dData *model_geoms = new Geom3dData;
+	if(!data_access->addGlobal(GlobalAccess::ModelStr, model_geoms)) printf("bad data2\n");
+
 	// raw pix pts storage
 	PixPtData *raw_pts = new PixPtData;
 	raw_pts->m_parm1 = 13;
@@ -83,10 +109,9 @@ GlobalAccess *CrunchApp::setup_global_data()
 	cam_cal->m_parm2 = 33;
 	if(!data_access->addGlobal(GlobalAccess::CamCalsStr, cam_cal)) printf("bad data2\n");
 	// geom3d queues
-	Geom3dData *in_geoms = new Geom3dData;
-	if(!data_access->addGlobal(GlobalAccess::PixAppQuStr, in_geoms)) printf("bad data2\n");
-	Geom3dData *out_geoms = new Geom3dData;
-	if(!data_access->addGlobal(GlobalAccess::TrajAppQuStr, out_geoms)) printf("bad data2\n");
+
+
+
 
 	return(data_access);
 }
@@ -170,6 +195,38 @@ bool CrunchApp::testTrajSeq(int mode)
 	traj_seq.print();
 	std::cout << std::endl << std::endl;
 	return(true);
+}
+
+// stuff a dq with a set of camrays
+// Just find dir from cam to pts
+bool CrunchApp::testCamRay(int frame_num, Geom3d_dq_t &g3d_dq)
+{
+	const int num_pts = 3;
+	double pos[num_pts][3] = { {10, 0, 0}, {0,10,0}, {0,0,10}};
+	const int num_cams = 2;
+	double cam_cen[num_cams][3] = { {100, 200, 250}, {100,-200,250} };
+	Vector3d Dir;
+
+	g3d_dq.clear();
+	for(int c=0;c<num_cams;c++) {
+		Vector3d cam_cen(cam_cen[c][0], cam_cen[c][1], cam_cen[c][2]);
+		for(int i=0;i<num_pts;i++) {
+			Vector3d pt(pos[i][0], pos[i][1], pos[i][2]);
+			Dir = cam_cen - pt;
+			Dir.Normalize();
+			Geom3d Ray(pos[i]);
+			Ray.m_type = Geom3d::CAM_RAY;
+			Ray.m_tag = frame_num;
+			Ray.m_idx = i;
+			Ray.m_src = c;
+			Ray.m_conf = 1.0;
+			Ray.m_dir[0] = Dir[0];
+			Ray.m_dir[1] = Dir[1];
+			Ray.m_dir[2] = Dir[2];
+			g3d_dq.push_back(Ray);
+		}
+	}
+	return(!g3d_dq.empty());
 }
 
 

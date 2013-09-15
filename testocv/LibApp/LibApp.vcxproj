@@ -83,6 +83,7 @@
     <ClInclude Include="AppSeq.h" />
     <ClInclude Include="CamCal.h" />
     <ClInclude Include="CamCalData.h" />
+    <ClInclude Include="CamRay.h" />
     <ClInclude Include="CommGeom3dClient.h" />
     <ClInclude Include="CommGeom3dServer.h" />
     <ClInclude Include="CrunchApp.h" />

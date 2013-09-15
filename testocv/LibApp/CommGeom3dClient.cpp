@@ -43,9 +43,12 @@ void CommGeom3dClient::StartClient()
 void CommGeom3dClient::Terminate()
 {
 	if(m_DidExec) {
+		m_ClientLoopRun = false;
 		m_IOService.stop();
+		boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 		m_DidExec = false;
 		m_ProcThread->detach();
+		boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 	}
 }
 
@@ -69,9 +72,11 @@ void CommGeom3dClient::ClientLoop()
 												boost::bind(&CommGeom3dClient::ConnectHandler, this, NewConn, 
 												endpoint_iterator, boost::asio::placeholders::error));
 			// Run the IO service
+			if(!m_ClientLoopRun) break;
 			m_IOService.run();
 			// must have lost connection -- try again
 			std::cerr << "Back from io service run, must reconnect\n" << std::endl;
+			if(!m_ClientLoopRun) break;
 			m_IOService.reset();
 		}
 	} catch (std::exception& e) {

@@ -28,9 +28,6 @@ public:
 	void doPrint();
 
 protected:
-	std::string m_str_cals;
-	std::string m_str_pts;
-	std::string m_str_geoms;
 	CamCalData *m_cals;
 	PixPtData *m_pts;
 	Geom3dData *m_geoms;
@@ -84,8 +81,6 @@ private:
 	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version) {
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(IBlock);
-		ar & BOOST_SERIALIZATION_NVP(m_str_cals);
-		ar & BOOST_SERIALIZATION_NVP(m_str_pts);
 		ar & BOOST_SERIALIZATION_NVP(m_val1);
 		ar & BOOST_SERIALIZATION_NVP(m_val2);
 	}

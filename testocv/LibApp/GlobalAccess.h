@@ -15,7 +15,14 @@ class GlobalAccess : public IGlobalAccess
 {
 public:
 	GlobalAccess() {};
-	virtual ~GlobalAccess() {};
+	virtual ~GlobalAccess() { // clear values
+		global_map_t::iterator i = m_global_m.begin();
+		while(i != m_global_m.end()) {
+			delete (*i).second;
+			i++;
+		}
+		m_global_m.clear();
+	};
 
 protected:  // data storage
 	global_map_t m_global_m;	// store by name
@@ -52,8 +59,16 @@ private:
 		return(i->second);
 	}
 public:
+
 	static const std::string PixAppQuStr;
 	static const std::string TrajAppQuStr;
+	static const std::string InGeomStr;
+	static const std::string CamRayStr;
+	static const std::string CurGeomStr;
+	static const std::string OutGeomStr;
+	static const std::string FixStr;
+	static const std::string ModelStr;
+
 	static const std::string RawPixPtsStr;
 	static const std::string FinalPixPtsStr;
 	static const std::string InputImsStr;

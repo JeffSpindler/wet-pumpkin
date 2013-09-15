@@ -64,7 +64,8 @@ public:
 	int m_count;
 	AppSeq *m_seq;
 	GlobalAccess *m_data_access;
-	Geom3d m_item;
+	Geom3d_dq_t m_item;
+	Geom3dData *m_camrays;
 	static const int max_count = 10;
 
 public:
@@ -72,6 +73,7 @@ public:
 						G3d_qu_t* in_qu, G3d_qu_t* out_qu ) : m_in_qu(in_qu), m_out_qu(out_qu), 
 																			m_run_flag(false), m_count(0) {
 		m_data_access = data_access;
+		m_camrays = reinterpret_cast<Geom3dData*>(data_access->getGlobal(GlobalAccess::CamRayStr));
 		// add output queue to data acces
 		m_seq = SeqCreate(filename);
 		};
@@ -88,8 +90,14 @@ public:
 		m_run_flag = true;
 		while(m_run_flag) {
 			// check for new input
-			m_in_qu->pop_back(&m_item);
-			std::cout << m_count << " Run " << m_item << std::endl;
+			m_camrays->Geoms().clear();
+			m_in_qu->pop_back(&m_item);		
+			BOOST_FOREACH(Geom3d g3d, m_item) {
+				m_camrays->Geoms().push_back(g3d);
+			}			
+			if(Debug(0)) {
+				std::cout << m_count << " Run with " << m_camrays->Geoms().size() << " camrays" << std::endl;
+			}
 
 			m_seq->run(m_data_access);
 			// create a pt from the seq
@@ -98,7 +106,7 @@ public:
 			// push the result
 			m_out_qu->push_front(m_item);
 			m_count++;
-			boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
+			//boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
 		}
     }
 
@@ -123,7 +131,13 @@ public:
 		}
 		return(new_seq);
 	};
-
+protected:
+	int m_debug;	// debug level
+public:
+	int getDebug() { return(m_debug); };
+	int setDebug(int dLevel) { int old_debug = m_debug;
+		m_debug = dLevel; return(m_debug); };
+	bool Debug(int Level) { return(m_debug >= Level); };
 };
 
 class CrunchApp
@@ -146,9 +160,10 @@ public:
 	GlobalAccess *setup_global_data();
 	bool testPixSeq(int mode = 0);
 	bool testTrajSeq(int mode = 0);	
+	bool testCamRay(int frame_num, Geom3d_dq_t &g3d_dq);
 
 	// I/O methods
-	bool addInput(Geom3d &g3d) {  // put a value in input que
+	bool addInput(Geom3d_dq_t &g3d) {  // put a value in input que
 		m_pix_data_qu->GeomQu().push_front(g3d);
 		return(true);
 	};
@@ -163,13 +178,11 @@ public:
 	// app data
 	// create global shared data for geom processing seqs -- shared
 	GlobalAccess *m_data_access;
-
 	// make queue for input pix geom objects
 	AppQueueData *m_pix_data_qu;
 	// make queue for result geom objects
 	AppQueueData *m_traj_data_qu;
-
-    Geom3d_Processor *m_traj_g3d_processor;
+    Geom3d_Processor *m_traj_g3d_processor;		// traj seq processing
     boost::thread *m_traj_g3d_process;
 
 

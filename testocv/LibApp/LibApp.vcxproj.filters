@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="TrajBlocks">
+      <UniqueIdentifier>{0b5b0520-ce78-4306-972a-d0a07bfcd14a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -100,6 +103,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LoadFixBlk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CamRay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

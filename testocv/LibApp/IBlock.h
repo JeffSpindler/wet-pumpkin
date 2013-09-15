@@ -27,7 +27,7 @@ typedef std::vector<IBlock*> block_v_t;
 class IBlock
 {
 public:
-	IBlock() {};
+	IBlock() : m_debug(0) {};
 	virtual ~IBlock() {};
 
 	bool setup(IGlobalAccess *data_access) { return(doSetup(data_access)); };
@@ -40,9 +40,14 @@ public:
 	}
 	bool run(IGlobalAccess *data_access = NULL) { return(doRun(data_access)); };
 	void print() { doPrint(); };
+	int getDebug() { return(m_debug); };
+	int setDebug(int dLevel) { int old_debug = m_debug;
+		m_debug = dLevel; return(m_debug); };
+	bool Debug(int Level) { return(m_debug >= Level); };
 
 protected:
 	std::string m_name;
+	int m_debug;	// debug level
 
 private:
 	virtual const std::string getName() const { return(m_name); };
@@ -51,12 +56,14 @@ private:
 	virtual bool doRun(IGlobalAccess *data_access = NULL) = 0;
 	virtual void doPrint() = 0;
 
+
 private:
 	// Serialization Support
 	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_NVP(m_name);
+		ar & BOOST_SERIALIZATION_NVP(m_debug);
 	}
 };
 

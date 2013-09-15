@@ -10,6 +10,7 @@
 #include "BlockExports.h"
 
 #include "CommGeom3dClient.h"
+#include "CommGeom3dServer.h"
 
 WM5_WINDOW_APPLICATION(AppMainWm5);
 
@@ -23,6 +24,8 @@ AppMainWm5::AppMainWm5 ()
     mSimTime = 0.0f;
     mSimDeltaTime = 1.0f/10.0f;
 	m_app = NULL;
+	m_comm_client = NULL;
+	m_comm_server = NULL;
 }
 //----------------------------------------------------------------------------
 bool AppMainWm5::OnInitialize ()
@@ -32,8 +35,11 @@ bool AppMainWm5::OnInitialize ()
         return false;
     }
 
-    //CommGeom3dClient client;
-    //client.StartClient(std::string("127.0.0.1"), std::string("11110"));
+	m_comm_server = new CommGeom3dServer;
+    m_comm_server->StartServer(13110);
+
+	//m_comm_client = new CommGeom3dClient;
+    //m_comm_client->StartClient(std::string("127.0.0.1"), std::string("13110"));
 
 	std::cout << m_name << "  OnInitialize\n";
 	// Init app
@@ -82,6 +88,14 @@ void AppMainWm5::OnTerminate()
 		m_app->OnTerminate();
 		delete m_app;
 	}
+	if(m_comm_client != NULL) {
+		m_comm_client->Terminate();
+		delete m_comm_client;
+	}
+	if(m_comm_server != NULL) {
+		m_comm_server->Terminate();
+		delete m_comm_server;
+	}
 
     WindowApplication3::OnTerminate();
 }
@@ -92,6 +106,16 @@ void AppMainWm5::OnIdle ()
     PhysicsTick();
     GraphicsTick();
     UpdateFrameCount();
+
+	// check for comms
+	if(m_comm_server->Update(m_comm_g3d_dq)) {
+		// load up the g3ds
+		//BOOST_FOREACH(Geom3d pt, m_comm_g3d_dq) {
+			// send app geom3d
+		m_app->addInput(m_comm_g3d_dq);
+		//}
+		m_comm_g3d_dq.clear();
+	}
 }
 //----------------------------------------------------------------------------
 bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
@@ -110,10 +134,11 @@ bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
 	case 'q':  { // test data inserted
 		static int test_id = 0;
 		static Geom3d g3d(0);
+		static Geom3d_dq_t g3d_dq;
 
 		printf("Add Test Data %d\n", ++test_id);
-		g3d.m_tag = test_id;
-		m_app->addInput(g3d);
+		m_app->testCamRay(test_id, g3d_dq);
+		m_app->addInput(g3d_dq);
 		return true;
 		}
 	case 'u': { // make test seq

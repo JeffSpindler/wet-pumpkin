@@ -89,7 +89,7 @@ private:
 	}
 };
 
-typedef AppQueue<Geom3d> G3d_qu_t;
+typedef AppQueue<Geom3d_dq_t> G3d_qu_t;
 
 
 #endif

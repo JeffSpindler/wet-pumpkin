@@ -80,7 +80,7 @@ public:
 		//boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 		m_run_flag = true;
 		while(m_run_flag) {
-            m_in_qu->pop_back(&m_item);
+            //m_in_qu->pop_back(&m_item);
 			std::cout << m_count << " RECV " << m_item << std::endl;
 			m_count++;
 			boost::this_thread::sleep(boost::posix_time::milliseconds(500));
@@ -124,16 +124,16 @@ public:
 				m_seq->run(m_data_access);
 				// create a pt from the seq
 				int idx_count = 0;
-				BOOST_FOREACH(Geom3d pt, geoms->Geoms()) {
-					// put in geom3d out
-					//g3d.m_tag = pt.m_tag;
-					//m_geoms->Geoms().push_back(g3d);
-					pt.m_tag = m_count;
-					pt.m_idx = idx_count++;
-					std::cout << m_count << " SEND " << pt << std::endl;
-					m_out_qu->push_front(pt);
-				}
-				geoms->Geoms().clear();
+				//BOOST_FOREACH(Geom3d pt, geoms->Geoms()) {
+				//	// put in geom3d out
+				//	//g3d.m_tag = pt.m_tag;
+				//	//m_geoms->Geoms().push_back(g3d);
+				//	pt.m_tag = m_count;
+				//	pt.m_idx = idx_count++;
+				//	std::cout << m_count << " SEND " << pt << std::endl;
+				//	m_out_qu->push_front(pt);
+				//}
+				//geoms->Geoms().clear();
 				m_count++;
 				boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
 			}
@@ -167,14 +167,14 @@ public:
 		m_seq->setup(m_data_access);
 		m_run_flag = true;
 		while(m_run_flag) {
-            m_in_qu->pop_back(&pt);
-			std::cout << m_in_count << " TRECV " << pt << std::endl;
-			m_in_count++;
+   //         m_in_qu->pop_back(&pt);
+			//std::cout << m_in_count << " TRECV " << pt << std::endl;
+			//m_in_count++;
 
-			boost::this_thread::sleep(boost::posix_time::milliseconds(10));
-			pt.m_tag += 900;
-			std::cout << m_out_count << " TSEND " << pt << std::endl;
-            m_out_qu->push_front(pt);
+			//boost::this_thread::sleep(boost::posix_time::milliseconds(10));
+			//pt.m_tag += 900;
+			//std::cout << m_out_count << " TSEND " << pt << std::endl;
+   //         m_out_qu->push_front(pt);
 			m_out_count++;
 		}
     }
@@ -272,7 +272,7 @@ void app_startup()
     for (unsigned long i = 0; i < 5; i++) {
 		Geom3d pt(100+i);
 		std::cout << " Start " << pt << std::endl;
-        pix_data_qu.GeomQu().push_front(pt);
+        //pix_data_qu.GeomQu().push_front(pt);
     }
 
 	std::cout << "Wait for 30 secs " << std::endl;

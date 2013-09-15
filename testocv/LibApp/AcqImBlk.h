@@ -34,8 +34,6 @@ public:
 	void doPrint();
 
 protected:
-	std::string m_str_ims;
-	std::string m_str_pts;
 	ImData *m_ims;
 	PixPtData *m_pts;
 
@@ -88,8 +86,6 @@ private:
 	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version) {
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(IBlock);
-		ar & BOOST_SERIALIZATION_NVP(m_str_ims);
-		ar & BOOST_SERIALIZATION_NVP(m_str_pts);
 		ar & BOOST_SERIALIZATION_NVP(m_val1);
 		ar & BOOST_SERIALIZATION_NVP(m_val2);
 	}

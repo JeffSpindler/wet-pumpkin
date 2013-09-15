@@ -27,7 +27,7 @@ bool AcqImBlk::doRun(IGlobalAccess *data_access)
 
 void AcqImBlk::doPrint() 
 { 
-	std::cout << m_name << "  " << m_str_ims << " " << m_str_pts << std::endl;
+	std::cout << m_name << std::endl;
 	if(m_ims != NULL) m_ims->print();
 	if(m_pts != NULL) m_pts->print();
 	std::cout << std::endl;
