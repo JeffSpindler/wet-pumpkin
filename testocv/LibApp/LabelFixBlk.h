@@ -15,6 +15,8 @@
 
 #include "IGlobalAccess.h"
 
+#include "Geom3dMISet.h"
+
 	
 // Class for logic block
 
@@ -42,8 +44,15 @@ protected:
 	CamCalData *m_cals;
 	PixPtData *m_pts;
 
+	g3d_mi_set m_ray_set;	// multi-index set for rays
+	//g3d_mi_set m_g3d_set;	// multi-index set for results
+	
 	int m_val1;
 	float m_val2;
+
+protected:
+	bool LabelFixBlk::intersectRays();	// make cur geoms
+
 
 public:
 	static bool Read(std::string &file_name, LabelFixBlk *block)

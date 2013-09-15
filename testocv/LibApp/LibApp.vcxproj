@@ -89,6 +89,7 @@
     <ClInclude Include="CrunchApp.h" />
     <ClInclude Include="Geom3d.h" />
     <ClInclude Include="Geom3dData.h" />
+    <ClInclude Include="Geom3dMISet.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GlobalAccess.h" />
     <ClInclude Include="IBlock.h" />
@@ -102,6 +103,7 @@
     <ClInclude Include="PixCandsBlk.h" />
     <ClInclude Include="PixPt.h" />
     <ClInclude Include="PixPtData.h" />
+    <ClInclude Include="Pt.h" />
     <ClInclude Include="Pt3d.h" />
     <ClInclude Include="serialize_socket.h" />
     <ClInclude Include="SortFixBlk.h" />
