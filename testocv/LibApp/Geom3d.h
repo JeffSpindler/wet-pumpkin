@@ -59,7 +59,7 @@ public:
 		//memset(m_vel, 0, sizeof(m_vel));
 		memset(m_dir, 0, sizeof(m_dir));
 	}
-	Geom3d (double pos[]) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
+	Geom3d (double pos[3]) : m_tag(0), m_idx(0), m_time_usec(0), m_conf(0), m_valid(true) {
 		m_type = POINT;
 		m_src = 0;
 		memcpy(m_pt, pos, sizeof(m_pt));

@@ -18,17 +18,17 @@ public:
 	//
 
     // Construction and destruction.
-    CamRay ()  : m_pt(Wm5::Vector3d::ZERO), m_unit_vec(Wm5::Vector3d::UNIT_Z) {};
-    CamRay (const Wm5::Vector3d& pos) :  Geom3d(pos[0],pos[1],pos[2]), m_pt(pos) {};
-    CamRay (double x, double y, double z) : Geom3d(x,y,z), m_pt(x,y,z) {};
-    CamRay (double pos[3]) : Geom3d(pos), m_pt(pos[0],pos[1],pos[2]) {};
-	CamRay(const Geom3d &g3d) : m_pt(g3d.m_pt[0],g3d.m_pt[1],g3d.m_pt[2]), 
+    CamRay ()  : m_vec(Wm5::Vector3d::ZERO), m_unit_vec(Wm5::Vector3d::UNIT_Z) {};
+    CamRay (const Wm5::Vector3d& pos) :  Geom3d(pos[0],pos[1],pos[2]), m_vec(pos) {};
+    CamRay (double x, double y, double z) : Geom3d(x,y,z), m_vec(x,y,z) {};
+    CamRay (double pos[3]) : Geom3d(pos), m_vec(pos[0],pos[1],pos[2]) {};
+	CamRay(const Geom3d &g3d) : Geom3d(g3d), m_vec(g3d.m_pt[0],g3d.m_pt[1],g3d.m_pt[2]), 
 						m_unit_vec(g3d.m_dir[0],g3d.m_dir[1],g3d.m_dir[2]) { 
 			if(g3d.m_type != CAM_RAY) m_valid = false; m_unit_vec.Normalize(); };
 
 	virtual ~CamRay () {};
 
-	Wm5::Vector3d m_pt;
+	Wm5::Vector3d m_vec;
 	Wm5::Vector3d m_unit_vec;
 
 	double findAngle(CamRay &camray) { // find angle to 2nd camray

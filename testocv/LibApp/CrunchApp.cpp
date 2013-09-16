@@ -206,15 +206,15 @@ bool CrunchApp::testCamRay(int frame_num, Geom3d_dq_t &g3d_dq)
 	const int num_cams = 2;
 	double cam_cen[num_cams][3] = { {100, 200, 250}, {100,-200,250} };
 	Vector3d Dir;
-
+	std::cout << std::endl << "testCamRay" << std::endl;
 	g3d_dq.clear();
 	for(int c=0;c<num_cams;c++) {
-		Vector3d cam_cen(cam_cen[c][0], cam_cen[c][1], cam_cen[c][2]);
+		Vector3d cam_cen_vec(cam_cen[c][0], cam_cen[c][1], cam_cen[c][2]);
 		for(int i=0;i<num_pts;i++) {
 			Vector3d pt(pos[i][0], pos[i][1], pos[i][2]);
-			Dir = cam_cen - pt;
+			Dir = pt - cam_cen_vec;
 			Dir.Normalize();
-			Geom3d Ray(pos[i]);
+			Geom3d Ray(cam_cen[c]);
 			Ray.m_type = Geom3d::CAM_RAY;
 			Ray.m_tag = frame_num;
 			Ray.m_idx = i;
@@ -224,6 +224,7 @@ bool CrunchApp::testCamRay(int frame_num, Geom3d_dq_t &g3d_dq)
 			Ray.m_dir[1] = Dir[1];
 			Ray.m_dir[2] = Dir[2];
 			g3d_dq.push_back(Ray);
+			if(c == 0) std::cout << pt << std::endl;
 		}
 	}
 	return(!g3d_dq.empty());
