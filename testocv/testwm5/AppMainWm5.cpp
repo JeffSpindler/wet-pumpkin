@@ -12,6 +12,9 @@
 #include "CommGeom3dClient.h"
 #include "CommGeom3dServer.h"
 
+#include "RigidBall.h"
+#include "FrameGraphic.h"
+
 WM5_WINDOW_APPLICATION(AppMainWm5);
 
 //----------------------------------------------------------------------------
@@ -57,9 +60,9 @@ bool AppMainWm5::OnInitialize ()
 	// Init WM5 Window
     // Set up the camera.
     mCamera->SetFrustum(60.0f, GetAspectRatio(), 1.0f, 1000.0f);
-    float angle = 0.02f*Mathf::PI;
+    float angle = 0.1f*Mathf::PI;
     float cs = Mathf::Cos(angle), sn = Mathf::Sin(angle);
-    APoint camPosition(27.5f, 8.0f, 8.9f);
+    APoint camPosition(270.0f, 0.0f, 120.0f);
     AVector camDVector(-cs, 0.0f, -sn);
     AVector camUVector(-sn, 0.0f, cs);
     AVector camRVector = camDVector.Cross(camUVector);
@@ -75,6 +78,10 @@ bool AppMainWm5::OnInitialize ()
     // Initial culling of scene.
     mCuller.SetCamera(mCamera);
     mCuller.ComputeVisibleSet(mScene);
+
+    InitializeCameraMotion(0.01f, 0.001f);
+    InitializeObjectMotion(mScene);
+
     return true;
 }
 //----------------------------------------------------------------------------
@@ -134,10 +141,12 @@ bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
 	case 'q':  { // test data inserted
 		static int test_id = 0;
 		static Geom3d g3d(0);
+		static Geom3d_v_t model_v;
 		static Geom3d_dq_t g3d_dq;
 
 		printf("Add Test Data %d\n", ++test_id);
-		m_app->testCamRay(test_id, g3d_dq);
+		m_app->testModel(test_id, model_v);
+		m_app->testCamRay(test_id, model_v, g3d_dq);
 		m_app->addInput(g3d_dq);
 		return true;
 		}
@@ -163,7 +172,8 @@ void AppMainWm5::print_help()
 	printf("W - toggle wireframe\n");
 	printf("? - list help\n");
 }
-//----------------------------------------------------------------------------
+
+//
 void AppMainWm5::CreateScene ()
 {
 
@@ -174,21 +184,23 @@ void AppMainWm5::CreateScene ()
     //         floor
     //         sidewall1
     //         sidewall2
-    //     balls
 
-    mScene = new0 Node();
+    mScene = new0 Scene();
     mWireState = new0 WireState();
     mRenderer->SetOverrideWireState(mWireState);
 
-    Node* room = new0 Node();
-    mScene->AttachChild(room);
+	mScene->OnInitialize();
 }
 
 //----------------------------------------------------------------------------
 void AppMainWm5::PhysicsTick ()
 {
 	// do some physics
+	// handle changes to real-world via comms
 
+	// handle collisions of sim given current positions and velocities
+
+	// update the objects for graphics display
     mScene->Update();
 
     mSimTime += mSimDeltaTime;
@@ -196,6 +208,18 @@ void AppMainWm5::PhysicsTick ()
 //----------------------------------------------------------------------------
 void AppMainWm5::GraphicsTick ()
 {
+
+    if (MoveCamera())
+    {
+        //mCuller.ComputeVisibleSet(mScene);
+    }
+
+    if (MoveObject())
+    {
+        mScene->Update();
+        //mCuller.ComputeVisibleSet(mScene);
+    }
+
     mCuller.ComputeVisibleSet(mScene);
 
     if (mRenderer->PreDraw())

@@ -160,7 +160,8 @@ public:
 	GlobalAccess *setup_global_data();
 	bool testPixSeq(int mode = 0);
 	bool testTrajSeq(int mode = 0);	
-	bool testCamRay(int frame_num, Geom3d_dq_t &g3d_dq);
+	bool testCamRay(int frame_num, Geom3d_v_t &model_v, Geom3d_dq_t &g3d_dq);
+	bool testModel(int frame_num, Geom3d_v_t &model_v);
 
 	// I/O methods
 	bool addInput(Geom3d_dq_t &g3d) {  // put a value in input que

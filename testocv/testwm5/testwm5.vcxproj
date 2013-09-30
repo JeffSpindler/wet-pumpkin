@@ -12,11 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppMainWm5.h" />
+    <ClInclude Include="FrameGraphic.h" />
     <ClInclude Include="RigidBall.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMainWm5.cpp" />
+    <ClCompile Include="FrameGraphic.cpp" />
     <ClCompile Include="RigidBall.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E297F18C-727B-48CC-94D8-D219E143CC2B}</ProjectGuid>
@@ -90,7 +96,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader />
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>

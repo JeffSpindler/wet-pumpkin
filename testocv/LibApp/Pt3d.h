@@ -31,6 +31,16 @@ public:
 			if(g3d.m_type != POINT) m_valid = false; };
 
 	virtual ~Pt3d () {};
+	void set(double pos[3]) {
+		m_pt[0] = pos[0]; m_pt[1] = pos[1]; m_pt[2] = pos[2];
+		m_vec[0] = pos[0]; m_vec[1] = pos[1]; m_vec[2] = pos[2];
+		m_int_err = 0;
+	};
+	void set(double x, double y, double z) {
+		m_pt[0] = x; m_pt[1] = y; m_pt[2] = z;
+		m_vec[0] = x; m_vec[1] = y; m_vec[2] = z;
+		m_int_err = 0;
+	};
 
 	Wm5::Vector3d m_vec;
 	double m_int_err;	// int dist

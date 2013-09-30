@@ -88,6 +88,8 @@ GlobalAccess *CrunchApp::setup_global_data()
 	Geom3dData *model_geoms = new Geom3dData;
 	if(!data_access->addGlobal(GlobalAccess::ModelStr, model_geoms)) printf("bad data2\n");
 
+	testModel(11, model_geoms->Geoms());
+
 	// raw pix pts storage
 	PixPtData *raw_pts = new PixPtData;
 	raw_pts->m_parm1 = 13;
@@ -199,24 +201,24 @@ bool CrunchApp::testTrajSeq(int mode)
 
 // stuff a dq with a set of camrays
 // Just find dir from cam to pts
-bool CrunchApp::testCamRay(int frame_num, Geom3d_dq_t &g3d_dq)
+bool CrunchApp::testCamRay(int frame_num, Geom3d_v_t &model_v, Geom3d_dq_t &g3d_dq)
 {
-	const int num_pts = 3;
-	double pos[num_pts][3] = { {10, 0, 0}, {0,10,0}, {0,0,10}};
+	//const int num_pts = 3;
+	//double pos[num_pts][3] = { {10, 0, 0}, {0,10,0}, {0,0,10}};
 	const int num_cams = 2;
 	double cam_cen[num_cams][3] = { {100, 200, 250}, {100,-200,250} };
 	Vector3d Dir;
 	std::cout << std::endl << "testCamRay" << std::endl;
 	g3d_dq.clear();
-	for(int c=0;c<num_cams;c++) {
+	for(unsigned c=0;c<num_cams;c++) {
 		Vector3d cam_cen_vec(cam_cen[c][0], cam_cen[c][1], cam_cen[c][2]);
-		for(int i=0;i<num_pts;i++) {
-			Vector3d pt(pos[i][0], pos[i][1], pos[i][2]);
+		for(unsigned i=0;i<model_v.size();i++) {
+			Vector3d pt(model_v[i].m_pt[0], model_v[i].m_pt[1], model_v[i].m_pt[2]);
 			Dir = pt - cam_cen_vec;
 			Dir.Normalize();
 			Geom3d Ray(cam_cen[c]);
 			Ray.m_type = Geom3d::CAM_RAY;
-			Ray.m_tag = frame_num;
+			Ray.m_tag = model_v[i].m_tag;
 			Ray.m_idx = i;
 			Ray.m_src = c;
 			Ray.m_conf = 1.0;
@@ -228,6 +230,27 @@ bool CrunchApp::testCamRay(int frame_num, Geom3d_dq_t &g3d_dq)
 		}
 	}
 	return(!g3d_dq.empty());
+}
+
+// stuff a dq with a set of pts
+bool CrunchApp::testModel(int frame_num, Geom3d_v_t &model_v)
+{
+	const int num_pts = 3;
+	double pos[num_pts][3] = { {10, 0, 0}, {0,10,0}, {0,0,10}};
+	std::cout << std::endl << "testModel" << std::endl;
+
+	model_v.clear();
+	for(int i=0;i<num_pts;i++) {
+		Geom3d pt(pos[i][0], pos[i][1], pos[i][2]);
+		pt.m_type = Geom3d::POINT;
+		pt.m_tag = i;
+		pt.m_idx = i;
+		pt.m_src = 3;
+		pt.m_conf = 1.0;
+		model_v.push_back(pt);
+		std::cout << pt << std::endl;
+	}
+	return(!model_v.empty());
 }
 
 

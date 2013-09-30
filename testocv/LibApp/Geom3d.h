@@ -13,6 +13,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include "boost/format.hpp"
+
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
 
@@ -113,27 +115,27 @@ public:
 				break;
 		}
 
-		os.precision(1);
-		os.setf(std::ios::fixed);
-		os << std::setw(4) << g3d.m_tag << std::setw(4) << g3d.m_idx << std::setw(4) << g3d.m_src
-				<< " (" << g3d.m_pt[0] << "," << g3d.m_pt[1] << "," << g3d.m_pt[2] << ")"; 
+		os << boost::format("%4d %4d %4d ") % g3d.m_tag % g3d.m_idx % g3d.m_src;
+		os << boost::format(" (%6.1f,%6.1f,%6.1f)") % g3d.m_pt[0] % g3d.m_pt[1] % g3d.m_pt[2];
+
 		switch(g3d.m_type) {
 			case(CAM_RAY):
 			case(PLANE):
 			case(LINE):
-				os.precision(3);
-				os << " (" << g3d.m_dir[0] << "," << g3d.m_dir[1] << "," << g3d.m_dir[2] << ")" << std::endl; 
+				os << boost::format(" (%6.3f,%6.3f,%6.3f)") % g3d.m_dir[0] % g3d.m_dir[1] % g3d.m_dir[2];
+				os << std::endl;
 				break;
 			case(FRAME):
 			case(SPIN):
-				os.precision(3);
-				os << " [" << g3d.m_dir[0] << "," << g3d.m_dir[1] << "," << g3d.m_dir[2] << "," << g3d.m_dir[3] << "]" << std::endl; 
+				os << boost::format(" [%6.3f,%6.3f,%6.3f,%6.3f]") % g3d.m_dir[0] % g3d.m_dir[1] % g3d.m_dir[2] % g3d.m_dir[3];
+				os << std::endl;
 				break;
 			case(VEL):
-				os.precision(2);
-				os << " (" << g3d.m_dir[0] << "," << g3d.m_dir[1] << "," << g3d.m_dir[2] << ")" << std::endl; 
+				os << boost::format(" (%6.3f,%6.3f,%6.3f)") % g3d.m_dir[0] % g3d.m_dir[1] % g3d.m_dir[2];
+				os << std::endl;
 				break;
 			case(POINT):
+				os << boost::format(" %5.2f %9.3f ms") % g3d.m_conf % g3d.m_time_usec;
 				os << std::endl;
 			default:
 				break;

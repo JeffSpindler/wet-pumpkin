@@ -59,7 +59,7 @@ void LabelFixBlk::doPrint()
 
 // interesect labeled rays and create cur ft3ds
 // put all camrays into a multi-index set 
-// intersect all rays with matching labels
+// intersect all rays with matching m_idx values
 
 bool LabelFixBlk::intersectRays() 
 { 
@@ -88,6 +88,7 @@ bool LabelFixBlk::intersectRays()
 			// intersect and add to cur g3d set
 			cand_pt.findIntersect(CamRay(*ray_i), CamRay(*ray1st_i), 4.0);	// use max_int
 			// save pt
+			cand_pt.m_tag = m_cur->Geoms().size();
 			m_cur->Geoms().push_back(cand_pt);
 			// print
 			std::cout << cand_pt << std::endl;			
@@ -100,6 +101,10 @@ bool LabelFixBlk::intersectRays()
 		ray_i++;
 	}
 
+	// add some labeling functions - something to combine multi-cam cands.
+
+
+	// something to label using fixture model
 
 
 	if(Debug(3)) {

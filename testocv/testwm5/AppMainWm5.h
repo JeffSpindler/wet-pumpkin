@@ -1,5 +1,8 @@
+// Perform3-D LLC
+// Copyright (c) 2013
+//
 // Geometric Tools, LLC
-// Copyright (c) 1998-2013
+// portions Copyright (c) 1998-2013
 // Distributed under the Boost Software License, Version 1.0.
 // http://www.boost.org/LICENSE_1_0.txt
 // http://www.geometrictools.com/License/Boost/LICENSE_1_0.txt
@@ -10,6 +13,7 @@
 #define APPMAINWM5_H
 
 #include "Geom3d.h"
+#include "Scene.h"
 
 #include "Wm5WindowApplication3.h"
 using namespace Wm5;
@@ -49,7 +53,8 @@ protected:
     float mSimTime, mSimDeltaTime;
 
     // The scene graph.
-    NodePtr mScene;
+    ScenePtr mScene;
+
     WireStatePtr mWireState;
     Culler mCuller;
 

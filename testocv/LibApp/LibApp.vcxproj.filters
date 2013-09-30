@@ -108,6 +108,15 @@
     <ClInclude Include="CamRay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Geom3dMISet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrunchApp.cpp">

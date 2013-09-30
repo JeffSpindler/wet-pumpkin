@@ -11,12 +11,13 @@
 
 #include "Wm5RigidBody.h"
 #include "Wm5TriMesh.h"
+#include "Wm5Node.h"
 using namespace Wm5;
 
 class RigidBall : public RigidBodyf
 {
 public:
-    RigidBall (float radius = 1.0f);
+    RigidBall (Wm5::Node *parent_node, float radius = 1.0f);
 
     TriMeshPtr& Mesh ();
     float GetRadius () const;
@@ -26,6 +27,7 @@ public:
 private:
     TriMeshPtr mMesh;
     float mRadius;
+
 };
 
 #endif

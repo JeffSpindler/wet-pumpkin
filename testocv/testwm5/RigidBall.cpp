@@ -12,7 +12,7 @@
 #include "Wm5Texture2DEffect.h"
 
 //----------------------------------------------------------------------------
-RigidBall::RigidBall (float radius)
+RigidBall::RigidBall (Wm5::Node *parent_node, float radius)
     :
     Moved(false),
     mRadius(radius)
@@ -27,6 +27,10 @@ RigidBall::RigidBall (float radius)
     Texture2D* texture = Texture2D::LoadWMTF(path);
     mMesh->SetEffectInstance(Texture2DEffect::CreateUniqueInstance(texture,
         Shader::SF_LINEAR, Shader::SC_CLAMP_EDGE, Shader::SC_CLAMP_EDGE));
+
+	if(parent_node != NULL) {
+		parent_node->AttachChild(mMesh);
+	}
 }
 //----------------------------------------------------------------------------
 float RigidBall::GetRadius () const

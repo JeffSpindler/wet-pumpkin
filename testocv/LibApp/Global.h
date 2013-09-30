@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 
+#include "boost/format.hpp"
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/archive/xml_iarchive.hpp>
