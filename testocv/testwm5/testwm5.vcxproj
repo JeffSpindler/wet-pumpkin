@@ -14,6 +14,7 @@
     <ClInclude Include="AppMainWm5.h" />
     <ClInclude Include="FrameGraphic.h" />
     <ClInclude Include="RigidBall.h" />
+    <ClInclude Include="RigidBar.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
@@ -99,6 +100,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>..\LibApp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -106,6 +108,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>..\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LibApp.lib;Wm5Core.lib;Wm5Imagics.lib;Wm5Mathematics.lib;Wm5Physics.lib;Wm5WglApplications.lib;Wm5WglGraphics.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

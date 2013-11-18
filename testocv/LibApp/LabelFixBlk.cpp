@@ -29,6 +29,8 @@ bool LabelFixBlk::doSetup(IGlobalAccess *data_access)
 	m_cals = reinterpret_cast<CamCalData*>(data_access->getGlobal(GlobalAccess::CamCalsStr));
 	m_pts = reinterpret_cast<PixPtData*>(data_access->getGlobal(GlobalAccess::FinalPixPtsStr));
 
+	if(m_cals != NULL) m_num_cams = m_cals->m_num_cams; else m_num_cams = 0;
+
 	return (m_camrays != NULL && m_fix != NULL && m_model != NULL && m_cur != NULL);
 };
 

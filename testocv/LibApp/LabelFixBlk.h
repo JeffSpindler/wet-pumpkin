@@ -25,7 +25,7 @@ class LabelFixBlk : public IBlock
 public:
 	LabelFixBlk() :  m_cals(NULL), m_pts(NULL),
 						m_fix(NULL), m_camrays(NULL), 
-						m_model(NULL), m_cur(NULL), 
+						m_model(NULL), m_cur(NULL), m_num_cams(0),
 						m_val1(0),	m_val2(0)  {
 		m_name = "LabelFixBlk";
 	};
@@ -44,6 +44,8 @@ protected:
 	CamCalData *m_cals;
 	PixPtData *m_pts;
 
+	// local vars
+	int m_num_cams;
 	g3d_mi_set m_ray_set;	// multi-index set for rays
 	//g3d_mi_set m_g3d_set;	// multi-index set for results
 	

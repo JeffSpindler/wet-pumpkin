@@ -117,6 +117,9 @@
     <ClInclude Include="Mat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RayPairMISet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrunchApp.cpp">

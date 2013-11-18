@@ -104,6 +104,7 @@
     <ClInclude Include="PixPtData.h" />
     <ClInclude Include="Pt.h" />
     <ClInclude Include="Pt3d.h" />
+    <ClInclude Include="RayPairMISet.h" />
     <ClInclude Include="serialize_socket.h" />
     <ClInclude Include="SortFixBlk.h" />
     <ClInclude Include="TrackFixBlk.h" />

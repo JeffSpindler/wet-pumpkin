@@ -71,7 +71,12 @@ int main(int argc, char* argv[])
 	std::string cmdstr, argstr;
 
 	CommGeom3dClient m_client;
-	m_client.save(std::string("wm_client.xml"));
+	std::string filename = "test_client.xml";
+	if(!m_client.load(filename)) {
+		m_client.save(filename);
+	} else {
+		std::cout << "loaded " << filename << "  client setup\n\n";
+	}
 	m_client.StartClient();	// startup everything
 
 

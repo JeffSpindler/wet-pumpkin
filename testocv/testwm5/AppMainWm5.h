@@ -46,7 +46,8 @@ protected:
 	// App Vars
 	CrunchApp *m_app;
 	std::string m_name;
-    CommGeom3dClient *m_comm_client;
+    CommGeom3dClient *m_comm_track_client;
+    CommGeom3dClient *m_comm_ray_client;
     CommGeom3dServer *m_comm_server;
 	Geom3d_dq_t m_comm_g3d_dq;
     // Simulated clock.

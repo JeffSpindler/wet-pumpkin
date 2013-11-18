@@ -20,6 +20,7 @@ class CamCalData : public IGlobal
 {
 public:
 	CamCalData() : m_read_only(false),
+					m_num_cams(2),	// temp
 					m_parm1(0),
 					m_parm2(0)
 	{ 
@@ -30,6 +31,7 @@ public:
 public:		// public data
 	camcal_v_t& CamData() { return(m_camcal_v); };
 	bool m_read_only;
+	int m_num_cams;		// number of valid cams
 	int m_parm1;
 	float m_parm2;
 
@@ -44,7 +46,7 @@ private:	// access
 		}
 	};
 	virtual void doPrint() {
-		std::cout << m_name << " size " << m_camcal_v.size() << "  " << m_parm1 << "  " << m_parm2 << std::endl;
+		std::cout << m_name << "num cams " << m_num_cams << " size " << m_camcal_v.size() << "  " << m_parm1 << "  " << m_parm2 << std::endl;
 	};
 
 public:
@@ -96,6 +98,8 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(IGlobal);
 		ar & BOOST_SERIALIZATION_NVP( m_read_only );
+
+		ar & BOOST_SERIALIZATION_NVP( m_num_cams );
 		ar & BOOST_SERIALIZATION_NVP( m_parm1 );
 		ar & BOOST_SERIALIZATION_NVP( m_parm2 );
 		ar & BOOST_SERIALIZATION_NVP(m_camcal_v);

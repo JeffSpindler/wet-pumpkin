@@ -156,3 +156,11 @@ void comm_server::ReadHandler(SocketPtr conn, const boost::system::error_code& e
             boost::asio::placeholders::error));
     }
 }
+
+// convert PdFt3d to string for sending
+bool strFormat(stock &stk, std::string &str) 
+{
+	//str = (boost::format("ft3d %4d %4d %4d ") % ft3d.m_label % ft3d.m_state % ft3d.m_type).str();
+	return(true);
+}
+

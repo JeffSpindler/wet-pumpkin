@@ -7,8 +7,10 @@
 
 #include "Wall.h"
 #include "RigidBall.h"
+#include "RigidBar.h"
 #include "FrameGraphic.h"
 
+const std::string Scene::default_filename = "save_default.txt";
 //----------------------------------------------------------------------------
 Scene::Scene (float radius)
     :
@@ -17,6 +19,9 @@ Scene::Scene (float radius)
 
 	m_frame3d = NULL;
 	m_ball = NULL;
+	m_bar = NULL;
+    m_save_flag = false;
+    m_save_filename = default_filename;
 
 }
 //
@@ -30,7 +35,8 @@ bool Scene::OnInitialize ()
 	CreateWalls();
 	// create objects
 	CreateFrame3d();
-	CreateBalls();
+	//CreateBall();
+	CreateBar();
 
 	return(true);
 }
@@ -39,6 +45,7 @@ bool Scene::OnInitialize ()
 
 void Scene::OnTerminate()
 {
+	delete0( m_bar );
 	delete0( m_ball );
 	delete0( m_frame3d );
 	delete0( m_wall[ROOM_BACK] );
@@ -46,8 +53,52 @@ void Scene::OnTerminate()
 	delete0( m_wall[ROOM_FLOOR] );
 	delete0( m_wall[ROOM_SIDE_R] );
 
+	m_bar = NULL;
 	m_ball = NULL;
 	m_frame3d = NULL;
+}
+
+// change scene depending on input
+// clear out all values used
+bool Scene::Change(Geom3d_dq_t &g3d_dq)
+{
+    if(g3d_dq.empty()) return(false);
+
+    Vector3f pos((float) g3d_dq.back().m_pt[0], (float) g3d_dq.back().m_pt[1], (float) g3d_dq.back().m_pt[2]);
+
+    m_bar->SetPosition(pos);
+
+	// for bar  -- unit vector passed
+    Vector3f unit_vec((float) g3d_dq.back().m_dir[1], (float) g3d_dq.back().m_dir[0], (float) g3d_dq.back().m_dir[2]);
+
+    Quaternionf orient_q(unit_vec, (0.5f) * Mathf::PI);
+    m_bar->SetQOrientation(orient_q);
+
+    // archive as needed
+    if(m_save_flag) {
+       try {
+        std::ofstream ofs;
+        if(m_save_count)
+	        ofs.open(m_save_filename, std::ios::app);
+		else
+	        ofs.open(m_save_filename, std::ios::trunc);
+
+	    if(!ofs.good()) {
+		    return(false);
+	    }
+        ofs << g3d_dq.back();
+        ++m_save_count;
+        // stop on too many records
+        if(m_save_count > save_max) m_save_flag = false;
+       }
+       catch (const std::exception &ex) {
+          std::cout << "archive " << m_save_filename << "  " << ex.what() << std::endl;
+	    return(false);
+       }        
+	}
+
+    g3d_dq.clear();
+    return(true);
 }
 
 void Scene::Update()
@@ -57,6 +108,10 @@ void Scene::Update()
 	// update movable things
 	if(m_ballNode != NULL) {
         m_ballNode->LocalTransform.SetTranslate(m_ball->GetPosition());
+	}
+	if(m_barNode != NULL) {
+        m_barNode->LocalTransform.SetTranslate(m_bar->GetPosition());
+        m_barNode->LocalTransform.SetRotate(m_bar->GetROrientation());
 	}
 }
 
@@ -81,7 +136,7 @@ void Scene::CreateWalls ()
 	m_wall[ROOM_SIDE_R] = new0 Wall(this, sideR_pos, sideR_size, sideWallColor);
 }
 
-void Scene::CreateBalls ()
+void Scene::CreateBall ()
 {
 	float ball_radius = 4.0;
     float mass = 2.0f;
@@ -95,6 +150,25 @@ void Scene::CreateBalls ()
 	m_ball->SetLinearMomentum(Vector3f(2.0f, 2.0f, -1.2f));
 	m_ball->mForce = Force;
 	m_ball->mTorque = Torque;
+}
+
+void Scene::CreateBar ()
+{
+	float bar_radius = 2.5;
+    float mass = 10.0f;
+
+	m_barNode = new0 Node();
+	AttachChild(m_barNode);
+
+	m_bar = new0 RigidBar(m_barNode, bar_radius);
+	m_bar->SetMass(mass);
+	m_bar->SetPosition(Vector3f(2.0f, -4.0f, 30.0f));
+	m_bar->SetLinearMomentum(Vector3f(0.0f, 0.0f, 0.0f));
+	Quaternionf orient_q(Vector3f::UNIT_X, Mathf::PI/2.0f);
+	m_bar->SetQOrientation(orient_q);
+
+	m_bar->mForce = Force;
+	m_bar->mTorque = Torque;
 }
 
 void Scene::CreateFrame3d ()

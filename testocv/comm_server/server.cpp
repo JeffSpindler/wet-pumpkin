@@ -49,6 +49,12 @@ void make_str(str_v_t &send_str_v)
 void make_g3ds(int tag, Geom3d_v_t &g3d_v)
 {
 	Geom3d g3d(tag);
+	g3d.m_src = 5;
+	g3d.m_conf = .98;
+	g3d.m_time_usec = 123.987345;
+	g3d.m_pt[0] = 56.876;
+	g3d.m_pt[1] = 23.12;
+	g3d.m_pt[2] = -9.8;
 
 	g3d.m_idx = 0;
 	g3d_v.push_back(g3d);
@@ -73,7 +79,13 @@ int main(int argc, char* argv[])
 	std::string cmdstr, argstr;
 
 	CommGeom3dServer m_server;
-	m_server.save(std::string("wm_server.xml"));
+	std::string filename = "test_server.xml";
+
+	if(!m_server.load(filename)) {
+		m_server.save(filename);
+	} else {
+		std::cout << "loaded " << filename << "  server setup\n\n";
+	}
 	m_server.StartServer();	// startup everything
 
 	while(cmdstr != "Q") {

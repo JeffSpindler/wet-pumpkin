@@ -19,6 +19,8 @@
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/serialization/deque.hpp>
+#include <boost/serialization/map.hpp>
 
 typedef std::vector<std::string> str_v_t;
 typedef std::deque<std::string> str_dq_t;

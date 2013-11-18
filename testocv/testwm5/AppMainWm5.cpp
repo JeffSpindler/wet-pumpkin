@@ -27,8 +27,12 @@ AppMainWm5::AppMainWm5 ()
     mSimTime = 0.0f;
     mSimDeltaTime = 1.0f/10.0f;
 	m_app = NULL;
-	m_comm_client = NULL;
+	m_comm_track_client = NULL;
+	m_comm_ray_client = NULL;
 	m_comm_server = NULL;
+    mScene = NULL;
+    mWireState = NULL;
+    mCamera = NULL;
 }
 //----------------------------------------------------------------------------
 bool AppMainWm5::OnInitialize ()
@@ -37,12 +41,30 @@ bool AppMainWm5::OnInitialize ()
     {
         return false;
     }
+    std::cout << "Copyright 2013 Perform3-D LLC" << std::endl << "All rights reserved" << std::endl;
+    std::cout << std::endl << "Bar Tracking Display App" << std::endl << std::endl;
 
-	m_comm_server = new CommGeom3dServer;
-    m_comm_server->StartServer(13110);
+	//m_comm_server = new CommGeom3dServer;
+    //m_comm_server->StartServer(13110);
 
-	//m_comm_client = new CommGeom3dClient;
-    //m_comm_client->StartClient(std::string("127.0.0.1"), std::string("13110"));
+	m_comm_track_client = new CommGeom3dClient;
+	std::string filename = "CommTrackClient.xml";
+	if(!m_comm_track_client->load(filename)) {
+		m_comm_track_client->save(filename);
+	} else {
+		std::cout << "loaded " << filename << "  client setup\n\n";
+	}
+	m_comm_track_client->StartClient();	// startup everything
+
+	m_comm_ray_client = new CommGeom3dClient;
+	filename = "CommRayClient.xml";
+	if(!m_comm_ray_client->load(filename)) {
+		m_comm_ray_client->save(filename);
+	} else {
+		std::cout << "loaded " << filename << "  client setup\n\n";
+	}
+	m_comm_ray_client->StartClient();	// startup everything
+
 
 	std::cout << m_name << "  OnInitialize\n";
 	// Init app
@@ -95,9 +117,13 @@ void AppMainWm5::OnTerminate()
 		m_app->OnTerminate();
 		delete m_app;
 	}
-	if(m_comm_client != NULL) {
-		m_comm_client->Terminate();
-		delete m_comm_client;
+	if(m_comm_track_client != NULL) {
+		m_comm_track_client->Terminate();
+		delete m_comm_track_client;
+	}
+	if(m_comm_ray_client != NULL) {
+		m_comm_ray_client->Terminate();
+		delete m_comm_ray_client;
 	}
 	if(m_comm_server != NULL) {
 		m_comm_server->Terminate();
@@ -115,7 +141,7 @@ void AppMainWm5::OnIdle ()
     UpdateFrameCount();
 
 	// check for comms
-	if(m_comm_server->Update(m_comm_g3d_dq)) {
+	if(m_comm_ray_client->Update(m_comm_g3d_dq)) {
 		// load up the g3ds
 		//BOOST_FOREACH(Geom3d pt, m_comm_g3d_dq) {
 			// send app geom3d
@@ -123,6 +149,15 @@ void AppMainWm5::OnIdle ()
 		//}
 		m_comm_g3d_dq.clear();
 	}
+	if(m_comm_track_client->Update(m_comm_g3d_dq)) {
+        std::cout << m_comm_g3d_dq.back() << std::endl; 
+        mScene->Change(m_comm_g3d_dq);
+        // keep from growing forever
+        while(m_comm_g3d_dq.size() > 500) {
+            m_comm_g3d_dq.pop_front();
+		}
+	}
+
 }
 //----------------------------------------------------------------------------
 bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
@@ -150,6 +185,10 @@ bool AppMainWm5::OnKeyDown (unsigned char key, int x, int y)
 		m_app->addInput(g3d_dq);
 		return true;
 		}
+	case 's': { // toggle save mode
+        mScene->setSave(!mScene->getSave());
+        return true;
+	    }
 	case 'u': { // make test seq
 		printf("Make Test Seq\n");
 		m_app->testPixSeq();
@@ -219,7 +258,8 @@ void AppMainWm5::GraphicsTick ()
         mScene->Update();
         //mCuller.ComputeVisibleSet(mScene);
     }
-
+    
+	//mScene->Update();
     mCuller.ComputeVisibleSet(mScene);
 
     if (mRenderer->PreDraw())
@@ -232,6 +272,11 @@ void AppMainWm5::GraphicsTick ()
         char message[256];
         sprintf(message, "Time = %5.2f", mSimTime);
         mRenderer->Draw(90, GetHeight()-8, mTextColor, message);
+
+        if(mScene->getSave()) {
+            char save_message[] = "SAVE ON";
+            mRenderer->Draw(300, GetHeight()-8, mTextColor, save_message);
+		}
 
         mRenderer->PostDraw();
         mRenderer->DisplayColorBuffer();

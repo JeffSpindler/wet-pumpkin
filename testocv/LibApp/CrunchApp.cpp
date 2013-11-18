@@ -236,7 +236,7 @@ bool CrunchApp::testCamRay(int frame_num, Geom3d_v_t &model_v, Geom3d_dq_t &g3d_
 bool CrunchApp::testModel(int frame_num, Geom3d_v_t &model_v)
 {
 	const int num_pts = 3;
-	double pos[num_pts][3] = { {10, 0, 0}, {0,10,0}, {0,0,10}};
+	double pos[num_pts][3] = { {50, 0, 0}, {50,30,0}, {50,0,70}};
 	std::cout << std::endl << "testModel" << std::endl;
 
 	model_v.clear();

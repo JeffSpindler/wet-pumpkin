@@ -14,7 +14,10 @@
 #include "Geom3dData.h"
 
 #include "IGlobalAccess.h"
+#include "CamRay.h"
 
+
+#include "PairSort2MISet.h"
 	
 // Class for logic block
 
@@ -42,8 +45,17 @@ protected:
 	CamCalData *m_cals;
 	PixPtData *m_pts;
 
+	// local vars
+	int m_num_cams;
+	ps2_mi_set m_ray_pair_set;	// multi-index set for rays
+
+	float m_angle_err_limit;	// rays must match fix within this
 	int m_val1;
 	float m_val2;
+
+	// local functions
+	bool createRayPairs(CamRay_v_t &camray_v);	// setup ray mi set
+	bool findBestRays(CamRay_v_t &camray_v);	// set m_cur with result
 
 public:
 	static const std::string block_name;
@@ -92,6 +104,7 @@ private:
 	friend class boost::serialization::access;
 	template<class Archive>	void serialize(Archive& ar, const unsigned int version) {
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(IBlock);
+		//ar & BOOST_SERIALIZATION_NVP(m_angle_err_limit);
 		ar & BOOST_SERIALIZATION_NVP(m_val1);
 		ar & BOOST_SERIALIZATION_NVP(m_val2);
 	}

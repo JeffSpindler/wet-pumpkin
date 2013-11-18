@@ -46,6 +46,8 @@ public:
 	static const std::string default_service;
 	static const std::string default_addr;
 	static const std::string default_port;
+	static const std::string xml_type;	// send xml object
+	static const std::string str_type;	// send str using format
 
 protected:
 	typedef s11n_example::connection_ptr SocketPtr;
@@ -57,6 +59,8 @@ protected:
 	void ReadHandler(SocketPtr conn, const boost::system::error_code& error );
 
 	bool ValidateKey(SocketPtr sock);
+	bool strFormat(std::string &str, stock &stk);
+
 
 protected:
 	// setup vars
@@ -66,6 +70,9 @@ protected:
 	std::string m_service_str;
 	std::string m_host_str;
 	std::string m_port_str;
+	std::string m_format_type;		// xml/str ...
+	std::string m_format_str;		// boost format string for str output
+
 	std::string m_spare_str;
 
 	// internal vars
@@ -101,11 +108,15 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(m_service_str);
 		ar & BOOST_SERIALIZATION_NVP(m_host_str);
 		ar & BOOST_SERIALIZATION_NVP(m_port_str);
+		if(version > 1) {
+			ar & BOOST_SERIALIZATION_NVP(m_format_type);
+			ar & BOOST_SERIALIZATION_NVP(m_format_str);
+		}
 		ar & BOOST_SERIALIZATION_NVP(m_spare_str);
 	}
 
 };
 
-BOOST_CLASS_VERSION(comm_client, 1)
+BOOST_CLASS_VERSION(comm_client, 2)
 
 #endif // COMMGEOM3DCLIENT_H

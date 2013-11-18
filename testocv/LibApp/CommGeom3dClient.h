@@ -46,6 +46,10 @@ public:
 	static const std::string default_service;
 	static const std::string default_addr;
 	static const std::string default_port;
+	static const std::string xml_type;	// send xml object
+	static const std::string str_pt_type;	// send str using format
+	static const std::string str_ray_type;	// send str using format
+	static const std::string str_frame_type;	// send str using format
 
 protected:
 	typedef serialize_socket_ptr SocketPtr;
@@ -57,6 +61,7 @@ protected:
 	void ReadHandler(SocketPtr conn, const boost::system::error_code& error );
 
 	bool ValidateKey(SocketPtr sock);
+	bool strFormat(std::string &str, Geom3d &g3d);
 
 protected:
 	// setup vars
@@ -66,6 +71,9 @@ protected:
 	std::string m_service_str;
 	std::string m_host_str;
 	std::string m_port_str;
+	std::string m_format_type;		// xml/str ...
+	std::string m_format_str;		// boost format string for str output
+
 	std::string m_spare_str;
 
 	// internal vars
@@ -77,6 +85,7 @@ protected:
 
 	std::list<SocketPtr> m_listSockets;
 
+	std::string m_recv_str;			// recv string data
 	Geom3d_v_t m_recv_g3d_v;		// vector of recv data
 
 	Geom3d_dq_t m_access_g3d_dq;	// dq of recv data, not retrieved
@@ -101,11 +110,15 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(m_service_str);
 		ar & BOOST_SERIALIZATION_NVP(m_host_str);
 		ar & BOOST_SERIALIZATION_NVP(m_port_str);
+		if(version > 1) {
+			ar & BOOST_SERIALIZATION_NVP(m_format_type);
+			ar & BOOST_SERIALIZATION_NVP(m_format_str);
+		}
 		ar & BOOST_SERIALIZATION_NVP(m_spare_str);
 	}
 
 };
 
-BOOST_CLASS_VERSION(CommGeom3dClient, 1)
+BOOST_CLASS_VERSION(CommGeom3dClient, 2)
 
 #endif // COMMGEOM3DCLIENT_H

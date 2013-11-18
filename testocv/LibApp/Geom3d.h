@@ -70,6 +70,18 @@ public:
 	}
 
 	virtual ~Geom3d () {};
+	void clr() { 
+		m_valid = false;
+		m_tag = 0;
+		m_idx = 0;
+		m_type = 0;
+		m_src = 0;
+		memset(m_pt, 0, sizeof(m_pt));
+		memset(m_dir, 0, sizeof(m_dir));
+		m_conf = 0;
+		m_time_usec = 0;
+	}
+	
 
 	bool m_valid;
 	int m_type;		// pt/line/frame/moving pt/plane/moving frame/cam_ray/
@@ -145,12 +157,12 @@ public:
 	enum {
 		INVALID = 0,
 		POINT = 1,
-		LINE = 2,
-		PLANE = 3,
-		CAM_RAY = 4,
-		FRAME = 10,
-		SPIN = 11,
-		PSEG = 12,
+		CAM_RAY = 2,
+		LINE = 3,
+		PLANE = 4,
+		PSEG = 10,
+		FRAME = 11,
+		SPIN = 12,
         VEL = 13,
 	};
 

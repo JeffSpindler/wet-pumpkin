@@ -21,7 +21,10 @@ const std::string CommGeom3dServer::default_name = "CommGeom3dServer";
 const std::string CommGeom3dServer::default_service = "default_service";
 const std::string CommGeom3dServer::default_addr = "127.0.0.1";
 const std::string CommGeom3dServer::default_port = "13110";
-
+const std::string CommGeom3dServer::xml_type = "xml";		// serialize using xml
+const std::string CommGeom3dServer::str_pt_type = "str_pt";		// str pt using format
+const std::string CommGeom3dServer::str_ray_type = "str_ray";		// str camray using format
+const std::string CommGeom3dServer::str_frame_type = "str_frame";		// str frame using format
 
 void CommGeom3dServer::StartServer(int port_num)
 {
@@ -30,6 +33,8 @@ void CommGeom3dServer::StartServer(int port_num)
 	}
 
 	std::cerr << m_name << "  StartServer Port " << m_Port <<std::endl;
+	std::cout << m_format_type << " " << m_format_str << std::endl;;
+
 	// Create the acceptor
 	m_Acceptor.reset(new tcp::acceptor(m_IOService, tcp::endpoint(tcp::v4(), m_Port)));
 	// Set up the accept process as a separate thread
@@ -70,10 +75,26 @@ int CommGeom3dServer::Notify(Geom3d_v_t &g3d_v)
 	for(std::list<SocketPtr>::iterator it=m_listSockets.begin(); it!=m_listSockets.end(); it++)
 	{
 		try {
-			// Send the data
-			  (*it)->async_write(g3d_v,
+			if(m_format_type == xml_type) {
+				// Send all data
+				(*it)->async_write(g3d_v,
 									boost::bind(&CommGeom3dServer::WriteHandler, this, (*it),
-									  boost::asio::placeholders::error));
+										boost::asio::placeholders::error));
+			} else {
+
+				static std::string str;
+
+				// send each geom as a string
+				for(unsigned i=0;i<g3d_v.size();i++) {
+					// format the str to send
+					if(!strFormat(g3d_v[i], str)) continue;
+					// Send the packet
+					(*it)->async_write(str,
+										boost::bind(&CommGeom3dServer::WriteHandler, this, (*it),
+											boost::asio::placeholders::error));
+				}
+			}
+
 			iCount++;
 		}
 		catch(boost::system::system_error &) {
@@ -155,4 +176,31 @@ void CommGeom3dServer::ReadHandler(SocketPtr conn, const boost::system::error_co
           boost::bind(&CommGeom3dServer::ReadHandler, this, conn,
             boost::asio::placeholders::error));
     }
+}
+
+// convert geom3d to string
+bool CommGeom3dServer::strFormat(Geom3d &g3d, std::string &str) 
+{
+	std::string ft3d_pt_format = "ft3d %4d %4d %4d %4d (%8.2f,%8.2f,%8.2f) %5.2f %12.6f";
+	std::string ft3d_ray_format = "ft3d %4d %4d %4d %4d (%8.2f,%8.2f,%8.2f) (%6.3f,%6.3f,%6.3f) %5.2f %12.6f";
+	std::string ft3d_frame_format = "ft3d %4d %4d %4d %4d (%8.2f,%8.2f,%8.2f) [%6.3f,%6.3f,%6.3f,%6.3f] %5.2f %12.6f";
+
+	if(m_format_type == str_pt_type) {
+	str = (boost::format(ft3d_pt_format) % g3d.m_tag % g3d.m_idx % g3d.m_type % g3d.m_src 
+										% g3d.m_pt[0] % g3d.m_pt[1] % g3d.m_pt[2] 
+										% g3d.m_conf % g3d.m_time_usec).str();
+	} else if(m_format_type == str_ray_type) {
+	str = (boost::format(ft3d_ray_format) % g3d.m_tag % g3d.m_idx % g3d.m_type % g3d.m_src 
+										% g3d.m_pt[0] % g3d.m_pt[1] % g3d.m_pt[2] 
+										% g3d.m_dir[0] % g3d.m_dir[1] % g3d.m_dir[2] 
+										% g3d.m_conf % g3d.m_time_usec).str();
+	} else if(m_format_type == str_frame_type) {
+	str = (boost::format(ft3d_frame_format) % g3d.m_tag % g3d.m_idx % g3d.m_type % g3d.m_src 
+										% g3d.m_pt[0] % g3d.m_pt[1] % g3d.m_pt[2] 
+										% g3d.m_dir[0] % g3d.m_dir[1] % g3d.m_dir[2] % g3d.m_dir[3]
+										% g3d.m_conf % g3d.m_time_usec).str();											
+	} else {
+		return(false);
+	}
+	return(true);
 }

@@ -213,3 +213,9 @@ void comm_client::ReadHandler(SocketPtr conn, const boost::system::error_code& e
     }
 }
 
+// convert PdFt3d to string for sending
+bool strFormat(std::string &str, stock &stk) 
+{
+	//sscanf(str.c_str(), "ft3d %4d %4d %4d ", &ft3d.m_label, &ft3d.m_state, &ft3d.m_type);
+	return(true);
+}
