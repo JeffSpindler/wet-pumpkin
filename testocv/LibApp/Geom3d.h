@@ -80,7 +80,7 @@ public:
 		memset(m_dir, 0, sizeof(m_dir));
 		m_conf = 0;
 		m_time_usec = 0;
-	}
+	};
 	
 
 	bool m_valid;
@@ -164,6 +164,12 @@ public:
 		FRAME = 11,
 		SPIN = 12,
         VEL = 13,
+		POINT2D = 20,
+		LINE2D = 21,
+		RAY2D = 22,
+		CIRCLE2D = 23,
+		RECT2D = 24,
+		CROSS2D = 25,
 	};
 
 private:

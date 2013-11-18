@@ -38,6 +38,7 @@ public:
 	double m_conf;
 	int m_width;
 	int m_height;
+	std::vector<unsigned char> m_pix_v;		// size is width x height
 
 	friend std::ostream& operator<<(std::ostream& os, const Im &pt) {
 		if(!pt.m_valid) {
@@ -62,6 +63,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP( m_width );
 		ar & BOOST_SERIALIZATION_NVP( m_height );
 		ar & BOOST_SERIALIZATION_NVP( m_conf );
+		ar & BOOST_SERIALIZATION_NVP( m_pix_v );	
 	}
 };
 

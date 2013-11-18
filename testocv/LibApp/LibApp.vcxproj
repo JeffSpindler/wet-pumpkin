@@ -82,9 +82,13 @@
     <ClInclude Include="CamCal.h" />
     <ClInclude Include="CamCalData.h" />
     <ClInclude Include="CamRay.h" />
+    <ClInclude Include="Cmd3d.h" />
+    <ClInclude Include="CommExtCmdClient.h" />
+    <ClInclude Include="CommExtCmdServer.h" />
     <ClInclude Include="CommGeom3dClient.h" />
     <ClInclude Include="CommGeom3dServer.h" />
     <ClInclude Include="CrunchApp.h" />
+    <ClInclude Include="ExtCmd.h" />
     <ClInclude Include="Geom3d.h" />
     <ClInclude Include="Geom3dData.h" />
     <ClInclude Include="Geom3dMISet.h" />
@@ -113,6 +117,8 @@
     <ClCompile Include="AcqImBlk.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CommExtCmdClient.cpp" />
+    <ClCompile Include="CommExtCmdServer.cpp" />
     <ClCompile Include="CommGeom3dClient.cpp" />
     <ClCompile Include="CommGeom3dServer.cpp" />
     <ClCompile Include="CrunchApp.cpp" />

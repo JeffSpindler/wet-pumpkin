@@ -120,6 +120,18 @@
     <ClInclude Include="RayPairMISet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExtCmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cmd3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommExtCmdClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommExtCmdServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrunchApp.cpp">
@@ -150,6 +162,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoadFixBlk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommExtCmdClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommExtCmdServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
