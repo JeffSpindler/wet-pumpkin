@@ -41,7 +41,9 @@ public:
     // Construction and destruction.
     ExtCmd () : m_tag(0) {
 	};
-    ExtCmd (Cmd3d &cmd) : m_tag(0) {
+    ExtCmd (int tag) : m_tag(tag) {
+	};
+	ExtCmd (Cmd3d &cmd) : m_tag(0) {
 		m_cmd_v.push_back(cmd);
 	};
 	ExtCmd (Cmd3d &cmd, Im &im) : m_tag(0) {
@@ -66,9 +68,10 @@ public:
 	Geom3d_v_t m_g3d_v;		// geom3ds
 
 	friend std::ostream& operator<<(std::ostream& os, const ExtCmd &cmd) {
-		//os << cmd.m_tag << "  " << cmd.m_cmd_v << std::endl;
-		//if(m_im_v.size()) os << cmd.m_im_v << std::endl;
-		//if(m_g3d_v.size()) os << cmd.m_g3d_v << std::endl;
+		os << cmd.m_tag << "  ";
+		if(cmd.m_cmd_v.size()) os << cmd.m_cmd_v.front() << std::endl;
+		if(cmd.m_im_v.size()) os << cmd.m_im_v.front() << std::endl;
+		if(cmd.m_g3d_v.size()) os << cmd.m_g3d_v.front() << std::endl;
 		return os;
 	};
 	enum {

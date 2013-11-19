@@ -48,7 +48,7 @@ void make_str(str_v_t &send_str_v)
 
 void make_extcmds(int tag, ExtCmd_v_t &cmd_v)
 {
-	ExtCmd extcmd;
+	ExtCmd extcmd(tag);
 	Cmd3d cmd(1,2,3,4,5.0);
 	extcmd.m_cmd_v.push_back(cmd);
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="10">
+<obj class_id="0" tracking_level="0" version="2">
+	<m_name>CommExtCmdClient</m_name>
+	<m_enable_flag>1</m_enable_flag>
+	<m_alg>0</m_alg>
+	<m_service_str></m_service_str>
+	<m_host_str>127.0.0.1</m_host_str>
+	<m_port_str>13210</m_port_str>
+	<m_format_type></m_format_type>
+	<m_format_str></m_format_str>
+	<m_spare_str></m_spare_str>
+</obj>
+</boost_serialization>
+
