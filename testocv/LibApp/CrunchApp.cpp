@@ -11,6 +11,9 @@ using namespace Wm5;
 
 //----------------------------------------------------------------------------
 // Make the one time objects for running app
+//
+// Includes ExtCmd object to provide external access to operations and data
+//
 bool CrunchApp::onInitialize(void)
 { 
 	std::cout << "onInitialize " << m_name << '\n';
