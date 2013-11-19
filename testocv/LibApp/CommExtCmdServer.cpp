@@ -20,7 +20,7 @@ using boost::asio::ip::tcp;
 const std::string CommExtCmdServer::default_name = "CommExtCmdServer";
 const std::string CommExtCmdServer::default_service = "default_service";
 const std::string CommExtCmdServer::default_addr = "127.0.0.1";
-const std::string CommExtCmdServer::default_port = "13110";
+const std::string CommExtCmdServer::default_port = "13210";
 const std::string CommExtCmdServer::xml_type = "xml";		// serialize using xml
 const std::string CommExtCmdServer::str_pt_type = "str_pt";		// str pt using format
 const std::string CommExtCmdServer::str_ray_type = "str_ray";		// str camray using format
@@ -75,25 +75,12 @@ int CommExtCmdServer::Notify(ExtCmd_v_t &g3d_v)
 	for(std::list<SocketPtr>::iterator it=m_listSockets.begin(); it!=m_listSockets.end(); it++)
 	{
 		try {
-			if(m_format_type == xml_type) {
+			if(true) {
 				// Send all data
 				(*it)->async_write(g3d_v,
 									boost::bind(&CommExtCmdServer::WriteHandler, this, (*it),
 										boost::asio::placeholders::error));
-			} else {
-
-				static std::string str;
-
-				// send each geom as a string
-				for(unsigned i=0;i<g3d_v.size();i++) {
-					// format the str to send
-					if(!strFormat(g3d_v[i], str)) continue;
-					// Send the packet
-					(*it)->async_write(str,
-										boost::bind(&CommExtCmdServer::WriteHandler, this, (*it),
-											boost::asio::placeholders::error));
-				}
-			}
+			} 
 
 			iCount++;
 		}
@@ -128,7 +115,7 @@ void CommExtCmdServer::AcceptHandler(SocketPtr newConn, const boost::system::err
 		// only one connect at a time
 		m_listSockets.push_back(newConn);
 
-		newConn->async_read(m_recv_g3d_v, boost::bind(&CommExtCmdServer::ReadHandler, 
+		newConn->async_read(m_recv_extcmd_v, boost::bind(&CommExtCmdServer::ReadHandler, 
 								this, newConn, boost::asio::placeholders::error));		
     }
 	// Start a new listen/accept process
@@ -142,15 +129,15 @@ void CommExtCmdServer::WriteHandler(SocketPtr conn, const boost::system::error_c
 }
 
 // copy over all inputs
-bool CommExtCmdServer::Update(ExtCmd_dq_t &g3d_dq)
+bool CommExtCmdServer::Update(ExtCmd_dq_t &extcmd_dq)
 {
 	boost::unique_lock<boost::mutex> lock(m_UpdateMut);
 	
-	while(!m_access_g3d_dq.empty()) {
-		g3d_dq.push_back(m_access_g3d_dq.front());	// copy it
-		m_access_g3d_dq.pop_front();	// remove it
+	while(!m_access_extcmd_dq.empty()) {
+		extcmd_dq.push_back(m_access_extcmd_dq.front());	// copy it
+		m_access_extcmd_dq.pop_front();	// remove it
 	}
-	return (!g3d_dq.empty());
+	return (!extcmd_dq.empty());
 }
 
 void CommExtCmdServer::ReadHandler(SocketPtr conn, const boost::system::error_code& e)
@@ -158,8 +145,8 @@ void CommExtCmdServer::ReadHandler(SocketPtr conn, const boost::system::error_co
     if (!e) {
 		boost::unique_lock<boost::mutex> lock(m_UpdateMut);
 		// copy path segs out to our dq of path segs
-		for (std::size_t i = 0; i < m_recv_g3d_v.size(); ++i) {
-			m_access_g3d_dq.push_back(m_recv_g3d_v[i]);
+		for (std::size_t i = 0; i < m_recv_extcmd_v.size(); ++i) {
+			m_access_extcmd_dq.push_back(m_recv_extcmd_v[i]);
 			//m_path_seg_v[i].print(1);
 		}
 	} else {
@@ -172,7 +159,7 @@ void CommExtCmdServer::ReadHandler(SocketPtr conn, const boost::system::error_co
       // Successfully established connection. Start operation to read the data
       // The connection::async_read() function will automatically
       // decode the data that is read from the underlying socket.
-      conn->async_read(m_recv_g3d_v,
+      conn->async_read(m_recv_extcmd_v,
           boost::bind(&CommExtCmdServer::ReadHandler, this, conn,
             boost::asio::placeholders::error));
     }

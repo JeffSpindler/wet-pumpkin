@@ -82,12 +82,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="comm_server.cpp" />
-    <ClCompile Include="server.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="comm_server.h" />
     <ClInclude Include="stock.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="server_extcmd.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

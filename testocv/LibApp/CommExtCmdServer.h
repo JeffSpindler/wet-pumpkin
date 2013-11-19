@@ -26,9 +26,9 @@ public:
 	~CommExtCmdServer() {};
 
 	void StartServer(int port = 0);		// if non-zero port then use it
-	int Notify(ExtCmd_v_t &g3d_v);
+	int Notify(ExtCmd_v_t &extcmd_v);
 	bool Enabled() { return(m_enable_flag); };
-	bool Update(ExtCmd_dq_t &g3d_dq);
+	bool Update(ExtCmd_dq_t &extcmd_dq);
 	void Terminate();
 
 protected:
@@ -41,10 +41,9 @@ protected:
 	void ReadHandler(SocketPtr conn, const boost::system::error_code& error );
 
 	bool ValidateKey(SocketPtr sock);
-	bool strFormat(ExtCmd &g3d, std::string &str);
 
 public:
-	static const int default_port_num = 13110;
+	static const int default_port_num = 13210;
 	static const std::string default_name;
 	static const std::string default_service;
 	static const std::string default_addr;
@@ -75,9 +74,9 @@ protected:
 
 	std::list<SocketPtr> m_listSockets;
 
-	ExtCmd_v_t m_recv_g3d_v;		// recv data
+	ExtCmd_v_t m_recv_extcmd_v;		// recv data
 
-	ExtCmd_dq_t m_access_g3d_dq;		// dq of recv data, not retrieved
+	ExtCmd_dq_t m_access_extcmd_dq;		// dq of recv data, not retrieved
 
 public:
 	bool save(std::string &filename) 

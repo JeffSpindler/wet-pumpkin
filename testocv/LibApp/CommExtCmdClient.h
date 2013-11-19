@@ -61,7 +61,6 @@ protected:
 	void ReadHandler(SocketPtr conn, const boost::system::error_code& error );
 
 	bool ValidateKey(SocketPtr sock);
-	bool strFormat(std::string &str, ExtCmd &g3d);
 
 protected:
 	// setup vars
@@ -86,9 +85,9 @@ protected:
 	std::list<SocketPtr> m_listSockets;
 
 	std::string m_recv_str;			// recv string data
-	ExtCmd_v_t m_recv_g3d_v;		// vector of recv data
+	ExtCmd_v_t m_recv_extcmd_v;		// vector of recv data
 
-	ExtCmd_dq_t m_access_g3d_dq;	// dq of recv data, not retrieved
+	ExtCmd_dq_t m_access_extcmd_dq;	// dq of recv data, not retrieved
 
 	bool m_ClientLoopRun;
 	bool m_DidExec;
