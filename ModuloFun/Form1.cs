@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace ModuloFun
 {
+    // this is a nasty comment with the word poopy in it
+
     public partial class Form1 : Form
     {
         public Form1()
@@ -23,4 +25,6 @@ namespace ModuloFun
             numericUpDown2.Value = padding;
         }
     }
+
+    // this is an excellent comment we should keep
 }
