@@ -12,8 +12,6 @@ namespace ModuloFun
 {
     // this is a nasty comment with the word poopy in it
 
-    // and here's one full of dung dung dung
-
     public partial class Form1 : Form
     {
         public Form1()
