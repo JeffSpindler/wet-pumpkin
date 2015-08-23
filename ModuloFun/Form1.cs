@@ -29,4 +29,5 @@ namespace ModuloFun
     }
 
     // this is an excellent comment we should keep?
+    //here is a trial comment
 }
